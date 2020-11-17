@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".each_item_fragment">
+    tools:context=".each_item_fragment"
+    android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -105,13 +105,6 @@
                     tools:ignore="MissingConstraints"
                     tools:text="@tools:sample/lorem/random"
                     android:layout_margin="7dp"/>
-
-                <WebView
-                    android:id="@+id/webview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    tools:ignore="WebViewLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

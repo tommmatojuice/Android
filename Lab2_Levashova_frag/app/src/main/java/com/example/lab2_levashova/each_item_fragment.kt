@@ -1,25 +1,23 @@
 package com.example.lab2_levashova
 
-import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.viewpager.widget.ViewPager
 
 class each_item_fragment : Fragment()
 {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
+                              savedInstanceState: Bundle?): View?
+    {
         val view = inflater.inflate(R.layout.fragment_each_item_fragment, container, false)
-
         val position = arguments?.getString("POSITION")?.toInt()
         val android = DataStorage.getVersionsList()[position!!]
 
@@ -32,11 +30,11 @@ class each_item_fragment : Fragment()
     }
 
     private fun goToYouTube(url: String) {
-        val webView = view?.findViewById<WebView>(R.id.webview)
-        webView?.loadUrl(url)
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
-    fun newInstance(position: String): each_item_fragment{
+    fun newInstance(position: String): each_item_fragment
+    {
         val fragment = each_item_fragment()
         val args: Bundle = Bundle()
         args.putString("POSITION", position)
