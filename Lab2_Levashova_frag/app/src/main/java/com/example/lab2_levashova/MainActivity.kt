@@ -5,22 +5,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
+import java.lang.reflect.Array.newInstance
 
-
-class MainActivity : FragmentActivity(), recycler_view.OnItemClickListenerMain
+class MainActivity : FragmentActivity(), Recycler.OnItemClickListenerMain
 {
-    val NUM_PAGES = DataStorage.getVersionsList().size
-    private lateinit var mPager: ViewPager
+    private var android = DataStorage.getVersionsList()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mPager = findViewById(R.id.pager)
-        val pagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager)
-        mPager.adapter = pagerAdapter
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frag, Recycler())
+            .commit()
     }
 
     override fun onItemClickMain(position: Int)
@@ -28,29 +27,13 @@ class MainActivity : FragmentActivity(), recycler_view.OnItemClickListenerMain
         supportFragmentManager
             .beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.frag, each_item_fragment().newInstance(position.toString()))
+            .replace(R.id.frag, ViewPager().newInstance(position))
             .commit()
     }
 
-    override fun onBackPressed()
-    {
-        if (mPager.currentItem == 0)
-            super.onBackPressed()
-        else
-            mPager.currentItem = 0
-    }
-
-    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm)
-    {
-        override fun getCount(): Int = NUM_PAGES+1
-        override fun getItem(position: Int): Fragment {
-            return when(position){
-                0 ->  recycler_view()
-                else ->  each_item_fragment().newInstance((position-1).toString())
-            }
-        }
-    }
 }
+
+
 
 
 
