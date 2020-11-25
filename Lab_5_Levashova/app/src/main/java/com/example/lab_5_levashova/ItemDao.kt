@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Dao
 interface ItemDao {
-    @Insert
+    @Insert()
     fun insert(item:Item)
 
     @Update

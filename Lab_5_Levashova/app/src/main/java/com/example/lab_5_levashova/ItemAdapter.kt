@@ -18,16 +18,16 @@ class ItemAdapter(context: Context,
         return ViewHolder(inflater.inflate(R.layout.list_item, parent, false))
     }
 
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        getItem(position)?.let { holder.bind(it) }
+    }
+
     override fun getItemCount(): Int = itemList?.size?:0
 
     private fun getItem(position: Int): Item? = itemList?.get(position)
 
-    public fun setItems(itemList: List<Item>){
+    fun setItems(itemList: List<Item>){
         this.itemList = itemList
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
