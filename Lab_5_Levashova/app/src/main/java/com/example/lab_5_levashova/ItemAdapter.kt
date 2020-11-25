@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -34,10 +35,14 @@ class ItemAdapter(context: Context,
         private val title:TextView = itemView.findViewById(R.id.titleTextView)
         private val description:TextView = itemView.findViewById(R.id.descriptionTextView)
         private val card:CardView = itemView.findViewById(R.id.card_view)
+        private val imageView = itemView.findViewById<ImageView>(R.id.priorityImageView)
 
         fun bind(version: Item){
             title.text = version.title
             description.text = version.description
+            imageView.visibility = if (
+                version.priority
+                    ) View.VISIBLE else View.GONE
         }
 
         init {
