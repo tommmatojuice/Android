@@ -51,50 +51,20 @@ class AddItemActivity: AppCompatActivity()
                 val priority = findViewById<CheckBox>(R.id.priorityCheckBox)
                 if (title.text != null && description.text != null) {
                     val intent = Intent()
-                    val item = this.intent.extras?.get("Item") as Item?
-//                    var flag: Boolean = true
-                    var id: Int = -1
-                    Log.d("2@@@@@@@@@@@@@@@@@@@", item?.id.toString())
-                    if (item != null) {
-//                        flag = false
-                        id = item.id
-                    }
-//                    intent.putExtra("flag", flag)
-                    intent.putExtra("id", id)
-                            .putExtra("title", title.text.toString())
+//                    val item = this.intent.extras?.get("Item") as Item?
+////                    var flag: Boolean = true
+//                    var id: Int = -1
+//                    Log.d("2@@@@@@@@@@@@@@@@@@@", item?.id.toString())
+//                    if (item != null) {
+////                        flag = false
+//                        id = item.id
+//                    }
+////                    intent.putExtra("flag", flag)
+                    intent.putExtra("title", title.text.toString())
                             .putExtra("description", description.text.toString())
                             .putExtra("priority", priority.isChecked)
                     setResult(RESULT_OK, intent)
                     finish()
-//                    if (item != null) {
-//                        intent.putExtra("flag", false)
-//                            .putExtra("id", item.id.toString())
-//                            .putExtra("title", title.text.toString())
-//                            .putExtra("description", description.text.toString())
-//                            .putExtra("priority", priority.isChecked)
-////                        mBundle.putSerializable("item", item)
-////                        mBundle.putBoolean("flag", false)
-////                        intent1.putExtras(mBundle)
-//                    } else {
-//                        intent.putExtra("flag", true)
-//                            .putExtra("id", item?.id).putExtra("title", title.text.toString())
-//                            .putExtra("description", description.text.toString())
-//                            .putExtra("priority", priority.isChecked)
-//                            .putExtra("id", item?.id.toString())
-////                        mBundle.putSerializable(
-////                            "item", Item(
-////                                title.text.toString(),
-////                                description.text.toString(),
-////                                priority.isChecked
-////                            )
-////                        )
-////                        mBundle.putBoolean("flag", true)
-////                        intent1.putExtras(mBundle)
-//                    }
-//                        intent.putExtra("title", title.text.toString())
-//                            .putExtra("description", description.text.toString())
-//                            .putExtra("priority", priority.isChecked)
-
                 } else {
                     showMessage("Введите все данные!")
                 }

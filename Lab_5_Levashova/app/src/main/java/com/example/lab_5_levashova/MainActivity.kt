@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -21,9 +22,8 @@ class MainActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener
         setContentView(R.layout.activity_main)
 
         val items = itemViewModel.allItems.value
-//        Log.d("@@@@@@@@@@@@@@@@@@@", items.toString())
         val adapter = ItemAdapter(this, items, this)
-//        items?.let { adapter.setItems(it) }
+        items?.let { adapter.setItems(it) }
         val list = findViewById<RecyclerView>(R.id.recycler_view)
         list.adapter = adapter
 
@@ -42,78 +42,69 @@ class MainActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener
                 override fun onChanged(items: List<Item>?) {
                     if (items != null) {
                         adapter.setItems(items)
+                        list.adapter = adapter
                     }
                 }
             }
         )
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
+                val items = itemViewModel.allItems.value
+                Log.d("@@@@@@@", "DELETE!")
+                Log.d("@@@@@@@", items?.get(viewHolder.adapterPosition)?.id.toString())
+                Log.d("@@@@@@@", viewHolder.adapterPosition.toString())
+                items?.forEach {
+                    if (it.id == items[viewHolder.adapterPosition].id){
+                        itemViewModel.delete(it)
+                    }
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(list)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val items = itemViewModel.allItems.value
-
         if (data != null) {
-            if(data.getIntExtra("id", -1) == -1){
-                itemViewModel.insert(
+            itemViewModel.insert(
                     Item(
-                        data.getStringExtra("title").toString(),
-                        data.getStringExtra("description").toString(),
-                        data.getBooleanExtra("priority", false)
+                            data.getStringExtra("title").toString(),
+                            data.getStringExtra("description").toString(),
+                            data.getBooleanExtra("priority", false)
                     )
-                )
-            } else {
-                Log.d("@@@@@@@@@@@@@@@@@", "update")
-                if (items != null) {
-                    var i =0
-                    for (item in items){
-                        if (item.id == data.getIntExtra("id", -1)){
-                            items[i].title = data.getStringExtra("title").toString()
-//                            item.title = data.getStringExtra("title").toString()
-                            items[i].description = data.getStringExtra("description").toString()
-                            items[i].priority = data.getBooleanExtra("priority", false)
-                            itemViewModel.update(items[i])
-                        }
-                        i++
-                    }
-                }
-//                items?.forEach{
-//                    if (it.id == data.getIntExtra("id", -1)){
-//                        it.title = data.getStringExtra("title").toString()
-//                        it.description = data.getStringExtra("description").toString()
-//                        it.priority = data.getBooleanExtra("priority", false)
-//                        itemViewModel.update(it)
-//                    }
-//                }
-            }
-
-//            items?.get(0)?.title = "измененное названия"
-//            items?.get(0)?.let { itemViewModel.update(it) }
-        }
-
-
-//        Log.d("ddddddddddd", data.toString())
-//        if (data != null){
-////            val extras: Bundle? = data.extras
-////            val item = extras?.get("item") as Item
-//            val flag = data.getBooleanExtra("flag", false)
-//            Log.d("FFFFFFFFFFFFFFFFF", flag.toString())
-//            if(flag){
-//                itemViewModel.insert(Item(data.getStringExtra("title").toString(), data.getStringExtra("description").toString(),
-//                    data.getBooleanExtra("priority", false)
-//                ))
+            )
+//            if(data.getIntExtra("id", -1) == -1){
+//                itemViewModel.insert(
+//                        Item(
+//                                data.getStringExtra("title").toString(),
+//                                data.getStringExtra("description").toString(),
+//                                data.getBooleanExtra("priority", false)
+//                        )
+//                )
 //            } else {
-////                itemViewModel.insert(Item(data.getStringExtra("title").toString(), data.getStringExtra("description").toString(), data?.getBooleanExtra("priority", false)))
-//                val items = itemViewModel.allItems.value
-//                items?.forEach{
-//                    if (it.id.toString() == data.getStringExtra("id")){
-//                        it.title = data.getStringExtra("title").toString()
-//                        it.description = data.getStringExtra("description").toString()
-//                        it.priority = data.getBooleanExtra("priority", false)
-//                        itemViewModel.update(it)
+//                Log.d("@@@@@@@@@@@@@@@@@", "update")
+//                if (items != null) {
+//                    var i =0
+//                    for (item in items){
+//                        if (item.id == data.getIntExtra("id", -1)){
+//                            items[i].title = data.getStringExtra("title").toString()
+//                            items[i].description = data.getStringExtra("description").toString()
+//                            items[i].priority = data.getBooleanExtra("priority", false)
+//                            itemViewModel.update(items[i])
+//                        }
+//                        i++
 //                    }
 //                }
 //            }
-//        }
+        }
     }
 
     override fun onItemClick(position: Int) {
