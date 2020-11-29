@@ -49,24 +49,23 @@ class AddItemActivity: AppCompatActivity()
                 val title = findViewById<EditText>(R.id.titleEditText)
                 val description = findViewById<EditText>(R.id.descriptionEdittext)
                 val priority = findViewById<CheckBox>(R.id.priorityCheckBox)
-                if (title.text != null && description.text != null) {
+
+                if (title.text.isNotEmpty()) {
                     val intent = Intent()
-//                    val item = this.intent.extras?.get("Item") as Item?
-////                    var flag: Boolean = true
-//                    var id: Int = -1
-//                    Log.d("2@@@@@@@@@@@@@@@@@@@", item?.id.toString())
-//                    if (item != null) {
-////                        flag = false
-//                        id = item.id
-//                    }
-////                    intent.putExtra("flag", flag)
-                    intent.putExtra("title", title.text.toString())
+                    val item = this.intent.extras?.get("Item") as Item?
+                    var id: Int = -1
+                    Log.d("2@@@@@@@@@@@@@@@@@@@", item?.id.toString())
+                    if (item != null) {
+                        id = item.id
+                    }
+                    intent.putExtra("id", id)
+                            .putExtra("title", title.text.toString())
                             .putExtra("description", description.text.toString())
                             .putExtra("priority", priority.isChecked)
                     setResult(RESULT_OK, intent)
                     finish()
                 } else {
-                    showMessage("Введите все данные!")
+                    showMessage("Введите название!")
                 }
                 true
             }

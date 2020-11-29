@@ -74,36 +74,37 @@ class MainActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener
         super.onActivityResult(requestCode, resultCode, data)
         val items = itemViewModel.allItems.value
         if (data != null) {
-            itemViewModel.insert(
-                    Item(
-                            data.getStringExtra("title").toString(),
-                            data.getStringExtra("description").toString(),
-                            data.getBooleanExtra("priority", false)
-                    )
-            )
-//            if(data.getIntExtra("id", -1) == -1){
-//                itemViewModel.insert(
-//                        Item(
-//                                data.getStringExtra("title").toString(),
-//                                data.getStringExtra("description").toString(),
-//                                data.getBooleanExtra("priority", false)
-//                        )
-//                )
-//            } else {
+            if(data.getIntExtra("id", -1) == -1){
+                itemViewModel.insert(
+                        Item(
+                                data.getStringExtra("title").toString(),
+                                data.getStringExtra("description").toString(),
+                                data.getBooleanExtra("priority", false)
+                        )
+                )
+            } else {
 //                Log.d("@@@@@@@@@@@@@@@@@", "update")
-//                if (items != null) {
-//                    var i =0
-//                    for (item in items){
-//                        if (item.id == data.getIntExtra("id", -1)){
-//                            items[i].title = data.getStringExtra("title").toString()
-//                            items[i].description = data.getStringExtra("description").toString()
-//                            items[i].priority = data.getBooleanExtra("priority", false)
-//                            itemViewModel.update(items[i])
+                if (items != null) {
+                    Log.d("@@@@@@@@@@@@@@@@@", data.getIntExtra("id", -1).toString())
+//                    items?.forEach {
+//                        if (it.id == data.getIntExtra("id", -1)){
+//                            itemViewModel.update(it)
+//                            Log.d("@@@@@@@@@@@@@@@@@", "update")
 //                        }
-//                        i++
 //                    }
-//                }
-//            }
+
+                    var i = 0
+                    for (item in items){
+                        if (item.id == data.getIntExtra("id", -1)){
+                            items[i].title = data.getStringExtra("title").toString()
+                            items[i].description = data.getStringExtra("description").toString()
+                            items[i].priority = data.getBooleanExtra("priority", false)
+                            itemViewModel.update(items[i])
+                        }
+                        i++
+                    }
+                }
+            }
         }
     }
 
@@ -115,6 +116,6 @@ class MainActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener
             Log.d("@@@@@@@@@@@@@@@@@@@", item.title + " " +  item.description + " " + item.priority)
         }
         val intent = Intent(this, AddItemActivity::class.java).apply { putExtra("Item", item) }
-        startActivity(intent)
+        startActivityForResult(intent, ADD_ITEM_REQUEST)
     }
 }
