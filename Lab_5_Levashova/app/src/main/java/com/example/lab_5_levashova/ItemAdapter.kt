@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -32,10 +31,6 @@ class ItemAdapter(context: Context,
     fun setItems(itemList: List<Item>){
         this.itemList = itemList
     }
-
-//    fun deleteItem(position: Int){
-//        itemList?.removeAt(position)
-//    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         private val title:TextView = itemView.findViewById(R.id.titleTextView)
@@ -65,9 +60,5 @@ class ItemAdapter(context: Context,
 
     interface OnItemClickListener{
         fun onItemClick(position: Int)
-    }
-
-    interface OnItemSwipeListener{
-        fun onItemSwipe(position: Int)
     }
 }

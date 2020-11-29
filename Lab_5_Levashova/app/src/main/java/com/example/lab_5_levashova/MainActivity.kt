@@ -3,7 +3,6 @@ package com.example.lab_5_levashova
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -23,7 +22,6 @@ class MainActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener
 
         val items = itemViewModel.allItems.value
         val adapter = ItemAdapter(this, items, this)
-        items?.let { adapter.setItems(it) }
         val list = findViewById<RecyclerView>(R.id.recycler_view)
         list.adapter = adapter
 
@@ -55,9 +53,6 @@ class MainActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
                 val items = itemViewModel.allItems.value
-                Log.d("@@@@@@@", "DELETE!")
-                Log.d("@@@@@@@", items?.get(viewHolder.adapterPosition)?.id.toString())
-                Log.d("@@@@@@@", viewHolder.adapterPosition.toString())
                 items?.forEach {
                     if (it.id == items[viewHolder.adapterPosition].id){
                         itemViewModel.delete(it)
@@ -72,49 +67,19 @@ class MainActivity : AppCompatActivity(), ItemAdapter.OnItemClickListener
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val items = itemViewModel.allItems.value
         if (data != null) {
-            if(data.getIntExtra("id", -1) == -1){
-                itemViewModel.insert(
-                        Item(
-                                data.getStringExtra("title").toString(),
-                                data.getStringExtra("description").toString(),
-                                data.getBooleanExtra("priority", false)
-                        )
-                )
+            val item = data.extras?.get("item") as Item
+            if(item.id == 0){
+                itemViewModel.insert(item)
             } else {
-//                Log.d("@@@@@@@@@@@@@@@@@", "update")
-                if (items != null) {
-                    Log.d("@@@@@@@@@@@@@@@@@", data.getIntExtra("id", -1).toString())
-//                    items?.forEach {
-//                        if (it.id == data.getIntExtra("id", -1)){
-//                            itemViewModel.update(it)
-//                            Log.d("@@@@@@@@@@@@@@@@@", "update")
-//                        }
-//                    }
-
-                    var i = 0
-                    for (item in items){
-                        if (item.id == data.getIntExtra("id", -1)){
-                            items[i].title = data.getStringExtra("title").toString()
-                            items[i].description = data.getStringExtra("description").toString()
-                            items[i].priority = data.getBooleanExtra("priority", false)
-                            itemViewModel.update(items[i])
-                        }
-                        i++
-                    }
-                }
+                itemViewModel.update(item)
             }
         }
     }
 
     override fun onItemClick(position: Int) {
         val items = itemViewModel.allItems.value
-        Log.d("@@@@@@@", "Click! $position")
         val item: Item? = items?.get(position)
-        if (item != null) {
-            Log.d("@@@@@@@@@@@@@@@@@@@", item.title + " " +  item.description + " " + item.priority)
-        }
         val intent = Intent(this, AddItemActivity::class.java).apply { putExtra("Item", item) }
         startActivityForResult(intent, ADD_ITEM_REQUEST)
     }

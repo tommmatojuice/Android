@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/recycler_view"
         tools:listitem="@layout/list_item"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_add_item"
@@ -22,6 +21,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="32dp"
         android:src="@drawable/ic_add" />
-
 
 </FrameLayout>

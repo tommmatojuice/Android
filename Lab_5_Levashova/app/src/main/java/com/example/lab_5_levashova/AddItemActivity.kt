@@ -1,9 +1,7 @@
 package com.example.lab_5_levashova
 
-import android.R.attr.key
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -15,7 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class AddItemActivity: AppCompatActivity()
 {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_item)
 
@@ -26,8 +25,6 @@ class AddItemActivity: AppCompatActivity()
         val item = intent.extras?.get("Item") as Item?
 
         if (item != null){
-            Log.d("@@@@@@@@@@@@@@@@@@@", item.title + " " + item.description + " " + item.priority)
-
             title.setText(item.title)
             description.setText(item.description)
             priority.isChecked = item.priority
@@ -36,14 +33,13 @@ class AddItemActivity: AppCompatActivity()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        return super.onCreateOptionsMenu(menu)
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.add_item_menu, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    {
         return when (item.itemId) {
             R.id.save_item -> {
                 val title = findViewById<EditText>(R.id.titleEditText)
@@ -53,15 +49,14 @@ class AddItemActivity: AppCompatActivity()
                 if (title.text.isNotEmpty()) {
                     val intent = Intent()
                     val item = this.intent.extras?.get("Item") as Item?
-                    var id: Int = -1
-                    Log.d("2@@@@@@@@@@@@@@@@@@@", item?.id.toString())
                     if (item != null) {
-                        id = item.id
+                        item.title = title.text.toString()
+                        item.description = description.text.toString()
+                        item.priority = priority.isChecked
+                        intent.putExtra("item", item)
+                    } else {
+                        intent.putExtra("item", Item(title.text.toString(),description.text.toString(), priority.isChecked))
                     }
-                    intent.putExtra("id", id)
-                            .putExtra("title", title.text.toString())
-                            .putExtra("description", description.text.toString())
-                            .putExtra("priority", priority.isChecked)
                     setResult(RESULT_OK, intent)
                     finish()
                 } else {
@@ -76,5 +71,4 @@ class AddItemActivity: AppCompatActivity()
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
-
 }
