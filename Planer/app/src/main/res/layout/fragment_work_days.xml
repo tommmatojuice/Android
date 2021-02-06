@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.first_come.WorkDays">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+
+<!--            Monday-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Понедельник"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h1_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Начало работы "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/mon_begin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/mon_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Рабочий день "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/mon_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/mon_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+<!--            Tuesday-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Вторник"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h1_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="Начало работы "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/tue_begin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/tue_begin_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Рабочий день "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/tue_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/tue_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+<!--            Wenedtsday-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Среда"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h1_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="Начало работы "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/wen_begin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/wen_begin_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Рабочий день "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/wen_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/wen_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+<!--            Thursday-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Четверг"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h1_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="Начало работы "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/thu_begin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/thu_begin_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Рабочий день "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/thu_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/thu_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+<!--            Friday-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Пятница"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h1_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="Начало работы "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/fri_begin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/fri_begin_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Рабочий день "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/fri_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/fri_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+<!--            Saturday-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Суббота"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h1_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="Начало работы "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/sat_begin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/sat_begin_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Рабочий день "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/sat_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/sat_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+<!--            Sunday-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Воскресенье"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h1_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="Начало работы "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/sun_begin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/sun_begin_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:text="Рабочий день "
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <TextView
+                    android:id="@+id/sun_work_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00:00"
+                    android:textColor="@color/text"
+                    android:textSize="@dimen/h2_text" />
+
+                <Button
+                    android:id="@+id/sun_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Установить" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3/5"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="8dp"/>
+
+                <Button
+                    android:id="@+id/next3_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/next"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="0"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_food"
+        android:icon="@drawable/apple"
+        android:title="@string/title_food"
+        android:iconTint="@color/back_white"/>
+
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/notifications"
+        android:title="@string/title_notifications" />
+
+    <item
+        android:id="@+id/navigation_plan"
+        android:icon="@drawable/plan"
+        android:title="@string/title_plan" />
+
+    <item
+        android:id="@+id/navigation_tasks"
+        android:icon="@drawable/tasks"
+        android:title="@string/title_tasks" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/face"
+        android:title="@string/title_profile" />
+
+</menu>
