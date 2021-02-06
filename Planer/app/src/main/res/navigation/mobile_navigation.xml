@@ -9,7 +9,7 @@
         android:id="@+id/navigation_food"
         android:name="com.example.planer.ui.food.FoodFragment"
         android:label="@string/title_food"
-        tools:layout="@layout/fragment_food" />
+        tools:layout="@layout/fragment_food"/>
 
     <fragment
         android:id="@+id/navigation_notifications"

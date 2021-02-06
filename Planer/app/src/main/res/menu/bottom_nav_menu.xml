@@ -3,28 +3,27 @@
 
     <item
         android:id="@+id/navigation_food"
-        android:icon="@drawable/apple"
-        android:title="@string/title_food"
-        android:iconTint="@color/back_white"/>
+        android:icon="@drawable/food_selected"
+        android:title="@string/title_food"/>
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/notifications"
+        android:icon="@drawable/notification_selected"
         android:title="@string/title_notifications" />
 
     <item
         android:id="@+id/navigation_plan"
-        android:icon="@drawable/plan"
+        android:icon="@drawable/plan_selected"
         android:title="@string/title_plan" />
 
     <item
         android:id="@+id/navigation_tasks"
-        android:icon="@drawable/tasks"
+        android:icon="@drawable/tasks_selected"
         android:title="@string/title_tasks" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/face"
+        android:icon="@drawable/profile_selected"
         android:title="@string/title_profile" />
 
 </menu>
