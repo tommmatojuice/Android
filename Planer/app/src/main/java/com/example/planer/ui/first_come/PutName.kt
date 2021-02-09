@@ -1,42 +1,56 @@
 package com.example.planer.ui.first_come
 
 import android.os.Bundle
+import android.text.Html
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColor
 import androidx.fragment.app.Fragment
 import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
+import com.example.planer.util.MySharePreferences
 import com.example.planer.util.ToastMessages
 
 class PutName : Fragment()
 {
+    private lateinit var mySharePreferences: MySharePreferences
+    private lateinit var nameView: TextView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_put_name, container, false)
+        nameView = view.findViewById(R.id.user_name)
+
+        mySharePreferences = context?.let { MySharePreferences(it) }!!
 
         this.context?.let { ToastMessages.showMessage(it, "Все настройки можно будет изменить позже в разделе \"Профиль\"") }
+
+        if (savedInstanceState != null) {
+            nameView.text = savedInstanceState.getString("name").toString()
+        }
 
         initButtons(view)
 
         return view
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("name", nameView.text.toString())
+    }
+
+
     private fun initButtons(view: View)
     {
-        val sharedPreferences = activity?.getSharedPreferences("SP_INFO", AppCompatActivity.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-
         view.findViewById<Button>(R.id.next1_button).setOnClickListener {
-            var name= view.findViewById<EditText>(R.id.user_name).text.toString()
+            val name= nameView.text.toString()
             if (name.isEmpty())
                 activity?.applicationContext?.let { ToastMessages.showMessage(it, "Введите имя") }
             else {
-                editor?.putString("NAME", name)
-                editor?.apply()
+                mySharePreferences.setName(name)
 
                 activity?.supportFragmentManager
                         ?.beginTransaction()
@@ -54,14 +68,14 @@ class PutName : Fragment()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onResume()
     {
         super.onResume()
-        (activity as MainActivity?)?.setActionBarTitle("")
+        (activity as AppCompatActivity).supportActionBar?.title = Html.fromHtml("<font color=\"#F2F1EF\">" + getString(R.string.app_name) + "</font>")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean

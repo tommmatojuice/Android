@@ -36,8 +36,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Начало работы "
+                    android:layout_weight="5"
+                    android:text="Начало работы"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -45,7 +45,7 @@
                     android:id="@+id/mon_begin_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:text="00:00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
@@ -68,8 +68,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Рабочий день "
+                    android:layout_weight="5"
+                    android:text="Рабочий день  "
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -110,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы "
+                    android:text="Начало работы"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -118,7 +118,7 @@
                     android:id="@+id/tue_begin_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:text="00:00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
@@ -141,8 +141,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Рабочий день "
+                    android:layout_weight="5"
+                    android:text="Рабочий день  "
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы "
+                    android:text="Начало работы"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -191,7 +191,7 @@
                     android:id="@+id/wen_begin_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:text="00:00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
@@ -214,8 +214,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Рабочий день "
+                    android:layout_weight="5"
+                    android:text="Рабочий день  "
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -256,7 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы "
+                    android:text="Начало работы"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -264,7 +264,7 @@
                     android:id="@+id/thu_begin_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:text="00:00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
@@ -287,8 +287,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Рабочий день "
+                    android:layout_weight="5"
+                    android:text="Рабочий день  "
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -329,7 +329,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы "
+                    android:text="Начало работы"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -337,7 +337,7 @@
                     android:id="@+id/fri_begin_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:text="00:00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
@@ -360,8 +360,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Рабочий день "
+                    android:layout_weight="5"
+                    android:text="Рабочий день  "
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -402,7 +402,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы "
+                    android:text="Начало работы"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -410,7 +410,7 @@
                     android:id="@+id/sat_begin_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:text="00:00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
@@ -433,8 +433,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Рабочий день "
+                    android:layout_weight="5"
+                    android:text="Рабочий день  "
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -475,7 +475,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы "
+                    android:text="Начало работы"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -483,7 +483,7 @@
                     android:id="@+id/sun_begin_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="2"
                     android:text="00:00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
@@ -506,8 +506,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:text="Рабочий день "
+                    android:layout_weight="5"
+                    android:text="Рабочий день  "
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 

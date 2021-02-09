@@ -1,23 +1,25 @@
 package com.example.planer.ui.first_come
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Html
 import android.view.*
 import android.widget.*
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
-import com.example.planer.util.ToastMessages
+import com.example.planer.util.MySharePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class PutPomodoro : Fragment()
 {
+    private lateinit var mySharePreferences: MySharePreferences
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_put_pomodoro, container, false)
+        mySharePreferences = context?.let { MySharePreferences(it) }!!
 
         initButtons(view)
 
@@ -26,20 +28,16 @@ class PutPomodoro : Fragment()
 
     private fun initButtons(view: View)
     {
-        val sharedPreferences = activity?.getSharedPreferences("SP_INFO", AppCompatActivity.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
         val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
-
-        editor?.putInt("POMODORO", 25)
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             view.findViewById<RadioButton>(checkedId)?.apply {
-                editor?.putInt("POMODORO", text.toString().toInt())
+                mySharePreferences.setPomodoroWork( text.toString().toInt())
             }
         }
 
         view.findViewById<Button>(R.id.next5_button).setOnClickListener {
-            editor?.apply()
+            mySharePreferences.setAllInfo(true)
 
             activity?.findViewById<FrameLayout>(R.id.main_frag)?.visibility = View.GONE
             activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
@@ -62,7 +60,7 @@ class PutPomodoro : Fragment()
     override fun onResume()
     {
         super.onResume()
-        (activity as MainActivity?)?.setActionBarTitle("")
+        (activity as AppCompatActivity).supportActionBar?.title = Html.fromHtml("<font color=\"#F2F1EF\">" + getString(R.string.app_name) + "</font>")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean

@@ -1,36 +1,36 @@
 package com.example.planer
 
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.planer.ui.first_come.PutName
-import com.example.planer.util.InfoDialog
-import com.example.planer.util.ToastMessages
+import com.example.planer.util.MySharePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity()
 {
+    private lateinit var mySharePreferences:MySharePreferences
+    private val SIMPLE_FRAGMENT_TAG = "myFragmentTag"
+    private var myFragment: Fragment? = null
+
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
-    override fun onCreate(savedInstanceState: Bundle?) {
-
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mySharePreferences = MySharePreferences(this)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.itemIconTintList = null
@@ -42,77 +42,27 @@ class MainActivity : AppCompatActivity()
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-//        navView.setOnNavigationItemSelectedListener { item ->
-//            when (item.itemId) {
-//                R.id.navigation_food -> {
-//                    navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.red)
-//                    navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.red)
-//                }
-//                R.id.navigation_notifications -> {
-//                    navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.yellow)
-//                    navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.yellow)
-//                }
-//                R.id.navigation_plan -> {
-//                    navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.dark_blue)
-//                    navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.dark_blue)
-//                }
-//                R.id.navigation_tasks -> {
-//                    navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.dark_green)
-//                    navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.dark_green)
-//                }
-//                R.id.navigation_profile -> {
-//                    navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.dark_orange)
-//                    navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.dark_orange)
-//                }
-//            }
-//            true
-//        }
-
-        val sharedPreferences = this?.getSharedPreferences("SP_INFO", AppCompatActivity.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-
-        if(sharedPreferences.getString("NAME", "")?.isEmpty()!!){
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_frag, PutName())
-                    .commit()
-
+        if(!mySharePreferences.getAllInfo()) {
+            if (savedInstanceState != null) {
+                myFragment = supportFragmentManager.findFragmentByTag(SIMPLE_FRAGMENT_TAG)
+            } else {
+                myFragment = PutName()
+                supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_frag, myFragment as PutName, SIMPLE_FRAGMENT_TAG)
+                        .commit()
+            }
             findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.GONE
             findViewById<View>(R.id.nav_host_fragment).visibility = View.GONE
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        myFragment?.let { supportFragmentManager.putFragment(outState, SIMPLE_FRAGMENT_TAG, it) }
+    }
+
     fun setActionBarTitle(title: String?) {
         supportActionBar!!.title = title
     }
-
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-////        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-//
-//        return when (item.itemId) {
-//            R.id.navigation_food -> {
-////                navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.red)
-//                ToastMessages.showMessage(this, "111")
-//                true
-//            }
-//            R.id.navigation_notifications -> {
-////                navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.yellow)
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-////      navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.red)
-//
-//        return when (item.itemId) {
-//            R.id.navigation_food -> {
-//                ToastMessages.showMessage(applicationContext, "111")
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
 }

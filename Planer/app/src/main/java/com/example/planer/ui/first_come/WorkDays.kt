@@ -1,30 +1,27 @@
 package com.example.planer.ui.first_come
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Html
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
+import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
-import com.example.planer.util.ToastMessages
-import java.sql.Time
-
-//private const val ARG_PARAM1 = "param1"
-//private const val ARG_PARAM2 = "param2"
 
 class WorkDays : Fragment()
 {
+    private lateinit var mySharePreferences: MySharePreferences
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_work_days, container, false)
+        mySharePreferences = context?.let { MySharePreferences(it) }!!
 
         initButtons(view)
 
@@ -46,7 +43,7 @@ class WorkDays : Fragment()
     override fun onResume()
     {
         super.onResume()
-        (activity as MainActivity?)?.setActionBarTitle("")
+        (activity as AppCompatActivity).supportActionBar?.title = Html.fromHtml("<font color=\"#F2F1EF\">" + getString(R.string.app_name) + "</font>")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean
@@ -63,9 +60,6 @@ class WorkDays : Fragment()
     @SuppressLint("CutPasteId")
     private fun initButtons(view: View)
     {
-        val sharedPreferences = activity?.getSharedPreferences("SP_INFO", AppCompatActivity.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-
 //        Monday
         view.findViewById<Button>(R.id.mon_button).setOnClickListener {
                 this.context?.let { it1 -> TimeDialog.getTime(view.findViewById<TextView>(R.id.mon_begin_time), it1)
@@ -192,24 +186,20 @@ class WorkDays : Fragment()
         }
 
         view.findViewById<Button>(R.id.next3_button).setOnClickListener {
-            editor?.putString("MONDAY_BEGIN", view.findViewById<TextView>(R.id.mon_begin_time).text.toString())
-            editor?.putString("MONDAY_WORK", view.findViewById<TextView>(R.id.mon_work_time).text.toString())
-            editor?.putString("TUESDAY_BEGIN", view.findViewById<TextView>(R.id.tue_begin_time).text.toString())
-            editor?.putString("TUESDAY_WORK", view.findViewById<TextView>(R.id.tue_work_time).text.toString())
-            editor?.putString("WEDNESDAY_BEGIN", view.findViewById<TextView>(R.id.wen_begin_time).text.toString())
-            editor?.putString("WEDNESDAY_WORK", view.findViewById<TextView>(R.id.wen_work_time).text.toString())
-            editor?.putString("THURSDAY_BEGIN", view.findViewById<TextView>(R.id.thu_begin_time).text.toString())
-            editor?.putString("THURSDAY_WORK", view.findViewById<TextView>(R.id.thu_work_time).text.toString())
-            editor?.putString("FRIDAY_BEGIN", view.findViewById<TextView>(R.id.fri_begin_time).text.toString())
-            editor?.putString("FRIDAY_WORK", view.findViewById<TextView>(R.id.fri_work_time).text.toString())
-            editor?.putString("SATURDAY_BEGIN", view.findViewById<TextView>(R.id.sat_begin_time).text.toString())
-            editor?.putString("SATURDAY_BEGIN", view.findViewById<TextView>(R.id.sat_begin_time).text.toString())
-            editor?.putString("SATURDAY_BEGIN", view.findViewById<TextView>(R.id.sat_begin_time).text.toString())
-            editor?.putString("SATURDAY_WORK", view.findViewById<TextView>(R.id.sat_work_time).text.toString())
-            editor?.putString("SUNDAY_BEGIN", view.findViewById<TextView>(R.id.sun_begin_time).text.toString())
-            editor?.putString("SUNDAY_WORK", view.findViewById<TextView>(R.id.sun_work_time).text.toString())
-
-            editor?.apply()
+            mySharePreferences.setMondayBegin(view.findViewById<TextView>(R.id.mon_begin_time).text.toString())
+            mySharePreferences.setMondayWork(view.findViewById<TextView>(R.id.mon_work_time).text.toString())
+            mySharePreferences.setTuesdayBegin(view.findViewById<TextView>(R.id.tue_begin_time).text.toString())
+            mySharePreferences.setTuesdayWork(view.findViewById<TextView>(R.id.tue_work_time).text.toString())
+            mySharePreferences.setWednesdayBegin(view.findViewById<TextView>(R.id.wen_begin_time).text.toString())
+            mySharePreferences.setWednesdayWork(view.findViewById<TextView>(R.id.wen_work_time).text.toString())
+            mySharePreferences.setThursdayBegin(view.findViewById<TextView>(R.id.thu_begin_time).text.toString())
+            mySharePreferences.setThursdayWork(view.findViewById<TextView>(R.id.thu_work_time).text.toString())
+            mySharePreferences.setFridayBegin(view.findViewById<TextView>(R.id.fri_begin_time).text.toString())
+            mySharePreferences.setFridayWork(view.findViewById<TextView>(R.id.fri_work_time).text.toString())
+            mySharePreferences.setSaturdayBegin(view.findViewById<TextView>(R.id.sat_begin_time).text.toString())
+            mySharePreferences.setSaturdayWork(view.findViewById<TextView>(R.id.sat_work_time).text.toString())
+            mySharePreferences.setSundayBegin(view.findViewById<TextView>(R.id.sun_begin_time).text.toString())
+            mySharePreferences.setSundayWork(view.findViewById<TextView>(R.id.sun_work_time).text.toString())
 
             activity?.supportFragmentManager
                     ?.beginTransaction()
