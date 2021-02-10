@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
+import kotlinx.android.synthetic.main.fragment_put_time.*
+import kotlinx.android.synthetic.main.fragment_work_days.*
+import kotlinx.android.synthetic.main.fragment_work_days.view.*
 
 class WorkDays : Fragment()
 {
@@ -21,11 +23,46 @@ class WorkDays : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_work_days, container, false)
-        mySharePreferences = context?.let { MySharePreferences(it) }!!
+        mySharePreferences = context?.let { MySharePreferences(it)}!!
+
+        if (savedInstanceState != null) {
+            view.mon_begin_time.text = savedInstanceState.getString("monBegin")
+            view.mon_work_time.text = savedInstanceState.getString("monWork")
+            view.tue_begin_time.text = savedInstanceState.getString("tueBegin")
+            view.tue_work_time.text = savedInstanceState.getString("tueWork")
+            view.wen_begin_time.text = savedInstanceState.getString("wenBegin")
+            view.wen_work_time.text = savedInstanceState.getString("wenWork")
+            view.thu_begin_time.text = savedInstanceState.getString("thuBegin")
+            view.thu_work_time.text = savedInstanceState.getString("thuWork")
+            view.fri_begin_time.text = savedInstanceState.getString("friBegin")
+            view.fri_work_time.text = savedInstanceState.getString("friWork")
+            view.sat_begin_time.text = savedInstanceState.getString("satBegin")
+            view.sat_work_time.text = savedInstanceState.getString("satWork")
+            view.sun_begin_time.text = savedInstanceState.getString("sunBegin")
+            view.sun_work_time.text = savedInstanceState.getString("sunWork")
+        }
 
         initButtons(view)
 
         return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("monBegin", mon_begin_time.text.toString())
+        outState.putString("monWork", mon_work_time.text.toString())
+        outState.putString("tueBegin", tue_begin_time.text.toString())
+        outState.putString("tueWork", tue_work_time.text.toString())
+        outState.putString("wenBegin", wen_begin_time.text.toString())
+        outState.putString("wenWork", wen_work_time.text.toString())
+        outState.putString("thuBegin", thu_begin_time.text.toString())
+        outState.putString("thuWork", thu_work_time.text.toString())
+        outState.putString("friBegin", fri_begin_time.text.toString())
+        outState.putString("friWork", fri_work_time.text.toString())
+        outState.putString("satBegin", sat_begin_time.text.toString())
+        outState.putString("satWork", sat_work_time.text.toString())
+        outState.putString("sunBegin", sun_begin_time.text.toString())
+        outState.putString("sunWork", sun_work_time.text.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
@@ -60,19 +97,17 @@ class WorkDays : Fragment()
     @SuppressLint("CutPasteId")
     private fun initButtons(view: View)
     {
-//        Monday
-        view.findViewById<Button>(R.id.mon_button).setOnClickListener {
+        view.mon_button.setOnClickListener {
                 this.context?.let { it1 -> TimeDialog.getTime(view.findViewById<TextView>(R.id.mon_begin_time), it1)
             }
         }
 
-        view.findViewById<Button>(R.id.mon_work_button).setOnClickListener {
+        view.mon_work_button.setOnClickListener {
                 this.context?.let { it1 -> TimeDialog.getTime(view.findViewById<TextView>(R.id.mon_work_time), it1)
             }
         }
 
-//        Tuesday
-        view.findViewById<Button>(R.id.tue_begin_button).setOnClickListener {
+        view.tue_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.tue_begin_time),
@@ -81,7 +116,7 @@ class WorkDays : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.tue_work_button).setOnClickListener {
+        view.tue_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.tue_work_time),
@@ -90,8 +125,7 @@ class WorkDays : Fragment()
             }
         }
 
-//        Wednesday
-        view.findViewById<Button>(R.id.wen_begin_button).setOnClickListener {
+        view.wen_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.wen_begin_time),
@@ -100,7 +134,7 @@ class WorkDays : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.wen_work_button).setOnClickListener {
+        view.wen_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.wen_work_time),
@@ -109,8 +143,7 @@ class WorkDays : Fragment()
             }
         }
 
-//        Thursday
-        view.findViewById<Button>(R.id.thu_begin_button).setOnClickListener {
+        view.thu_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.thu_begin_time),
@@ -119,7 +152,7 @@ class WorkDays : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.thu_work_button).setOnClickListener {
+        view.thu_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.thu_work_time),
@@ -128,8 +161,7 @@ class WorkDays : Fragment()
             }
         }
 
-//        Friday
-        view.findViewById<Button>(R.id.fri_begin_button).setOnClickListener {
+        view.fri_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.fri_begin_time),
@@ -138,7 +170,7 @@ class WorkDays : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.fri_work_button).setOnClickListener {
+        view.fri_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.fri_work_time),
@@ -147,8 +179,7 @@ class WorkDays : Fragment()
             }
         }
 
-//        Saturday
-        view.findViewById<Button>(R.id.sat_begin_button).setOnClickListener {
+        view.sat_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.sat_begin_time),
@@ -157,7 +188,7 @@ class WorkDays : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.fri_work_button).setOnClickListener {
+        view.fri_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.sat_work_time),
@@ -166,8 +197,7 @@ class WorkDays : Fragment()
             }
         }
 
-//        Sunday
-        view.findViewById<Button>(R.id.sun_begin_button).setOnClickListener {
+        view.sun_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.sun_begin_time),
@@ -176,7 +206,7 @@ class WorkDays : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.sun_work_button).setOnClickListener {
+        view.sun_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.sun_work_time),
@@ -185,21 +215,21 @@ class WorkDays : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.next3_button).setOnClickListener {
-            mySharePreferences.setMondayBegin(view.findViewById<TextView>(R.id.mon_begin_time).text.toString())
-            mySharePreferences.setMondayWork(view.findViewById<TextView>(R.id.mon_work_time).text.toString())
-            mySharePreferences.setTuesdayBegin(view.findViewById<TextView>(R.id.tue_begin_time).text.toString())
-            mySharePreferences.setTuesdayWork(view.findViewById<TextView>(R.id.tue_work_time).text.toString())
-            mySharePreferences.setWednesdayBegin(view.findViewById<TextView>(R.id.wen_begin_time).text.toString())
-            mySharePreferences.setWednesdayWork(view.findViewById<TextView>(R.id.wen_work_time).text.toString())
-            mySharePreferences.setThursdayBegin(view.findViewById<TextView>(R.id.thu_begin_time).text.toString())
-            mySharePreferences.setThursdayWork(view.findViewById<TextView>(R.id.thu_work_time).text.toString())
-            mySharePreferences.setFridayBegin(view.findViewById<TextView>(R.id.fri_begin_time).text.toString())
-            mySharePreferences.setFridayWork(view.findViewById<TextView>(R.id.fri_work_time).text.toString())
-            mySharePreferences.setSaturdayBegin(view.findViewById<TextView>(R.id.sat_begin_time).text.toString())
-            mySharePreferences.setSaturdayWork(view.findViewById<TextView>(R.id.sat_work_time).text.toString())
-            mySharePreferences.setSundayBegin(view.findViewById<TextView>(R.id.sun_begin_time).text.toString())
-            mySharePreferences.setSundayWork(view.findViewById<TextView>(R.id.sun_work_time).text.toString())
+        view.next3_button.setOnClickListener {
+            mySharePreferences.setMondayBegin(view.mon_begin_time.text.toString())
+            mySharePreferences.setMondayWork(view.mon_work_time.text.toString())
+            mySharePreferences.setTuesdayBegin(view.tue_begin_time.text.toString())
+            mySharePreferences.setTuesdayWork(view.tue_work_time.text.toString())
+            mySharePreferences.setWednesdayBegin(view.wen_begin_time.text.toString())
+            mySharePreferences.setWednesdayWork(view.wen_work_time.text.toString())
+            mySharePreferences.setThursdayBegin(view.thu_begin_time.text.toString())
+            mySharePreferences.setThursdayWork(view.thu_work_time.text.toString())
+            mySharePreferences.setFridayBegin(view.fri_begin_time.text.toString())
+            mySharePreferences.setFridayWork(view.fri_work_time.text.toString())
+            mySharePreferences.setSaturdayBegin(view.sat_begin_time.text.toString())
+            mySharePreferences.setSaturdayWork(view.sat_work_time.text.toString())
+            mySharePreferences.setSundayBegin(view.sun_begin_time.text.toString())
+            mySharePreferences.setSundayWork(view.sun_work_time.text.toString())
 
             activity?.supportFragmentManager
                     ?.beginTransaction()

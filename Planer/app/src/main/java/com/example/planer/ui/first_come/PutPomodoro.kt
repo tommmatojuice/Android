@@ -11,6 +11,8 @@ import com.example.planer.R
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_put_pomodoro.*
+import kotlinx.android.synthetic.main.fragment_put_pomodoro.view.*
 
 class PutPomodoro : Fragment()
 {
@@ -19,29 +21,37 @@ class PutPomodoro : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_put_pomodoro, container, false)
+
         mySharePreferences = context?.let { MySharePreferences(it) }!!
+
+        if (savedInstanceState != null) {
+            view.findViewById<RadioButton>(savedInstanceState.getInt("checkedButton", 0)).isChecked = true
+        }
 
         initButtons(view)
 
         return view
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("checkedButton", radioGroup.checkedRadioButtonId)
+    }
+
     private fun initButtons(view: View)
     {
-        val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
-
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+        view.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             view.findViewById<RadioButton>(checkedId)?.apply {
                 mySharePreferences.setPomodoroWork( text.toString().toInt())
             }
         }
 
-        view.findViewById<Button>(R.id.next5_button).setOnClickListener {
+        view.next5_button.setOnClickListener {
             mySharePreferences.setAllInfo(true)
 
             activity?.findViewById<FrameLayout>(R.id.main_frag)?.visibility = View.GONE
             activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
-            activity?.findViewById<View>(R.id.nav_host_fragment)?.visibility = View.VISIBLE
+//            activity?.findViewById<View>(R.id.nav_host_fragment)?.visibility = View.VISIBLE
         }
     }
 

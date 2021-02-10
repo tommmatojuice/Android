@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.first_come.WorkDays">
+    tools:context=".ui.first_come.WorkDays"
+    android:id="@+id/into_type_task_frag">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp">
@@ -23,8 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Понедельник"
-                android:textColor="@color/text"
+                android:text="@string/monday"
                 android:textSize="@dimen/h1_text" />
 
             <LinearLayout
@@ -37,8 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы"
-                    android:textColor="@color/text"
+                    android:text="@string/begin_time"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -46,8 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -55,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -69,8 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Рабочий день  "
-                    android:textColor="@color/text"
+                    android:text="@string/work_day"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -78,8 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -87,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -96,8 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Вторник"
-                android:textColor="@color/text"
+                android:text="@string/tuesday"
                 android:textSize="@dimen/h1_text" />
 
             <LinearLayout
@@ -110,8 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы"
-                    android:textColor="@color/text"
+                    android:text="@string/begin_time"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -119,8 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -128,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -142,8 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Рабочий день  "
-                    android:textColor="@color/text"
+                    android:text="@string/work_day"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -151,8 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -160,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -169,8 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Среда"
-                android:textColor="@color/text"
+                android:text="@string/wednesday"
                 android:textSize="@dimen/h1_text" />
 
             <LinearLayout
@@ -183,8 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы"
-                    android:textColor="@color/text"
+                    android:text="@string/begin_time"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -192,8 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -201,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -215,8 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Рабочий день  "
-                    android:textColor="@color/text"
+                    android:text="@string/work_day"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -224,8 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -233,7 +218,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -242,8 +227,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Четверг"
-                android:textColor="@color/text"
+                android:text="@string/thursday"
                 android:textSize="@dimen/h1_text" />
 
             <LinearLayout
@@ -256,8 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы"
-                    android:textColor="@color/text"
+                    android:text="@string/begin_time"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -265,8 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -274,7 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -288,8 +270,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Рабочий день  "
-                    android:textColor="@color/text"
+                    android:text="@string/work_day"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -297,8 +278,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -306,7 +286,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -315,8 +295,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Пятница"
-                android:textColor="@color/text"
+                android:text="@string/friday"
                 android:textSize="@dimen/h1_text" />
 
             <LinearLayout
@@ -329,8 +308,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы"
-                    android:textColor="@color/text"
+                    android:text="@string/begin_time"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -338,8 +316,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -347,7 +324,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -361,8 +338,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Рабочий день  "
-                    android:textColor="@color/text"
+                    android:text="@string/work_day"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -370,7 +346,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
+                    android:text="@string/_00_00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -379,7 +355,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -388,8 +364,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Суббота"
-                android:textColor="@color/text"
+                android:text="@string/saturday"
                 android:textSize="@dimen/h1_text" />
 
             <LinearLayout
@@ -402,8 +377,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы"
-                    android:textColor="@color/text"
+                    android:text="@string/begin_time"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -411,8 +385,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -420,7 +393,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -434,8 +407,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Рабочий день  "
-                    android:textColor="@color/text"
+                    android:text="@string/work_day"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -443,7 +415,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
+                    android:text="@string/_00_00"
                     android:textColor="@color/text"
                     android:textSize="@dimen/h2_text" />
 
@@ -452,7 +424,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -461,8 +433,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Воскресенье"
-                android:textColor="@color/text"
+                android:text="@string/sunday"
                 android:textSize="@dimen/h1_text" />
 
             <LinearLayout
@@ -475,8 +446,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Начало работы"
-                    android:textColor="@color/text"
+                    android:text="@string/begin_time"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -484,8 +454,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -493,7 +462,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -507,8 +476,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Рабочий день  "
-                    android:textColor="@color/text"
+                    android:text="@string/work_day"
                     android:textSize="@dimen/h2_text" />
 
                 <TextView
@@ -516,8 +484,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="00:00"
-                    android:textColor="@color/text"
+                    android:text="@string/_00_00"
                     android:textSize="@dimen/h2_text" />
 
                 <Button
@@ -525,7 +492,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Установить" />
+                    android:text="@string/set" />
 
             </LinearLayout>
 
@@ -537,7 +504,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3/5"
+                    android:text="@string/_3_5"
                     android:textSize="18sp"
                     android:layout_weight="1"
                     android:layout_marginTop="20dp"
@@ -548,7 +515,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/next"
-                    android:layout_gravity="right"
                     android:layout_marginTop="16dp"
                     android:layout_weight="0"/>
 

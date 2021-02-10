@@ -13,8 +13,10 @@
     <color name="gray">#CECBCB</color>
     <color name="red">#D91E18</color>
     <color name="dark_green">#13A678</color>
+    <color name="green">#26C281</color>
     <color name="dark_blue">#2574A9</color>
     <color name="dark_orange">#F27935</color>
+    <color name="orange">#F89406</color>
     <color name="yellow">#F9BF3B</color>
     <color name="back_white">#FCFCFC</color>
     <color name="elements_white">#F2F1EF</color>

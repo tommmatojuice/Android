@@ -11,7 +11,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp">
@@ -20,8 +20,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Время подъема"
-                    android:textColor="@color/text"
+                    android:text="@string/wakeup_time"
                     android:textSize="@dimen/h1_text" />
 
                 <LinearLayout
@@ -38,8 +37,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="100dp"
                         android:layout_weight="10"
-                        android:text="00:00"
-                        android:textColor="@color/text"
+                        android:text="@string/_00_00"
                         android:textSize="@dimen/h2_text" />
 
                     <Button
@@ -47,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Установить" />
+                        android:text="@string/set" />
 
                 </LinearLayout>
 
@@ -56,8 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Время отхода ко сну"
-                    android:textColor="@color/text"
+                    android:text="@string/bed_time"
                     android:textSize="@dimen/h1_text" />
 
                 <LinearLayout
@@ -74,8 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="100dp"
                         android:layout_weight="10"
-                        android:text="00:00"
-                        android:textColor="@color/text"
+                        android:text="@string/_00_00"
                         android:textSize="@dimen/h2_text" />
 
                     <Button
@@ -83,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Установить" />
+                        android:text="@string/set" />
 
                 </LinearLayout>
 
@@ -92,8 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Время завтрака"
-                    android:textColor="@color/text"
+                    android:text="@string/breakfast_time"
                     android:textSize="@dimen/h1_text" />
 
                 <LinearLayout
@@ -110,8 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="100dp"
                         android:layout_weight="10"
-                        android:text="00:00"
-                        android:textColor="@color/text"
+                        android:text="@string/_00_00"
                         android:textSize="@dimen/h2_text" />
 
                     <Button
@@ -119,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Установить" />
+                        android:text="@string/set" />
 
                 </LinearLayout>
 
@@ -128,8 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Время обеда"
-                    android:textColor="@color/text"
+                    android:text="@string/lunch_time"
                     android:textSize="@dimen/h1_text" />
 
                 <LinearLayout
@@ -146,8 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="100dp"
                         android:layout_weight="10"
-                        android:text="00:00"
-                        android:textColor="@color/text"
+                        android:text="@string/_00_00"
                         android:textSize="@dimen/h2_text" />
 
                     <Button
@@ -155,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Установить" />
+                        android:text="@string/set" />
 
                 </LinearLayout>
 
@@ -164,8 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Время ужина"
-                    android:textColor="@color/text"
+                    android:text="@string/diner_time"
                     android:textSize="@dimen/h1_text" />
 
                 <LinearLayout
@@ -182,8 +173,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="100dp"
                         android:layout_weight="10"
-                        android:text="00:00"
-                        android:textColor="@color/text"
+                        android:text="@string/_00_00"
                         android:textSize="@dimen/h2_text" />
 
                     <Button
@@ -191,7 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Установить" />
+                        android:text="@string/set" />
 
                 </LinearLayout>
 
@@ -204,7 +194,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2/5"
+                        android:text="@string/_2_5"
                         android:textSize="18sp"
                         android:layout_marginBottom="20dp"
                         android:layout_marginStart="8dp"
@@ -216,14 +206,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/next"
-                        android:layout_gravity="right"
                         android:layout_marginBottom="20dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="0"/>
 
-
                 </LinearLayout>
-
 
             </LinearLayout>
 

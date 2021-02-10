@@ -27,12 +27,22 @@
         android:id="@+id/navigation_tasks"
         android:name="com.example.planer.ui.tasks.TasksFragment"
         android:label="@string/title_tasks"
-        tools:layout="@layout/fragment_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <action
+            android:id="@+id/action_navigation_tasks_to_tasks_types"
+            app:destination="@id/tasks_types" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.planer.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/tasks_types"
+        android:name="com.example.planer.ui.tasks.TasksTypesFragment"
+        android:label="@string/title_tasks"
+        tools:layout="@layout/fragment_tasks_types" />
 
 </navigation>

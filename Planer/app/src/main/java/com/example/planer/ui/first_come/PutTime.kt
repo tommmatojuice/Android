@@ -8,11 +8,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
+import com.example.planer.util.ToastMessages
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_put_time.*
+import kotlinx.android.synthetic.main.fragment_put_time.view.*
 
 class PutTime : Fragment()
 {
@@ -21,11 +24,29 @@ class PutTime : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view  = inflater.inflate(R.layout.fragment_put_time, container, false)
+
         mySharePreferences = context?.let { MySharePreferences(it) }!!
+
+        if (savedInstanceState != null) {
+            view.wakeup_time.text = savedInstanceState.getString("wakeupTime")
+            view.bad_time.text = savedInstanceState.getString("badTime")
+            view.breakfast_time.text = savedInstanceState.getString("breakfastTime")
+            view.lunch_time.text = savedInstanceState.getString("lunchTime")
+            view.diner_time.text = savedInstanceState.getString("dinerTime")
+        }
 
         initButtons(view)
 
         return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("wakeupTime", wakeup_time.text.toString())
+        outState.putString("badTime", bad_time.text.toString())
+        outState.putString("breakfastTime", breakfast_time.text.toString())
+        outState.putString("lunchTime", lunch_time.text.toString())
+        outState.putString("dinerTime", diner_time.text.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
@@ -60,7 +81,7 @@ class PutTime : Fragment()
     @SuppressLint("CommitPrefEdits")
     private fun initButtons(view: View)
     {
-        view.findViewById<Button>(R.id.wakeup_button).setOnClickListener {
+        view.wakeup_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.wakeup_time),
@@ -69,7 +90,7 @@ class PutTime : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.bad_button).setOnClickListener {
+        view.bad_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.bad_time),
@@ -78,7 +99,7 @@ class PutTime : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.breakfast_button).setOnClickListener {
+        view.breakfast_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.breakfast_time),
@@ -87,7 +108,7 @@ class PutTime : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.lunch_button).setOnClickListener {
+        view.lunch_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.lunch_time),
@@ -96,7 +117,7 @@ class PutTime : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.diner_buttom).setOnClickListener {
+        view.diner_buttom.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.diner_time),
@@ -105,17 +126,22 @@ class PutTime : Fragment()
             }
         }
 
-        view.findViewById<Button>(R.id.next2_button).setOnClickListener {
-            mySharePreferences.setWakeup(view.findViewById<TextView>(R.id.wakeup_time).text.toString())
-            mySharePreferences.setSleep(view.findViewById<TextView>(R.id.bad_time).text.toString())
-            mySharePreferences.setBreakfast(view.findViewById<TextView>(R.id.breakfast_time).text.toString())
-            mySharePreferences.setLunch(view.findViewById<TextView>(R.id.lunch_time).text.toString())
-            mySharePreferences.setDiner(view.findViewById<TextView>(R.id.diner_time).text.toString())
+        view.next2_button.setOnClickListener {
+            val checkSet: Set<String> = setOf(view.wakeup_time.text, view.bad_time.text, view.breakfast_time.text, view.lunch_time.text, view.diner_time.text) as Set<String>
+            if(checkSet.size == 5){
+                mySharePreferences.setWakeup(view.wakeup_time.text.toString())
+                mySharePreferences.setSleep(view.bad_time.text.toString())
+                mySharePreferences.setBreakfast(view.breakfast_time.text.toString())
+                mySharePreferences.setLunch(view.lunch_time.text.toString())
+                mySharePreferences.setDiner(view.diner_time.text.toString())
 
-            activity?.supportFragmentManager
+                activity?.supportFragmentManager
                     ?.beginTransaction()
                     ?.replace(R.id.main_frag, WorkDays())
                     ?.commit()
+            } else {
+                this.context?.let { it1 -> ToastMessages.showMessage(it1, "Время не должно повторяться") }
+            }
         }
     }
 }

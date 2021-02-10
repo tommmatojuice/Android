@@ -5,7 +5,8 @@ import android.content.Context
 
 class InfoDialog
 {
-    companion object {
+    companion object
+    {
         fun onCreateDialog(context: Context, title: String, messages: String, icon: Int) {
             AlertDialog.Builder(context).setTitle(title)
                     .setMessage(messages)

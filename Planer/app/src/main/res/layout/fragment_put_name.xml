@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.first_come.PutName"
-    android:background="@color/back_white"
-    >
+    android:background="@color/back_white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +26,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/enter_name"
-                android:textColor="@color/text"
                 android:textSize="@dimen/h1_text" />
 
             <EditText
@@ -36,15 +34,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/text" />
+                android:layout_marginTop="20dp" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1/5"
+            android:text="@string/_1_5"
             android:textSize="18sp"
             android:layout_marginBottom="20dp"
             android:layout_marginStart="16dp"
