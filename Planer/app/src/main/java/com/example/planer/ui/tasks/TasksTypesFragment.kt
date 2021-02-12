@@ -1,11 +1,14 @@
 package com.example.planer.ui.tasks
 
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_tasks_types.view.*
@@ -16,6 +19,21 @@ class TasksTypesFragment : Fragment()
     {
         val view = inflater.inflate(R.layout.fragment_tasks_types, container, false)
 
+        initButtons(view)
+        initUi()
+
         return view
+    }
+
+    private fun initButtons(view: View){
+        
+    }
+
+    private fun initUi(){
+        when(arguments?.getInt("type")){
+            1 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Разовые задачи" + "</font>"))
+            2 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Фиксированные задачи" + "</font>"))
+            3 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Регулярные задачи" + "</font>"))
+        }
     }
 }

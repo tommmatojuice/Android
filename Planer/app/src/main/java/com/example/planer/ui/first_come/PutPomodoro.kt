@@ -49,9 +49,11 @@ class PutPomodoro : Fragment()
         view.next5_button.setOnClickListener {
             mySharePreferences.setAllInfo(true)
 
+            setHasOptionsMenu(false)
+
             activity?.findViewById<FrameLayout>(R.id.main_frag)?.visibility = View.GONE
             activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
-//            activity?.findViewById<View>(R.id.nav_host_fragment)?.visibility = View.VISIBLE
+            activity?.findViewById<View>(R.id.nav_host_fragment)?.visibility = View.VISIBLE
         }
     }
 

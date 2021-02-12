@@ -33,7 +33,7 @@
         android:layout_height="90dp"
         style="@style/RoundedCornerButton"
         android:backgroundTint="@color/elements_white"
-        android:text="Рутинные задачи"
+        android:text="Регулярные задачи"
         android:drawableLeft="@drawable/orange_point"
         android:drawablePadding="5dp"/>
 

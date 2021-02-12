@@ -10,14 +10,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.planer.R
-import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_tasks.view.*
-import kotlinx.android.synthetic.main.fragment_tasks_types.view.*
+
 
 class TasksFragment : Fragment() {
 
@@ -40,37 +38,27 @@ class TasksFragment : Fragment() {
 
     private fun initUI(){
         val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
-        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(
-            it,
-            R.color.dark_green
-        ) }
-        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(
-            ColorDrawable(
-                Color.parseColor(
-                    "#13A678"
-                )
-            )
-        )
+        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
+        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
         (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Задачи" + "</font>"))
     }
 
     private fun initButtons(view: View){
+        val bundle = Bundle()
 
         view.one_time_tasks.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.tasks_types)
-//            activity?.supportFragmentManager
-//                ?.beginTransaction()
-//                ?.addToBackStack(null)
-//                ?.replace(R.id.main_frag, IntoTasksTypesFragment())
-//                ?.commit()
+            bundle.putInt("type", 1)
+            Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
 
         view.fixed_tasks.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.tasks_types)
+            bundle.putInt("type", 2)
+            Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
 
         view.routine_tasks.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.tasks_types)
+            bundle.putInt("type", 3)
+            Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
     }
 }
