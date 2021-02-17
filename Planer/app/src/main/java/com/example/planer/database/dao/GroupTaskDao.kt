@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
+import com.example.planer.database.entity.TaskAndGroup
 
 @Dao
 interface GroupTaskDao

@@ -16,7 +16,7 @@ import java.util.*
                 )
         )
 )
-class Task (
+data class Task (
     var type: String,
     var title: String,
     var description: String?,
@@ -35,7 +35,7 @@ class Task (
     var date: String?,
     var begin: String?,
     var end: String?,
-    var group: Int?
+    var group: Int
 ):Serializable
 {
     @PrimaryKey(autoGenerate = true)

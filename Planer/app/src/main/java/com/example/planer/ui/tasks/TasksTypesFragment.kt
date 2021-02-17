@@ -26,7 +26,13 @@ class TasksTypesFragment : Fragment()
     }
 
     private fun initButtons(view: View){
-        
+        view.all_tasks.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.all_tasks, arguments)
+        }
+
+        view.group_tasks.setOnClickListener {
+
+        }
     }
 
     private fun initUi(){

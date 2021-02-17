@@ -41,4 +41,7 @@
     <string name="saturday">Суббота</string>
     <string name="sunday">Воскресенье</string>
     <string name="_3_5">3/5</string>
+    <string name="_20_01">20.1</string>
+    <string name="name">Название</string>
+    <string name="group_task">Составная задача</string>
 </resources>

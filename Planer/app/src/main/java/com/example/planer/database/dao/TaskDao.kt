@@ -2,10 +2,7 @@ package com.example.planer.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.planer.database.entity.FixedTask
-import com.example.planer.database.entity.RoutineTask
-import com.example.planer.database.entity.Task
-import com.example.planer.database.entity.TaskAndAllPaths
+import com.example.planer.database.entity.*
 
 @Dao
 interface TaskDao {
@@ -23,6 +20,10 @@ interface TaskDao {
 
     @Query("SELECT * FROM task_table")
     fun allTasks(): LiveData<List<Task>>
+
+    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title FROM task_table, group_task_table WHERE `group` = group_task_id")
+    fun taskAndGroup(): LiveData<List<TaskAndGroup>>
+
 //    @Transaction
 //    @Query("SELECT * FROM task_table")
 //    fun tasksWithPaths(): LiveData<List<TaskAndAllPaths>>
@@ -36,25 +37,3 @@ interface TaskDao {
     @Query("SELECT task_id, title, description, category, monday, tuesday, wednesday, thursday, friday, saturday, sunday, `begin`, `end` FROM task_table WHERE type = \"routine\" AND category = :category ORDER BY deadline DESC")
     fun getRoutineTasks(category: String): LiveData<List<RoutineTask>>
 }
-
-/*import androidx.lifecycle.LiveData
-import androidx.room.*
-
-@Dao
-interface ItemDao {
-    @Insert()
-    fun insert(item:Item)
-
-    @Update
-    fun update(item: Item)
-
-    @Delete
-    fun delete(item: Item)
-
-    @Query("DELETE FROM item_table")
-    fun deleteAllItems()
-
-    @Query("SELECT * FROM item_table ORDER BY priority DESC")
-    fun allItems(): LiveData<List<Item>>
-
-}*/

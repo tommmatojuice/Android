@@ -43,6 +43,16 @@
         android:id="@+id/tasks_types"
         android:name="com.example.planer.ui.tasks.TasksTypesFragment"
         android:label="@string/title_tasks"
-        tools:layout="@layout/fragment_tasks_types" />
+        tools:layout="@layout/fragment_tasks_types" >
+        <action
+            android:id="@+id/action_tasks_types_to_all_tasks"
+            app:destination="@id/all_tasks" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/all_tasks"
+        android:name="com.example.planer.ui.tasks.AllTasksFragment"
+        android:label="@string/title_tasks"
+        tools:layout="@layout/fragment_all_tasks" />
 
 </navigation>

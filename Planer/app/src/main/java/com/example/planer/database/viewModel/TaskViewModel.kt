@@ -13,6 +13,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
     private val repository = TaskRepository(application.applicationContext, viewModelScope)
 
     val allTasks = repository.allTasks
+    val taskAndGroup = repository.taskAndGroup
 
     fun insert(task: Task) = viewModelScope.launch(Dispatchers.IO){
         repository.insert(task)

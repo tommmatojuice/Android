@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.GroupViewModel
@@ -44,15 +45,25 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        groupViewModel.insert(GroupTask("task2"))
+//        groupViewModel.insert(GroupTask("task2"))
 
         groupViewModel.allGroups.observe(
                 this, object: Observer<List<GroupTask>> {
                 override fun onChanged(items: List<GroupTask>?) {
                     if (items != null) {
                         val groups = groupViewModel.allGroups.value
+//                        ToastMessages.showMessage(applicationContext, groups?.size.toString())
+                    }
+                }
+            }
+        )
+
+        groupViewModel.tasksWithGroup.observe(
+                this, object: Observer<List<GroupAndAllTasks>> {
+                override fun onChanged(items: List<GroupAndAllTasks>?) {
+                    if (items != null) {
                         val groupsAndTasks = groupViewModel.tasksWithGroup.value
-                        ToastMessages.showMessage(applicationContext, groupsAndTasks?.size.toString())
+//                        ToastMessages.showMessage(applicationContext, groupsAndTasks?.get(0)?.group?.title.toString())
                     }
                 }
             }
@@ -122,5 +133,10 @@ class MainActivity : AppCompatActivity()
 
     fun setActionBarTitle(title: String?) {
         supportActionBar!!.title = title
+    }
+
+    override fun onBackPressed() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        super.onBackPressed()
     }
 }

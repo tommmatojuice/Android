@@ -8,6 +8,7 @@ import com.example.planer.database.dao.TaskDao
 import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.Task
+import com.example.planer.database.entity.TaskAndGroup
 import kotlinx.coroutines.CoroutineScope
 
 class GroupTaskRepository(context: Context, scope: CoroutineScope)
