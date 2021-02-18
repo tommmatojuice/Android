@@ -19,6 +19,8 @@ class TasksTypesFragment : Fragment()
     {
         val view = inflater.inflate(R.layout.fragment_tasks_types, container, false)
 
+        this.context?.let { ToastMessages.showMessage(it, arguments?.getInt("type").toString()) }
+
         initButtons(view)
         initUi()
 
@@ -36,10 +38,10 @@ class TasksTypesFragment : Fragment()
     }
 
     private fun initUi(){
-        when(arguments?.getInt("type")){
-            1 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Разовые задачи" + "</font>"))
-            2 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Фиксированные задачи" + "</font>"))
-            3 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Регулярные задачи" + "</font>"))
+        when(arguments?.getString("type")){
+            "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Разовые задачи" + "</font>"))
+            "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Фиксированные задачи" + "</font>"))
+            "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Регулярные задачи" + "</font>"))
         }
     }
 }

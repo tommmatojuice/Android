@@ -2,7 +2,6 @@ package com.example.planer
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,21 +11,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.GroupViewModel
-import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.first_come.PutName
-import com.example.planer.ui.food.FoodFragment
-import com.example.planer.ui.food.FoodViewModel
-import com.example.planer.ui.notifications.NotificationsFragment
-import com.example.planer.ui.plan.PlanFragment
-import com.example.planer.ui.profile.ProfileFragment
-import com.example.planer.ui.tasks.TasksFragment
-import com.example.planer.ui.tasks.TasksTypesFragment
-import com.example.planer.ui.tasks.TasksViewModel
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -38,42 +27,86 @@ class MainActivity : AppCompatActivity()
     private var myFragment: Fragment? = null
 
     private val groupViewModel: GroupViewModel by viewModels()
-    private val taskViewModel: TaskViewModel by viewModels()
+    private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        groupViewModel.insert(GroupTask("task2"))
+        taskViewModel = TaskViewModel(this.application, "", "")
+
+        groupViewModel.insert(GroupTask("groupTitle1"))
+        groupViewModel.insert(GroupTask("groupTitle2"))
+        taskViewModel.insert(
+            Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
+            30, 1,true, true, false, true, false, false,
+            true, false, null, null, null, 1)
+        )
+        taskViewModel.insert(
+            Task("one_time", "taskTitle2", "Description1", "rest", "2020-03-21",
+            30, 1,true, true, false, true, false, false,
+            true, true, null, null, null, 2)
+        )
+        taskViewModel.insert(
+            Task("one_time", "taskTitle3", "Description1", "other", "2020-03-21",
+            30, 1,true, true, false, true, false, false,
+            true, false, null, null, null, 1)
+        )
+
+        taskViewModel.insert(
+            Task("fixed", "taskTitle4", "Description1", "work", null,
+            30, 1,true, true, false, true, false, false,
+            true, false, "2020-03-21", null, null, 1)
+        )
+        taskViewModel.insert(
+            Task("fixed", "taskTitle5", "Description1", "rest", null,
+            30, 1,true, true, false, true, false, false,
+            true, true, "2020-03-21", null, null, 2)
+        )
+        taskViewModel.insert(
+            Task("fixed", "taskTitle6", "Description1", "other", null,
+            30, 1,true, true, false, true, false, false,
+            true, false, "2020-03-21", null, null, 1)
+        )
+
+        taskViewModel.insert(
+            Task("routine", "taskTitle7", "Description1", "work", null,
+            30, 1,true, true, false, true, false, false,
+            true, false, null, "10:00", "12:00", 1)
+        )
+        taskViewModel.insert(
+            Task("routine", "taskTitle8", "Description1", "rest", null,
+            30, 1,true, true, false, true, false, false,
+            true, true, null, "10:00", "12:00", 2)
+        )
+        taskViewModel.insert(
+            Task("routine", "taskTitle9", "Description1", "other", null,
+            30, 1,true, true, false, true, false, false,
+            true, false, null, "10:00", "12:00", 1)
+        )
 
         groupViewModel.allGroups.observe(
                 this, object: Observer<List<GroupTask>> {
                 override fun onChanged(items: List<GroupTask>?) {
                     if (items != null) {
                         val groups = groupViewModel.allGroups.value
-//                        ToastMessages.showMessage(applicationContext, groups?.size.toString())
+                        ToastMessages.showMessage(applicationContext, groups?.size.toString())
                     }
                 }
             }
         )
 
-        groupViewModel.tasksWithGroup.observe(
-                this, object: Observer<List<GroupAndAllTasks>> {
-                override fun onChanged(items: List<GroupAndAllTasks>?) {
-                    if (items != null) {
-                        val groupsAndTasks = groupViewModel.tasksWithGroup.value
+//        groupViewModel.tasksWithGroup.observe(
+//                this, object: Observer<List<GroupAndAllTasks>> {
+//                override fun onChanged(items: List<GroupAndAllTasks>?) {
+//                    if (items != null) {
+//                        val groupsAndTasks = groupViewModel.tasksWithGroup.value
 //                        ToastMessages.showMessage(applicationContext, groupsAndTasks?.get(0)?.group?.title.toString())
-                    }
-                }
-            }
-        )
-
-//        val tasks = taskViewModel.allTasks.value
-//
-//        if (tasks != null) {
-//            Log.d("@@@@@@@@@@@@@@@@@@@", tasks.size.toString())
-//        }
+//                    }
+//                }
+//            }
+//        )
 
         mySharePreferences = MySharePreferences(this)
 
@@ -89,24 +122,6 @@ class MainActivity : AppCompatActivity()
         navView.setupWithNavController(navController)
 
         //initFragments(savedInstanceState)
-
-//        taskViewModel.insert(Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
-//                30, 1,true, true, false, true, false, false,
-//                true, false, null, null, null, null))
-
-//        val groupViewModel: GroupViewModel by viewModels()
-//
-//        val group = groupViewModel.allGroups.value
-//
-//        Log.d("@@@@@@@@@@@@@@@@@@@", group?.size.toString())
-//
-//        val pathViewModel: PathViewModel by viewModels()
-//
-//        val paths = pathViewModel.allPaths.value
-//
-//        Log.d("@@@@@@@@@@@@@@@@@@@", paths?.size.toString())
-//        ToastMessages.showMessage(this, tasks?.get(0).toString())
-
     }
 
     private fun initFragments(savedInstanceState: Bundle?)

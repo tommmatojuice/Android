@@ -31,7 +31,7 @@ data class Task (
     var friday: Boolean?,
     var saturday: Boolean?,
     var sunday: Boolean?,
-    var priority: Boolean?,
+    var priority: Boolean,
     var date: String?,
     var begin: String?,
     var end: String?,

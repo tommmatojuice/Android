@@ -8,7 +8,7 @@ import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
 import kotlinx.coroutines.CoroutineScope
 
-class TaskRepository(context: Context, scope: CoroutineScope)
+class TaskRepository(context: Context, scope: CoroutineScope, category: String, type: String)
 {
     private val taskDao: TaskDao
     val allTasks: LiveData<List<Task>>
@@ -18,7 +18,7 @@ class TaskRepository(context: Context, scope: CoroutineScope)
         val database: MyDataBase = MyDataBase.getDatabase(context, scope)
         taskDao = database.taskDao()
         allTasks = taskDao.allTasks()
-        taskAndGroup = taskDao.taskAndGroup()
+        taskAndGroup = taskDao.taskAndGroup(category, type)
     }
 
     fun insert(task: Task){

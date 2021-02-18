@@ -4,33 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.planer.R
-import com.example.planer.adapters.RecyclerAdapter
-import com.example.planer.database.entity.GroupAndAllTasks
-import com.example.planer.database.entity.GroupTask
-import com.example.planer.database.entity.Task
+import com.example.planer.adapters.WorkRecyclerAdapter
 import com.example.planer.database.entity.TaskAndGroup
-import com.example.planer.database.viewModel.GroupViewModel
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.util.ToastMessages
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_work_recycler.view.*
-import java.util.*
 
-class WorkRecyclerFragment : Fragment(), RecyclerAdapter.OnItemClickListener
+class WorkRecyclerFragment(private var type: Int, private var category: String) : Fragment(), WorkRecyclerAdapter.OnItemClickListener
 {
-    private val taskViewModel: TaskViewModel by viewModels()
+    private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_work_recycler, container, false)
 
+        this.context?.let { ToastMessages.showMessage(it, type.toString()) }
+
+        when(this.type){
+            1 ->  taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "one_time") }!!
+            2 ->  taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "fixed") }!!
+            3 ->  taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "routine") }!!
+        }
+
         val tasks = taskViewModel.taskAndGroup.value
-        val adapter = this.context?.let { RecyclerAdapter(it, tasks, this) }
+        val adapter = this.context?.let { WorkRecyclerAdapter(it, tasks, this) }
         val list = view.work_recycler_view
         list.adapter = adapter
 

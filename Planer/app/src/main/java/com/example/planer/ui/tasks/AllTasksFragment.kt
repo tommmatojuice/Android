@@ -10,17 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.planer.R
 import com.example.planer.adapters.TabsAdapter
+import com.example.planer.util.ToastMessages
 import com.google.android.material.tabs.TabLayout
 
 class AllTasksFragment : Fragment()
 {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         val view = inflater.inflate(R.layout.fragment_all_tasks, container, false)
+        val type: String? = arguments?.getString("type")
 
-        val viewPagerAdapter = activity?.supportFragmentManager?.let { TabsAdapter(it) }
+        val viewPagerAdapter = type?.let { TabsAdapter(childFragmentManager, it) }
+
         val viewPager =  view.findViewById<ViewPager>(R.id.myViewPager)
         val tabLayout =  view.findViewById<TabLayout>(R.id.tabLayout)
 
@@ -34,12 +35,11 @@ class AllTasksFragment : Fragment()
     }
 
     private fun initUi(){
-        when(arguments?.getInt("type")){
-            1 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все разовые задачи" + "</font>"))
-            2 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все фиксированные задачи" + "</font>"))
-            3 -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все регулярные задачи" + "</font>"))
+        when(arguments?.getString("type")){
+            "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все разовые задачи" + "</font>"))
+            "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все фиксированные задачи" + "</font>"))
+            "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все регулярные задачи" + "</font>"))
         }
-
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

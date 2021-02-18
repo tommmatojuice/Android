@@ -47,17 +47,20 @@ class TasksFragment : Fragment() {
         val bundle = Bundle()
 
         view.one_time_tasks.setOnClickListener {
-            bundle.putInt("type", 1)
+//            bundle.putInt("type", 1)
+            bundle.putString("type", "one_time")
             Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
 
         view.fixed_tasks.setOnClickListener {
-            bundle.putInt("type", 2)
+            bundle.putString("type", "fixed")
+//            bundle.putInt("type", 2)
             Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
 
         view.routine_tasks.setOnClickListener {
-            bundle.putInt("type", 3)
+            bundle.putString("type", "routine")
+//            bundle.putInt("type", 3)
             Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
     }
