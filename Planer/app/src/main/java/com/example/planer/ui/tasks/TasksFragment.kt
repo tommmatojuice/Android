@@ -43,24 +43,21 @@ class TasksFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Задачи" + "</font>"))
     }
 
-    private fun initButtons(view: View){
+    private fun initButtons(view: View)
+    {
         val bundle = Bundle()
-
         view.one_time_tasks.setOnClickListener {
-//            bundle.putInt("type", 1)
             bundle.putString("type", "one_time")
             Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
 
         view.fixed_tasks.setOnClickListener {
             bundle.putString("type", "fixed")
-//            bundle.putInt("type", 2)
             Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
 
         view.routine_tasks.setOnClickListener {
             bundle.putString("type", "routine")
-//            bundle.putInt("type", 3)
             Navigation.findNavController(view).navigate(R.id.tasks_types, bundle)
         }
     }

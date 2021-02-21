@@ -10,8 +10,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/work_recycler_view"
-        tools:listitem="@layout/work_task"
+        android:id="@+id/task_recycler_view"
+        tools:listitem="@layout/fragment_task"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

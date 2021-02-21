@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.planer.R
-import com.example.planer.adapters.TabsAdapter
-import com.example.planer.util.ToastMessages
+import com.example.planer.adapters.TabsAllAdapter
+import com.example.planer.adapters.TabsGroupAdapter
 import com.google.android.material.tabs.TabLayout
 
 class AllTasksFragment : Fragment()
@@ -20,12 +20,17 @@ class AllTasksFragment : Fragment()
         val view = inflater.inflate(R.layout.fragment_all_tasks, container, false)
         val type: String? = arguments?.getString("type")
 
-        val viewPagerAdapter = type?.let { TabsAdapter(childFragmentManager, it) }
+        val viewPagerAdapterAll = type?.let { TabsAllAdapter(childFragmentManager, it) }
+        val viewPagerAdapterGroup = type?.let { TabsGroupAdapter(childFragmentManager, it) }
 
         val viewPager =  view.findViewById<ViewPager>(R.id.myViewPager)
         val tabLayout =  view.findViewById<TabLayout>(R.id.tabLayout)
 
-        viewPager.adapter = viewPagerAdapter
+        if(arguments?.getString("choice") == "all"){
+            viewPager.adapter = viewPagerAdapterAll
+        } else {
+            viewPager.adapter = viewPagerAdapterGroup
+        }
 
         tabLayout.setupWithViewPager(viewPager)
 
@@ -35,10 +40,18 @@ class AllTasksFragment : Fragment()
     }
 
     private fun initUi(){
-        when(arguments?.getString("type")){
-            "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все разовые задачи" + "</font>"))
-            "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все фиксированные задачи" + "</font>"))
-            "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все регулярные задачи" + "</font>"))
+        if(arguments?.getString("choice") == "all"){
+            when(arguments?.getString("type")){
+                "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все разовые задачи" + "</font>"))
+                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все фиксированные задачи" + "</font>"))
+                "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все регулярные задачи" + "</font>"))
+            }
+        } else {
+            when(arguments?.getString("type")){
+                "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Составные разовые задачи" + "</font>"))
+                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Составные фиксированные задачи" + "</font>"))
+                "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Составные регулярные задачи" + "</font>"))
+            }
         }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }

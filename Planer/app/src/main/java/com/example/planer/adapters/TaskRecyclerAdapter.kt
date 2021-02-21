@@ -1,6 +1,8 @@
 package com.example.planer.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +13,22 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
+import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
-import kotlinx.android.synthetic.main.work_task.view.*
+import kotlinx.android.synthetic.main.fragment_task.view.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class WorkRecyclerAdapter(
-    context: Context,
-    private var taskList: List<TaskAndGroup>?,
-    private val listener: OnItemClickListener
-): RecyclerView.Adapter<WorkRecyclerAdapter.ViewHolder>()
+class TaskRecyclerAdapter(private val context: Context,
+                          private var taskList: List<TaskAndGroup>?,
+                          private val listener: OnItemClickListener,
+                          private var category: String
+): RecyclerView.Adapter<TaskRecyclerAdapter.ViewHolder>()
 {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(inflater.inflate(R.layout.work_task, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.fragment_task, parent, false))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -53,23 +56,37 @@ class WorkRecyclerAdapter(
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(version: TaskAndGroup)
         {
+            when(category){
+                "rest" -> {
+                    card.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#26C281"))
+                    rec?.setImageResource(R.drawable.rec_green)
+                    rec2?.setImageResource(R.drawable.rec2_green)
+                }
+                "other" -> {
+                    card.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#F89406"))
+                    rec?.setImageResource(R.drawable.rec_orange)
+                    rec2?.setImageResource(R.drawable.rec2_orange)
+                }
+            }
+
             title.text = version.title
-            if(version.deadline != null){
-                val deadline = LocalDate.parse(version.deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                date.text= deadline.dayOfMonth.toString() + "." + deadline.monthValue
-            } else if (version.date != null){
-                val beginDate = LocalDate.parse(version.date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                date.text= beginDate.dayOfMonth.toString() + "." + beginDate.monthValue
-            } else {
-                date.text = version.begin + "\n" + "-" + "\n" + version.end
+            when {
+                version.deadline != null -> {
+                    val deadline = LocalDate.parse(version.deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    date.text= deadline.dayOfMonth.toString() + "." + deadline.monthValue
+                }
+                version.date != null -> {
+                    val beginDate = LocalDate.parse(version.date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                    date.text= beginDate.dayOfMonth.toString() + "." + beginDate.monthValue
+                }
+                else -> {
+                    date.text = version.begin + "\n" + "-" + "\n" + version.end
+                }
             }
             group.text = version.groupTitle
             priority.visibility = if (
                 version.priority
             ) View.VISIBLE else View.INVISIBLE
-
-            rec?.setImageResource(R.drawable.rec_orange)
-            rec2?.setImageResource(R.drawable.rec2_orange)
         }
 
         init {

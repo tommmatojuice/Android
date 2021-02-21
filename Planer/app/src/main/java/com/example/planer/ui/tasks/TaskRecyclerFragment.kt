@@ -6,34 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.planer.R
-import com.example.planer.adapters.WorkRecyclerAdapter
+import com.example.planer.adapters.TaskRecyclerAdapter
 import com.example.planer.database.entity.TaskAndGroup
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.ToastMessages
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_work_recycler.view.*
+import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
 
-class WorkRecyclerFragment(private var type: Int, private var category: String) : Fragment(), WorkRecyclerAdapter.OnItemClickListener
+class TaskRecyclerFragment(private var type: String, private var category: String) : Fragment(), TaskRecyclerAdapter.OnItemClickListener
 {
     private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        val view = inflater.inflate(R.layout.fragment_work_recycler, container, false)
+        val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
 
-        this.context?.let { ToastMessages.showMessage(it, type.toString()) }
+        this.context?.let { ToastMessages.showMessage(it, type) }
 
-        when(this.type){
-            1 ->  taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "one_time") }!!
-            2 ->  taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "fixed") }!!
-            3 ->  taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "routine") }!!
-        }
+        taskViewModel = activity?.application?.let { TaskViewModel(it, category, type) }!!
 
         val tasks = taskViewModel.taskAndGroup.value
-        val adapter = this.context?.let { WorkRecyclerAdapter(it, tasks, this) }
-        val list = view.work_recycler_view
+        val adapter = this.context?.let { TaskRecyclerAdapter(it, tasks, this, category) }
+        val list = view.task_recycler_view
         list.adapter = adapter
 
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.HORIZONTAL)
@@ -41,10 +38,9 @@ class WorkRecyclerFragment(private var type: Int, private var category: String) 
         list.addItemDecoration(decoration)
 
         val buttonAddItem: FloatingActionButton = view.button_add_item
-//        buttonAddItem.setOnClickListener{
-//            val intent = Intent(this, AddItemActivity::class.java)
-//            startActivityForResult(intent, ADD_ITEM_REQUEST)
-//        }
+        buttonAddItem.setOnClickListener{
+            addTask(view)
+        }
 
         taskViewModel.taskAndGroup.observe(
                 viewLifecycleOwner, object: androidx.lifecycle.Observer<List<TaskAndGroup>> {
@@ -56,11 +52,28 @@ class WorkRecyclerFragment(private var type: Int, private var category: String) 
                 }
             }
         )
-
         return view
     }
 
     override fun onItemClick(position: Int) {
         TODO("Not yet implemented")
+    }
+
+    private fun addTask(view: View)
+    {
+        val bundle = Bundle().apply { putString("type", type) }.apply { putString("category", category) }
+        when(type){
+            "one_time" -> {
+                if(category == "work")
+                    Navigation.findNavController(view).navigate(R.id.add_one_time_work_task, bundle)
+                else Navigation.findNavController(view).navigate(R.id.add_one_time_other_task, bundle)
+            }
+            "fixed" -> {
+                Navigation.findNavController(view).navigate(R.id.add_fixed_task, bundle)
+            }
+            "routine" -> {
+                Navigation.findNavController(view).navigate(R.id.add_routine_task, bundle)
+            }
+        }
     }
 }

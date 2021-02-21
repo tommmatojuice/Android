@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:text="@string/_20_01"
             android:textAlignment="center"
-            android:textSize="@dimen/h2_text" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
             android:orientation="vertical"
             android:padding="10dp"
             android:layout_marginStart="8dp"
-            android:layout_weight="3">
+            android:layout_weight="2">
 
             <TextView
                 android:layout_width="wrap_content"

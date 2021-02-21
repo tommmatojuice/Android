@@ -24,31 +24,11 @@ interface GroupTaskDao
     @Query("SELECT * FROM group_task_table")
     fun allGroups(): LiveData<List<GroupTask>>
 
+//    @Transaction
+//    @Query("SELECT * FROM group_task_table")
+//    fun tasksWithGroup(): LiveData<List<GroupAndAllTasks>>
+
     @Transaction
-    @Query("SELECT * FROM group_task_table")
-    fun tasksWithGroup(): LiveData<List<GroupAndAllTasks>>
+    @Query("SELECT DISTINCT group_task_id, group_task_table.title FROM group_task_table, task_table WHERE group_task_id = `group` AND category = :category AND type = :type ORDER BY group_task_table.title")
+    fun tasksWithGroup(category: String, type: String): LiveData<List<GroupAndAllTasks>>
 }
-
-/* @Insert()
-    fun insert(task: Task)
-
-    @Update()
-    fun update(task: Task)
-
-    @Delete()
-    fun delete(task: Task)
-
-    @Query("DELETE FROM task_table")
-    fun deleteAllTasks()
-
-    @Query("SELECT * FROM task_table")
-    fun allTasks(): LiveData<List<Task>>
-
-    @Query("SELECT * FROM task_table WHERE category = :category AND type = :type ORDER BY deadline DESC")
-    fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>>
-
-    @Query("SELECT task_id, title, description, category, date, `begin`, `end` FROM task_table WHERE type = \"fixed\" AND category = :category ORDER BY deadline DESC")
-    fun getFixedTasks(category: String): LiveData<List<FixedTask>>
-
-    @Query("SELECT task_id, title, description, category, monday, tuesday, wednesday, thursday, friday, saturday, sunday, `begin`, `end` FROM task_table WHERE type = \"routine\" AND category = :category ORDER BY deadline DESC")
-    fun getRoutineTasks(category: String): LiveData<List<RoutineTask>>*/

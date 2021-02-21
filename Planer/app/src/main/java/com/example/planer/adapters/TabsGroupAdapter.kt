@@ -1,24 +1,20 @@
 package com.example.planer.adapters
 
-import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.planer.ui.tasks.OtherRecyclerFragment
-import com.example.planer.ui.tasks.RestRecyclerFragment
-import com.example.planer.ui.tasks.WorkRecyclerFragment
+import com.example.planer.ui.tasks.GroupRecyclerFragment
+import com.example.planer.ui.tasks.TaskRecyclerFragment
 
-class TabsAdapter(fm: FragmentManager, private val type: String) : FragmentPagerAdapter(fm)
+class TabsGroupAdapter(fm: FragmentManager, private val type: String) : FragmentPagerAdapter(fm)
 {
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> {
-                WorkRecyclerFragment(type)
-            }
-            1 -> RestRecyclerFragment(type)
+            0 -> GroupRecyclerFragment(type, "work")
+            1 -> GroupRecyclerFragment(type, "rest")
             else -> {
-                return OtherRecyclerFragment(type)
+                return GroupRecyclerFragment(type, "other")
             }
         }
     }
@@ -36,7 +32,6 @@ class TabsAdapter(fm: FragmentManager, private val type: String) : FragmentPager
     }
 
     override fun getItemPosition(`object`: Any): Int {
-        Log.d("@@@@@@@@@@@@@@@@", type.toString())
         return super.getItemPosition(`object`)
     }
 }

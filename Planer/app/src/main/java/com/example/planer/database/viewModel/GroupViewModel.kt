@@ -10,9 +10,9 @@ import com.example.planer.database.repositories.PathToFileRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class GroupViewModel(application: Application) : AndroidViewModel(application)
+class GroupViewModel(application: Application, category: String, type: String) : AndroidViewModel(application)
 {
-    private val repository = GroupTaskRepository(application.applicationContext, viewModelScope)
+    private val repository = GroupTaskRepository(application.applicationContext, viewModelScope, category, type)
 
     val allGroups = repository.allGroupe
     val tasksWithGroup = repository.tasksWithGroup

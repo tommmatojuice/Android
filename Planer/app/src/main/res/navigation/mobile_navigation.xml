@@ -47,12 +47,55 @@
         <action
             android:id="@+id/action_tasks_types_to_all_tasks"
             app:destination="@id/all_tasks" />
+        <action
+            android:id="@+id/action_tasks_types_to_group_tasks"
+            app:destination="@id/group_tasks" />
     </fragment>
 
     <fragment
         android:id="@+id/all_tasks"
         android:name="com.example.planer.ui.tasks.AllTasksFragment"
         android:label="@string/title_tasks"
-        tools:layout="@layout/fragment_all_tasks" />
+        tools:layout="@layout/fragment_all_tasks" >
+        <action
+            android:id="@+id/action_all_tasks_to_add_routine_task"
+            app:destination="@id/add_routine_task" />
+        <action
+            android:id="@+id/action_all_tasks_to_add_one_time_other_task"
+            app:destination="@id/add_one_time_other_task" />
+        <action
+            android:id="@+id/action_all_tasks_to_add_fixed_task2"
+            app:destination="@id/add_fixed_task" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/group_tasks"
+        android:name="com.example.planer.ui.tasks.GroupTasksRecyclerFragment"
+        android:label="@string/title_tasks"
+        tools:layout="@layout/fragment_task_recycler"/>
+
+    <fragment
+        android:id="@+id/add_fixed_task"
+        android:name="com.example.planer.ui.tasks.AddFixedTask"
+        android:label="Новая задача"
+        tools:layout="@layout/fragment_add_fixed_task"/>
+
+    <fragment
+        android:id="@+id/add_routine_task"
+        android:name="com.example.planer.ui.tasks.AddRoutineTask"
+        android:label="Новая задача"
+        tools:layout="@layout/fragment_add_routine_task"/>
+
+    <fragment
+        android:id="@+id/add_one_time_work_task"
+        android:name="com.example.planer.ui.tasks.AddOneTimeWorkTask"
+        android:label="Новая задача"
+        tools:layout="@layout/fragment_add_one_time_work_task"/>
+
+    <fragment
+        android:id="@+id/add_one_time_other_task"
+        android:name="com.example.planer.ui.tasks.AddOneTimeOtherTask"
+        android:label="Новая задача"
+        tools:layout="@layout/fragment_add_one_time_other_task"/>
 
 </navigation>

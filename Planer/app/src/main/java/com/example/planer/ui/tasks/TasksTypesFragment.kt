@@ -19,8 +19,6 @@ class TasksTypesFragment : Fragment()
     {
         val view = inflater.inflate(R.layout.fragment_tasks_types, container, false)
 
-        this.context?.let { ToastMessages.showMessage(it, arguments?.getInt("type").toString()) }
-
         initButtons(view)
         initUi()
 
@@ -29,11 +27,13 @@ class TasksTypesFragment : Fragment()
 
     private fun initButtons(view: View){
         view.all_tasks.setOnClickListener {
+            arguments?.putString("choice", "all")
             Navigation.findNavController(view).navigate(R.id.all_tasks, arguments)
         }
 
         view.group_tasks.setOnClickListener {
-
+            arguments?.putString("choice", "group")
+            Navigation.findNavController(view).navigate(R.id.all_tasks, arguments)
         }
     }
 

@@ -26,8 +26,9 @@ class MainActivity : AppCompatActivity()
     private val SIMPLE_FRAGMENT_TAG = "myFragmentTag"
     private var myFragment: Fragment? = null
 
-    private val groupViewModel: GroupViewModel by viewModels()
+//    private val groupViewModel: GroupViewModel by viewModels()
     private lateinit var taskViewModel: TaskViewModel
+    private lateinit var groupViewModel: GroupViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -35,9 +36,18 @@ class MainActivity : AppCompatActivity()
         setContentView(R.layout.activity_main)
 
         taskViewModel = TaskViewModel(this.application, "", "")
+        groupViewModel = GroupViewModel(this.application, "", "")
 
         groupViewModel.insert(GroupTask("groupTitle1"))
         groupViewModel.insert(GroupTask("groupTitle2"))
+        groupViewModel.insert(GroupTask("groupTitle3"))
+        groupViewModel.insert(GroupTask("groupTitle4"))
+        groupViewModel.insert(GroupTask("groupTitle5"))
+        groupViewModel.insert(GroupTask("groupTitle6"))
+        groupViewModel.insert(GroupTask("groupTitle7"))
+        groupViewModel.insert(GroupTask("groupTitle8"))
+        groupViewModel.insert(GroupTask("groupTitle9"))
+
         taskViewModel.insert(
             Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
             30, 1,true, true, false, true, false, false,
@@ -51,39 +61,39 @@ class MainActivity : AppCompatActivity()
         taskViewModel.insert(
             Task("one_time", "taskTitle3", "Description1", "other", "2020-03-21",
             30, 1,true, true, false, true, false, false,
-            true, false, null, null, null, 1)
+            true, false, null, null, null, 3)
         )
 
         taskViewModel.insert(
             Task("fixed", "taskTitle4", "Description1", "work", null,
             30, 1,true, true, false, true, false, false,
-            true, false, "2020-03-21", null, null, 1)
+            true, false, "2020-03-21", null, null, 4)
         )
         taskViewModel.insert(
             Task("fixed", "taskTitle5", "Description1", "rest", null,
             30, 1,true, true, false, true, false, false,
-            true, true, "2020-03-21", null, null, 2)
+            true, true, "2020-03-21", null, null, 5)
         )
         taskViewModel.insert(
             Task("fixed", "taskTitle6", "Description1", "other", null,
             30, 1,true, true, false, true, false, false,
-            true, false, "2020-03-21", null, null, 1)
+            true, false, "2020-03-21", null, null, 6)
         )
 
         taskViewModel.insert(
             Task("routine", "taskTitle7", "Description1", "work", null,
             30, 1,true, true, false, true, false, false,
-            true, false, null, "10:00", "12:00", 1)
+            true, false, null, "10:00", "12:00", 7)
         )
         taskViewModel.insert(
             Task("routine", "taskTitle8", "Description1", "rest", null,
             30, 1,true, true, false, true, false, false,
-            true, true, null, "10:00", "12:00", 2)
+            true, true, null, "10:00", "12:00", 8)
         )
         taskViewModel.insert(
             Task("routine", "taskTitle9", "Description1", "other", null,
             30, 1,true, true, false, true, false, false,
-            true, false, null, "10:00", "12:00", 1)
+            true, false, null, "10:00", "12:00", 9)
         )
 
         groupViewModel.allGroups.observe(
@@ -91,7 +101,7 @@ class MainActivity : AppCompatActivity()
                 override fun onChanged(items: List<GroupTask>?) {
                     if (items != null) {
                         val groups = groupViewModel.allGroups.value
-                        ToastMessages.showMessage(applicationContext, groups?.size.toString())
+//                        ToastMessages.showMessage(applicationContext, groups?.size.toString())
                     }
                 }
             }
