@@ -31,7 +31,6 @@ class TabsAllAdapter(fm: FragmentManager, private val type: String) : FragmentPa
     }
 
     override fun getItemPosition(`object`: Any): Int {
-        Log.d("@@@@@@@@@@@@@@@@", type.toString())
         return super.getItemPosition(`object`)
     }
 }

@@ -3,7 +3,6 @@ package com.example.planer
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,7 +16,6 @@ import com.example.planer.database.viewModel.GroupViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.first_come.PutName
 import com.example.planer.util.MySharePreferences
-import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity()
@@ -39,62 +37,62 @@ class MainActivity : AppCompatActivity()
         groupViewModel = GroupViewModel(this.application, "", "")
 
         groupViewModel.insert(GroupTask("groupTitle1"))
-        groupViewModel.insert(GroupTask("groupTitle2"))
-        groupViewModel.insert(GroupTask("groupTitle3"))
-        groupViewModel.insert(GroupTask("groupTitle4"))
-        groupViewModel.insert(GroupTask("groupTitle5"))
-        groupViewModel.insert(GroupTask("groupTitle6"))
-        groupViewModel.insert(GroupTask("groupTitle7"))
-        groupViewModel.insert(GroupTask("groupTitle8"))
-        groupViewModel.insert(GroupTask("groupTitle9"))
-
-        taskViewModel.insert(
-            Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
-            30, 1,true, true, false, true, false, false,
-            true, false, null, null, null, 1)
-        )
-        taskViewModel.insert(
-            Task("one_time", "taskTitle2", "Description1", "rest", "2020-03-21",
-            30, 1,true, true, false, true, false, false,
-            true, true, null, null, null, 2)
-        )
-        taskViewModel.insert(
-            Task("one_time", "taskTitle3", "Description1", "other", "2020-03-21",
-            30, 1,true, true, false, true, false, false,
-            true, false, null, null, null, 3)
-        )
-
+//        groupViewModel.insert(GroupTask("groupTitle2"))
+//        groupViewModel.insert(GroupTask("groupTitle3"))
+//        groupViewModel.insert(GroupTask("groupTitle4"))
+//        groupViewModel.insert(GroupTask("groupTitle5"))
+//        groupViewModel.insert(GroupTask("groupTitle6"))
+//        groupViewModel.insert(GroupTask("groupTitle7"))
+//        groupViewModel.insert(GroupTask("groupTitle8"))
+//        groupViewModel.insert(GroupTask("groupTitle9"))
+//
+//        taskViewModel.insert(
+//            Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
+//            30, 1,true, true, false, true, false, false,
+//            true, false, null, null, null, null)
+//        )
+//        taskViewModel.insert(
+//            Task("one_time", "taskTitle2", "Description1", "rest", "2020-03-21",
+//            30, 1,true, true, false, true, false, false,
+//            true, true, null, null, null, 2)
+//        )
+//        taskViewModel.insert(
+//            Task("one_time", "taskTitle3", "Description1", "other", "2020-03-21",
+//            30, 1,true, true, false, true, false, false,
+//            true, false, null, null, null, 3)
+//        )
+//
         taskViewModel.insert(
             Task("fixed", "taskTitle4", "Description1", "work", null,
             30, 1,true, true, false, true, false, false,
-            true, false, "2020-03-21", null, null, 4)
+            true, false, "2020-03-21", null, null, 1)
         )
         taskViewModel.insert(
             Task("fixed", "taskTitle5", "Description1", "rest", null,
             30, 1,true, true, false, true, false, false,
-            true, true, "2020-03-21", null, null, 5)
+            true, true, "2020-03-21", null, null, null)
         )
         taskViewModel.insert(
             Task("fixed", "taskTitle6", "Description1", "other", null,
             30, 1,true, true, false, true, false, false,
-            true, false, "2020-03-21", null, null, 6)
+            true, false, "2020-03-21", null, null, null)
         )
-
-        taskViewModel.insert(
-            Task("routine", "taskTitle7", "Description1", "work", null,
-            30, 1,true, true, false, true, false, false,
-            true, false, null, "10:00", "12:00", 7)
-        )
-        taskViewModel.insert(
-            Task("routine", "taskTitle8", "Description1", "rest", null,
-            30, 1,true, true, false, true, false, false,
-            true, true, null, "10:00", "12:00", 8)
-        )
-        taskViewModel.insert(
-            Task("routine", "taskTitle9", "Description1", "other", null,
-            30, 1,true, true, false, true, false, false,
-            true, false, null, "10:00", "12:00", 9)
-        )
+//
+//        taskViewModel.insert(
+//            Task("routine", "taskTitle7", "Description1", "work", null,
+//            30, 1,true, true, false, true, false, false,
+//            true, false, null, "10:00", "12:00", 7)
+//        )
+//        taskViewModel.insert(
+//            Task("routine", "taskTitle8", "Description1", "rest", null,
+//            30, 1,true, true, false, true, false, false,
+//            true, true, null, "10:00", "12:00", 8)
+//        )
+//        taskViewModel.insert(
+//            Task("routine", "taskTitle9", "Description1", "other", null,
+//            30, 1,true, true, false, true, false, false,
+//            true, false, null, "10:00", "12:00", 9)
+//        )
 
         groupViewModel.allGroups.observe(
                 this, object: Observer<List<GroupTask>> {

@@ -49,7 +49,7 @@
     <string name="task_work_time">Время выполнения</string>
     <string name="difficulty">Сложность</string>
     <string name="deadline">Дедлайн</string>
-    <string name="dd_mm">дд.мм</string>
+    <string name="dd_mm">дд.мм.гггг</string>
     <string name="week_days">Дни недели для выполнения</string>
     <string name="save">Сохранить</string>
     <string name="task_begin_time">Время начала</string>
@@ -57,4 +57,10 @@
     <string name="date">Дата</string>
     <string name="priority">Приоритет</string>
     <string name="regular">Частота повторений</string>
+    <string name="profile">Profile</string>
+    <string name="one_time_task">Разовые задачи</string>
+    <string name="fixed_task">Фиксированные задачи</string>
+    <string name="routine_task">Регулярные задачи</string>
+    <string name="all_tasks">Все задачи</string>
+    <string name="group_tasks">Составные задачи</string>
 </resources>

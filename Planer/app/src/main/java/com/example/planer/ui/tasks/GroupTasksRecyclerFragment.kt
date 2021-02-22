@@ -34,15 +34,18 @@ class GroupTasksRecyclerFragment : Fragment(), GroupTasksRecyclerAdapter.OnItemC
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         val buttonAddItem: FloatingActionButton = view.button_add_item
-//        buttonAddItem.setOnClickListener{
-//            val intent = Intent(this, AddItemActivity::class.java)
-//            startActivityForResult(intent, ADD_ITEM_REQUEST)
-//        }
+        buttonAddItem.setOnClickListener{
+            addGroupTask()
+        }
 
         return view
     }
 
     override fun onItemClick(position: Int) {
+
+    }
+
+    private fun addGroupTask(){
 
     }
 }

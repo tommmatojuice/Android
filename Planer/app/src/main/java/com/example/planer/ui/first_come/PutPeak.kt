@@ -6,10 +6,8 @@ import android.text.Html
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences

@@ -24,7 +24,10 @@ interface TaskDao {
 //    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title FROM task_table, group_task_table WHERE `group` = group_task_id")
 //    fun taskAndGroup(): LiveData<List<TaskAndGroup>>
 
-    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type ORDER BY deadline, priority DESC")
+//    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type ORDER BY deadline, priority DESC")
+//    fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>>
+
+    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type UNION SELECT task_id, task_table.title, deadline, null as groupTitle, priority, date, `begin`, `end` FROM task_table WHERE category = :category AND type = :type ORDER BY deadline, priority DESC")
     fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>>
 
     @Query("SELECT * FROM task_table WHERE category = :category AND type = :type ORDER BY deadline DESC")

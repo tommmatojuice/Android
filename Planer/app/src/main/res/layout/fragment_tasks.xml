@@ -13,7 +13,7 @@
         android:layout_height="90dp"
         style="@style/RoundedCornerButton"
         android:backgroundTint="@color/elements_white"
-        android:text="Разовые задачи"
+        android:text="@string/one_time_task"
         android:drawableLeft="@drawable/blue_point"
         android:drawablePadding="5dp" />
 
@@ -23,7 +23,7 @@
         android:layout_height="90dp"
         style="@style/RoundedCornerButton"
         android:backgroundTint="@color/elements_white"
-        android:text="Фиксированные задачи"
+        android:text="@string/fixed_task"
         android:drawableLeft="@drawable/green_point"
         android:drawablePadding="5dp"/>
 
@@ -33,7 +33,7 @@
         android:layout_height="90dp"
         style="@style/RoundedCornerButton"
         android:backgroundTint="@color/elements_white"
-        android:text="Регулярные задачи"
+        android:text="@string/routine_task"
         android:drawableLeft="@drawable/orange_point"
         android:drawablePadding="5dp"/>
 

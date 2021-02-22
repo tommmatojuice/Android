@@ -35,7 +35,7 @@ data class Task (
     var date: String?,
     var begin: String?,
     var end: String?,
-    var group: Int
+    var group: Int?
 ):Serializable
 {
     @PrimaryKey(autoGenerate = true)

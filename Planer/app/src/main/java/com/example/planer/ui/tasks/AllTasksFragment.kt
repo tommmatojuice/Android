@@ -39,20 +39,21 @@ class AllTasksFragment : Fragment()
         return view
     }
 
-    private fun initUi(){
+    private fun initUi()
+    {
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         if(arguments?.getString("choice") == "all"){
             when(arguments?.getString("type")){
-                "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все разовые задачи" + "</font>"))
-                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все фиксированные задачи" + "</font>"))
-                "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Все регулярные задачи" + "</font>"))
+                "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Все разовые задачи")
+                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Все фиксированные задачи")
+                "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Все регулярные задачи")
             }
         } else {
             when(arguments?.getString("type")){
-                "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Составные разовые задачи" + "</font>"))
-                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Составные фиксированные задачи" + "</font>"))
-                "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Составные регулярные задачи" + "</font>"))
+                "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Составные разовые задачи")
+                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Составные фиксированные задачи")
+                "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Составные регулярные задачи")
             }
         }
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

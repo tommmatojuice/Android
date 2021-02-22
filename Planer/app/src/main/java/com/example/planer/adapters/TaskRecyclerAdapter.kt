@@ -83,7 +83,12 @@ class TaskRecyclerAdapter(private val context: Context,
                     date.text = version.begin + "\n" + "-" + "\n" + version.end
                 }
             }
+
+//            if(version.groupTitle.isNullOrEmpty()){
+//                group.text = ""
+//            } else
             group.text = version.groupTitle
+
             priority.visibility = if (
                 version.priority
             ) View.VISIBLE else View.INVISIBLE

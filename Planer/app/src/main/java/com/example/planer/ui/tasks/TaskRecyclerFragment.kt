@@ -1,6 +1,7 @@
 package com.example.planer.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,11 +25,10 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
     {
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
 
-        this.context?.let { ToastMessages.showMessage(it, type) }
-
         taskViewModel = activity?.application?.let { TaskViewModel(it, category, type) }!!
 
         val tasks = taskViewModel.taskAndGroup.value
+
         val adapter = this.context?.let { TaskRecyclerAdapter(it, tasks, this, category) }
         val list = view.task_recycler_view
         list.adapter = adapter
@@ -43,12 +43,10 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
         }
 
         taskViewModel.taskAndGroup.observe(
-                viewLifecycleOwner, object: androidx.lifecycle.Observer<List<TaskAndGroup>> {
-                override fun onChanged(tasks: List<TaskAndGroup>?) {
-                    if (tasks != null) {
-                        adapter?.setTasks(tasks)
-                        list.adapter = adapter
-                    }
+                viewLifecycleOwner, { tasks ->
+                if (tasks != null) {
+                    adapter?.setTasks(tasks)
+                    list.adapter = adapter
                 }
             }
         )
