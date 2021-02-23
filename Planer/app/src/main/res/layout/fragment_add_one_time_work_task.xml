@@ -54,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:gravity="center"
-                android:text="@string/_00_00"
+                android:hint="@string/_00_00"
                 android:textSize="@dimen/h2_text" />
 
             <Button
@@ -80,7 +80,7 @@
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/_0"
+            android:hint="@string/_0"
             android:layout_marginTop="16dp"
             android:textSize="@dimen/h2_text"
             app:layout_constraintBottom_toTopOf="@+id/difficulty"
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:max="5"
-            android:progress="1"
+            android:progress="0"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -122,7 +122,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:gravity="center"
-                android:text="@string/dd_mm"
+                android:hint="@string/dd_mm"
                 android:textSize="@dimen/h2_text" />
 
             <Button

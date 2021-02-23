@@ -70,6 +70,8 @@ class TaskRecyclerAdapter(private val context: Context,
             }
 
             title.text = version.title
+            group.text = version.groupTitle
+
             when {
                 version.deadline != null -> {
                     val deadline = LocalDate.parse(version.deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -79,15 +81,13 @@ class TaskRecyclerAdapter(private val context: Context,
                     val beginDate = LocalDate.parse(version.date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                     date.text= beginDate.dayOfMonth.toString() + "." + beginDate.monthValue
                 }
-                else -> {
+                version.begin != null -> {
                     date.text = version.begin + "\n" + "-" + "\n" + version.end
                 }
+                else -> {
+                    date.text = ""
+                }
             }
-
-//            if(version.groupTitle.isNullOrEmpty()){
-//                group.text = ""
-//            } else
-            group.text = version.groupTitle
 
             priority.visibility = if (
                 version.priority

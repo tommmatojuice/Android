@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -98,11 +97,10 @@ class AddFixedTask()  : Fragment(), DatePickerDialog.OnDateSetListener
     private fun saveTask(view: View)
     {
         val taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "fixed") }
-        val group: Int?
 
-        if(arguments?.getInt("group") == 0)
-            group = null
-        else group = arguments?.getInt("group")
+        val group: Int? = if(arguments?.getInt("group") == 0)
+            null
+        else arguments?.getInt("group")
 
         if (view.begin_work_time.text.isNotEmpty() && view.end_work_time.text.isNotEmpty()){
             val date1 = LocalTime.parse(view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))

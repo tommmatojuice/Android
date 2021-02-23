@@ -60,6 +60,7 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
     private fun addTask(view: View)
     {
         val bundle = Bundle().apply { putString("type", type) }.apply { putString("category", category) }
+        arguments?.getString("choice")?.let { Log.d("@@@@@@@@@@@@@@@@@", it) }
         when(type){
             "one_time" -> {
                 if(category == "work")
