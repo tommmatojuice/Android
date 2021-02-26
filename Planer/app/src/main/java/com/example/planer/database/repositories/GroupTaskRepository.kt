@@ -11,17 +11,23 @@ import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
 import kotlinx.coroutines.CoroutineScope
 
-class GroupTaskRepository(context: Context, scope: CoroutineScope, category: String, type: String)
+class GroupTaskRepository(context: Context, scope: CoroutineScope)
 {
     private val groupeDao: GroupTaskDao
     val allGroupe: LiveData<List<GroupTask>>
-    val tasksWithGroup: LiveData<List<GroupAndAllTasks>>
+//    val tasksWithGroup: LiveData<List<GroupAndAllTasks>>
+    val lastGroup: LiveData<GroupTask>
 
     init {
         val database: MyDataBase = MyDataBase.getDatabase(context, scope)
         groupeDao = database.groupTaskDao()
         allGroupe = groupeDao.allGroups()
-        tasksWithGroup = groupeDao.tasksWithGroup(category, type)
+//        tasksWithGroup = groupeDao.tasksWithGroup(category, type)
+        lastGroup = groupeDao.getLastGroup()
+    }
+
+    fun tasksWithGroup(category: String, type: String): LiveData<List<GroupAndAllTasks>> {
+        return groupeDao.tasksWithGroup(category, type)
     }
 
     fun insert(group: GroupTask){

@@ -7,24 +7,24 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.planer.R
+import com.example.planer.database.viewModel.TaskViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_tasks.view.*
 
 
-class TasksFragment : Fragment() {
-
-    private lateinit var tasksViewModel: TasksViewModel
-
+class TasksFragment : Fragment()
+{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_tasks, container, false)
-        tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
 
         initUI()
         initButtons(view)
@@ -36,7 +36,6 @@ class TasksFragment : Fragment() {
         val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
         navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
         (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
-//        (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Задачи" + "</font>"))
     }
 
     private fun initButtons(view: View)

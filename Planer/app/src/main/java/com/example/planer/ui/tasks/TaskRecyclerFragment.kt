@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.planer.R
 import com.example.planer.adapters.TaskRecyclerAdapter
+import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.ToastMessages
@@ -19,15 +21,13 @@ import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
 
 class TaskRecyclerFragment(private var type: String, private var category: String) : Fragment(), TaskRecyclerAdapter.OnItemClickListener
 {
-    private lateinit var taskViewModel: TaskViewModel
+    private val taskViewModel: TaskViewModel by viewModels()
+    private var tasks: List<TaskAndGroup>? = null
+    private var allTasks: List<Task>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
-
-        taskViewModel = activity?.application?.let { TaskViewModel(it, category, type) }!!
-
-        val tasks = taskViewModel.taskAndGroup.value
 
         val adapter = this.context?.let { TaskRecyclerAdapter(it, tasks, this, category) }
         val list = view.task_recycler_view
@@ -39,28 +39,41 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
 
         val buttonAddItem: FloatingActionButton = view.button_add_item
         buttonAddItem.setOnClickListener{
-            addTask(view)
+            addTask(view, null)
         }
 
-        taskViewModel.taskAndGroup.observe(
+        taskViewModel.taskAndGroup(category, type).observe(
                 viewLifecycleOwner, { tasks ->
                 if (tasks != null) {
+                    this.tasks = tasks
                     adapter?.setTasks(tasks)
                     list.adapter = adapter
                 }
             }
         )
+
+        taskViewModel.allTasks.observe(
+                viewLifecycleOwner, { tasks ->
+            if (tasks != null) {
+                this.allTasks = tasks
+                Log.d("allTasks", this.allTasks!!.size.toString())
+            }
+        }
+        )
+
         return view
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val task = allTasks?.find { task -> task.task_id == tasks?.get(position)?.task_id!! }
+        view?.let { addTask(it, task) }
     }
 
-    private fun addTask(view: View)
+    private fun addTask(view: View, task: Task?)
     {
-        val bundle = Bundle().apply { putString("type", type) }.apply { putString("category", category) }
-        arguments?.getString("choice")?.let { Log.d("@@@@@@@@@@@@@@@@@", it) }
+        val bundle = Bundle().apply { putString("type", type) }
+                .apply { putString("category", category) }
+                .apply { putSerializable("task", task) }
         when(type){
             "one_time" -> {
                 if(category == "work")

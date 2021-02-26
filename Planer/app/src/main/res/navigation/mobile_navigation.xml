@@ -59,13 +59,18 @@
         tools:layout="@layout/fragment_all_tasks" >
         <action
             android:id="@+id/action_all_tasks_to_add_routine_task"
-            app:destination="@id/add_routine_task" />
+            app:destination="@id/add_routine_task"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_all_tasks_to_add_one_time_other_task"
             app:destination="@id/add_one_time_other_task" />
         <action
             android:id="@+id/action_all_tasks_to_add_fixed_task2"
-            app:destination="@id/add_fixed_task" />
+            app:destination="@id/add_fixed_task"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_all_tasks_to_add_one_time_work_task"
+            app:destination="@id/add_one_time_work_task" />
     </fragment>
 
     <fragment

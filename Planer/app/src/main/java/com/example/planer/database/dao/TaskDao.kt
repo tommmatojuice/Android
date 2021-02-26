@@ -21,14 +21,20 @@ interface TaskDao {
     @Query("SELECT * FROM task_table")
     fun allTasks(): LiveData<List<Task>>
 
+    @Query("SELECT * FROM task_table WHERE task_id = :id")
+    fun taskById(id: Int): LiveData<Task>
+
 //    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title FROM task_table, group_task_table WHERE `group` = group_task_id")
 //    fun taskAndGroup(): LiveData<List<TaskAndGroup>>
 
 //    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type ORDER BY deadline, priority DESC")
 //    fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>>
 
-    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type UNION SELECT task_id, task_table.title, deadline, null as groupTitle, priority, date, `begin`, `end` FROM task_table WHERE category = :category AND type = :type ORDER BY deadline, priority DESC")
+    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type AND task_table.title != \"\" UNION SELECT task_id, task_table.title, deadline, null as groupTitle, priority, date, `begin`, `end` FROM task_table WHERE `group` is null AND category = :category AND type = :type AND task_table.title != \"\" ORDER BY deadline, priority DESC")
     fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>>
+
+    @Query("SELECT task_id, task_table.title, deadline, \"\" as groupTitle, priority, date, `begin`, `end` FROM task_table WHERE `group` = :idGroup AND task_table.title != \"\"  ORDER BY deadline, priority DESC")
+    fun taskByGroup(idGroup: Int): LiveData<List<TaskAndGroup>>
 
     @Query("SELECT * FROM task_table WHERE category = :category AND type = :type ORDER BY deadline DESC")
     fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>>

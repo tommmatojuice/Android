@@ -20,7 +20,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class GroupTasksRecyclerAdapter(private val context: Context,
-                                private var taskList: List<Task>,
+                                private var taskList: List<Task>?,
                                 private val listener: OnItemClickListener
 ): RecyclerView.Adapter<GroupTasksRecyclerAdapter.ViewHolder>()
 {

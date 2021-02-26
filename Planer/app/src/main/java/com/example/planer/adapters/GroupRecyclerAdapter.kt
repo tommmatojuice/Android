@@ -50,22 +50,20 @@ class GroupRecyclerAdapter(context: Context,
 
         fun bind(version: GroupAndAllTasks)
         {
-            if(version.tasks.isNotEmpty()){
-                when(version.tasks[0].category){
-                    "rest" -> {
-                        card.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#26C281"))
-                        rec?.setImageResource(R.drawable.rec_green)
-                        rec2?.setImageResource(R.drawable.rec2_green)
-                    }
-                    "other" -> {
-                        card.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#F89406"))
-                        rec?.setImageResource(R.drawable.rec_orange)
-                        rec2?.setImageResource(R.drawable.rec2_orange)
-                    }
+            when(version.tasks[0].category){
+                "rest" -> {
+                    card.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#26C281"))
+                    rec?.setImageResource(R.drawable.rec_green)
+                    rec2?.setImageResource(R.drawable.rec2_green)
+                }
+                "other" -> {
+                    card.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#F89406"))
+                    rec?.setImageResource(R.drawable.rec_orange)
+                    rec2?.setImageResource(R.drawable.rec2_orange)
                 }
             }
             title.text = version.group.title
-            count.text = version.tasks.size.toString()
+            count.text = (version.tasks.size - 1).toString()
         }
 
         init {

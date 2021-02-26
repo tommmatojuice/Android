@@ -12,6 +12,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.example.planer.R
 import com.example.planer.database.entity.Task
@@ -26,15 +28,29 @@ import java.util.*
 
 class AddFixedTask()  : Fragment(), DatePickerDialog.OnDateSetListener
 {
+    private val taskViewModel: TaskViewModel by viewModels()
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
+        val task = arguments?.getSerializable("task") as Task?
 
         initUI(view)
-        initButtons(view)
+        initButtons(view, task)
+        initTask(view, task)
 
         return view
+    }
+
+    private fun initTask(view: View, task: Task?){
+        if(task != null) {
+            view.task_title.setText(task.title)
+            view.task_description.setText(task.description)
+            view.begin_work_time.text = task.begin
+            view.end_work_time.text = task.end
+            view.date.text = task.date
+        }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -42,10 +58,10 @@ class AddFixedTask()  : Fragment(), DatePickerDialog.OnDateSetListener
     {
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }
         when(arguments?.getString("category")){
-            "rest" ->{
+            "rest" -> {
                 color = this.context?.let { ContextCompat.getColor(it, R.color.dark_green) }!!
             }
-            "other" ->{
+            "other" -> {
                 color = this.context?.let { ContextCompat.getColor(it, R.color.dark_orange) }!!
             }
         }
@@ -57,10 +73,10 @@ class AddFixedTask()  : Fragment(), DatePickerDialog.OnDateSetListener
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun initButtons(view: View)
+    private fun initButtons(view: View, task: Task?)
     {
         view.save_button.setOnClickListener {
-            saveTask(view)
+            saveTask(view, task)
         }
 
         view.begin_work_button.setOnClickListener {
@@ -89,15 +105,19 @@ class AddFixedTask()  : Fragment(), DatePickerDialog.OnDateSetListener
     {
         val newMonth = month+1
         if(newMonth < 10){
-            view?.date?.text = "$year-0$newMonth-$day"
-        } else view?.date?.text = "$year-$newMonth-$day"
+            if (day < 10){
+                view?.date?.text = "$year-0$newMonth-0$day"
+            } else view?.date?.text = "$year-0$newMonth-$day"
+        } else {
+            if (day < 10){
+                view?.date?.text = "$year-$newMonth-0$day"
+            } else view?.date?.text = "$year-$newMonth-$day"
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveTask(view: View)
+    private fun saveTask(view: View, task: Task?)
     {
-        val taskViewModel = activity?.application?.let { TaskViewModel(it, "work", "fixed") }
-
         val group: Int? = if(arguments?.getInt("group") == 0)
             null
         else arguments?.getInt("group")
@@ -110,8 +130,17 @@ class AddFixedTask()  : Fragment(), DatePickerDialog.OnDateSetListener
                 if(date1 > date2 || date1 == date2){
                     this.context?.let { ToastMessages.showMessage(it, "Неверно введено время начала или окончания") }
                 } else {
-                    if (view.date.text.isNotEmpty()){
-                            taskViewModel?.insert(Task(
+                    if (view.date.text.isNotEmpty())
+                    {
+                        if(task != null){
+                            task.title = view.task_title.text.toString()
+                            task.description = view.task_description.text.toString()
+                            task.date = view.date.text.toString()
+                            task.begin = view.begin_work_time.text.toString()
+                            task.end = view.end_work_time.text.toString()
+                            task.let { taskViewModel.update(it) }
+                        } else {
+                            taskViewModel.insert(Task(
                                     "fixed",
                                     view.task_title.text.toString(),
                                     view.task_description.text.toString(),
@@ -131,10 +160,20 @@ class AddFixedTask()  : Fragment(), DatePickerDialog.OnDateSetListener
                                     view.begin_work_time.text.toString(),
                                     view.end_work_time.text.toString(),
                                     group
-                                )
                             )
-                        arguments?.putString("choice", "all")
-                        Navigation.findNavController(view).navigate(R.id.all_tasks, arguments)
+                            )
+                        }
+
+                        val navBuilder = NavOptions.Builder()
+                        if (group == null) {
+                            arguments?.putString("choice", "all")
+                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                            Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                        } else {
+                            arguments?.putString("choice", "groups")
+                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                            Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                        }
                     } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести дату события") }
                 }
             } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести название") }

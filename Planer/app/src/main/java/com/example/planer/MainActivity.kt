@@ -2,9 +2,12 @@ package com.example.planer
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,19 +27,16 @@ class MainActivity : AppCompatActivity()
     private val SIMPLE_FRAGMENT_TAG = "myFragmentTag"
     private var myFragment: Fragment? = null
 
-//    private val groupViewModel: GroupViewModel by viewModels()
-    private lateinit var taskViewModel: TaskViewModel
-    private lateinit var groupViewModel: GroupViewModel
+    private val groupViewModel: GroupViewModel by viewModels()
+    private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        taskViewModel = TaskViewModel(this.application, "", "")
-        groupViewModel = GroupViewModel(this.application, "", "")
 
-        groupViewModel.insert(GroupTask("groupTitle1"))
+//        groupViewModel.insert(GroupTask("groupTitle1"))
 //        groupViewModel.insert(GroupTask("groupTitle2"))
 //        groupViewModel.insert(GroupTask("groupTitle3"))
 //        groupViewModel.insert(GroupTask("groupTitle4"))
@@ -62,21 +62,21 @@ class MainActivity : AppCompatActivity()
 //            true, false, null, null, null, 3)
 //        )
 //
-        taskViewModel.insert(
-            Task("fixed", "taskTitle4", "Description1", "work", null,
-            30, 1,true, true, false, true, false, false,
-            true, false, "2020-03-21", null, null, 1)
-        )
-        taskViewModel.insert(
-            Task("fixed", "taskTitle5", "Description1", "rest", null,
-            30, 1,true, true, false, true, false, false,
-            true, true, "2020-03-21", null, null, null)
-        )
-        taskViewModel.insert(
-            Task("fixed", "taskTitle6", "Description1", "other", null,
-            30, 1,true, true, false, true, false, false,
-            true, false, "2020-03-21", null, null, null)
-        )
+//        taskViewModel.insert(
+//            Task("fixed", "taskTitle4", "Description1", "work", null,
+//            30, 1,true, true, false, true, false, false,
+//            true, false, "2020-03-21", null, null, 1)
+//        )
+//        taskViewModel.insert(
+//            Task("fixed", "taskTitle5", "Description1", "rest", null,
+//            30, 1,true, true, false, true, false, false,
+//            true, true, "2020-03-21", null, null, null)
+//        )
+//        taskViewModel.insert(
+//            Task("fixed", "taskTitle6", "Description1", "other", null,
+//            30, 1,true, true, false, true, false, false,
+//            true, false, "2020-03-21", null, null, null)
+//        )
 //
 //        taskViewModel.insert(
 //            Task("routine", "taskTitle7", "Description1", "work", null,

@@ -42,11 +42,8 @@ class TasksTypesFragment : Fragment()
         (activity as AppCompatActivity).supportActionBar?.title = "Разовые задачи"
         when(arguments?.getString("type")){
             "one_time" -> (activity as AppCompatActivity).supportActionBar?.title = "Разовые задачи"
-//            "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Разовые задачи" + "</font>"))
             "fixed" -> (activity as AppCompatActivity).supportActionBar?.title = "Фиксированные задачи"
-//            "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Фиксированные задачи" + "</font>"))
             "routine" -> (activity as AppCompatActivity).supportActionBar?.title = "Регулярные задачи"
-//            "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Регулярные задачи" + "</font>"))
         }
     }
 }

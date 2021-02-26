@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.example.planer.R
 import com.example.planer.database.entity.Task
@@ -36,16 +38,47 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 
-class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekBar.OnSeekBarChangeListener  {
+class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekBar.OnSeekBarChangeListener
+{
+    private val taskViewModel: TaskViewModel by viewModels()
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_add_one_time_work_task, container, false)
+        val task = arguments?.getSerializable("task") as Task?
 
         initUI(view)
-        initButtons(view)
+        initButtons(view, task)
+        initTask(view, task)
 
         return view
+    }
+
+    @SuppressLint("NewApi", "SetTextI18n")
+    private fun initTask(view: View, task: Task?){
+        if(task != null) {
+            val hours: String = if(task.duration?.div(60)!! < 10)
+                "0" + task.duration?.div(60)
+            else "0" + task.duration?.div(60)
+            val minutes: String = if(task.duration?.rem(60)!! < 10)
+                "0" + task.duration?.rem(60)
+            else "0" + task.duration?.rem(60)
+
+            view.task_title.setText(task.title)
+            view.task_description.setText(task.description)
+            view.work_time.text = "$hours:$minutes"
+            view.count.text = task.complexity.toString()
+            view.deadline.text = task.deadline
+            task.complexity?.let { view.difficulty.setProgress(it, false) }
+            view.checkBoxMon.isChecked = task.monday!!
+            view.checkBoxTue.isChecked = task.tuesday!!
+            view.checkBoxWed.isChecked = task.wednesday!!
+            view.checkBoxThu.isChecked = task.thursday!!
+            view.checkBoxFri.isChecked = task.friday!!
+            view.checkBoxSat.isChecked = task.saturday!!
+            view.checkBoxSun.isChecked = task.sunday!!
+        }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -67,10 +100,10 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun initButtons(view: View)
+    private fun initButtons(view: View, task: Task?)
     {
         view.save_button.setOnClickListener {
-            saveTask(view)
+            saveTask(view, task)
         }
 
         view.work_button.setOnClickListener {
@@ -97,14 +130,19 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
     {
         val newMonth = month+1
         if(newMonth < 10){
-            view?.deadline?.text = "$year-0$newMonth-$day"
-        } else view?.deadline?.text = "$year-$newMonth-$day"
+            if (day < 10){
+                view?.deadline?.text = "$year-0$newMonth-0$day"
+            } else view?.deadline?.text = "$year-0$newMonth-$day"
+        } else {
+            if (day < 10){
+                view?.deadline?.text = "$year-$newMonth-0$day"
+            } else view?.deadline?.text = "$year-$newMonth-$day"
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveTask(view: View)
+    private fun saveTask(view: View, task: Task?)
     {
-        val taskViewModel = activity?.application?.let { TaskViewModel(it, "", "") }
         val time = LocalTime.parse(view.work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
         val group: Int? = if(arguments?.getInt("group") == 0)
@@ -116,30 +154,55 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
                     if (view.deadline.text.isNotEmpty()){
                         if (!view.checkBoxMon.isChecked || !view.checkBoxTue.isChecked || !view.checkBoxWed.isChecked || !view.checkBoxThu.isChecked ||
                                 !view.checkBoxFri.isChecked || !view.checkBoxSat.isChecked || !view.checkBoxSun.isChecked) {
-                            taskViewModel?.insert(Task(
-                                    "one_time",
-                                    view.task_title.text.toString(),
-                                    view.task_description.text.toString(),
-                                    arguments?.getString("category").toString(),
-                                    view.deadline.text.toString(),
-                                    time.hour*60 + time.minute,
-                                    view.count.text.toString().toInt(),
-                                    view.checkBoxMon.isChecked ,
-                                    view.checkBoxTue.isChecked ,
-                                    view.checkBoxWed.isChecked ,
-                                    view.checkBoxThu.isChecked ,
-                                    view.checkBoxFri.isChecked ,
-                                    view.checkBoxSat.isChecked ,
-                                    view.checkBoxSun.isChecked ,
-                                    false,
-                                    null,
-                                    null,
-                                    null,
-                                    group
-                            )
-                            )
-                            arguments?.putString("choice", "all")
-                            Navigation.findNavController(view).navigate(R.id.all_tasks, arguments)
+                            if(task != null){
+                                task.title = view.task_title.text.toString()
+                                task.description = view.task_description.text.toString()
+                                task.duration = time.hour*60 + time.minute
+                                task.complexity = view.count.text.toString().toInt()
+                                task.deadline = view.deadline.text.toString()
+                                task.monday =view.checkBoxMon.isChecked
+                                task.tuesday =view.checkBoxTue.isChecked
+                                task.wednesday = view.checkBoxWed.isChecked
+                                task.thursday = view.checkBoxThu.isChecked
+                                task.friday = view.checkBoxFri.isChecked
+                                task.saturday = view.checkBoxSat.isChecked
+                                task.sunday = view.checkBoxSun.isChecked
+                                task.let { taskViewModel.update(it) }
+                            } else {
+                                taskViewModel.insert(Task(
+                                        "one_time",
+                                        view.task_title.text.toString(),
+                                        view.task_description.text.toString(),
+                                        arguments?.getString("category").toString(),
+                                        view.deadline.text.toString(),
+                                        time.hour*60 + time.minute,
+                                        view.count.text.toString().toInt(),
+                                        view.checkBoxMon.isChecked ,
+                                        view.checkBoxTue.isChecked ,
+                                        view.checkBoxWed.isChecked ,
+                                        view.checkBoxThu.isChecked ,
+                                        view.checkBoxFri.isChecked ,
+                                        view.checkBoxSat.isChecked ,
+                                        view.checkBoxSun.isChecked ,
+                                        false,
+                                        null,
+                                        null,
+                                        null,
+                                        group
+                                )
+                                )
+                            }
+
+                            val navBuilder = NavOptions.Builder()
+                            if (group == null) {
+                                arguments?.putString("choice", "all")
+                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                                Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                            } else {
+                                arguments?.putString("choice", "groups")
+                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                                Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                            }
                         } else this.context?.let { ToastMessages.showMessage(it, "Необходимо выбрать хотя бы один день недели") }
                     } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести дедлайн") }
             } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести время выполнения") }
