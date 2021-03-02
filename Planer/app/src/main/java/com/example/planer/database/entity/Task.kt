@@ -12,7 +12,8 @@ import java.util.*
                 ForeignKey(entity = GroupTask::class,
                         parentColumns = arrayOf("group_task_id"),
                         childColumns = arrayOf("group"),
-                        onUpdate = ForeignKey.CASCADE
+                        onUpdate = ForeignKey.CASCADE,
+                        onDelete = ForeignKey.CASCADE
                 )
         )
 )

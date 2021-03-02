@@ -15,7 +15,18 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
     private val repository = TaskRepository(application.applicationContext, viewModelScope)
 
     val allTasks = repository.allTasks
-//    val taskAndGroup = repository.taskAndGroup
+    val lastTask = repository.lastTask
+    val routineMon = repository.routineMon
+    val routineTue = repository.routineTue
+    val routineWen = repository.routineWen
+    val routineThu = repository.routineThu
+    val routineFri = repository.routineFri
+    val routineSat = repository.routineSat
+    val routineSun = repository.routineSun
+
+    fun fixedTasksByDate(date: String): LiveData<List<Task>> {
+        return repository.fixedTasksByDate(date)
+    }
 
     fun taskById(id: Int): LiveData<Task> {
         return repository.taskById(id)

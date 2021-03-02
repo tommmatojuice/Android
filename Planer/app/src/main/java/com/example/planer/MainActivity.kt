@@ -1,11 +1,13 @@
 package com.example.planer
 
+import android.app.DownloadManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,12 +16,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.planer.database.entity.GroupTask
+import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.GroupViewModel
+import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.first_come.PutName
 import com.example.planer.util.MySharePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity.DOWNLOAD_SERVICE as DOWNLOAD_SERVICE1
+import androidx.appcompat.app.AppCompatActivity.DOWNLOAD_SERVICE as DOWNLOAD_SERVICE1
+import androidx.appcompat.app.AppCompatActivity.DOWNLOAD_SERVICE as DOWNLOAD_SERVICE1
 
 class MainActivity : AppCompatActivity()
 {
@@ -29,11 +36,20 @@ class MainActivity : AppCompatActivity()
 
     private val groupViewModel: GroupViewModel by viewModels()
     private val taskViewModel: TaskViewModel by viewModels()
+    private val pathViewModel: PathViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        taskViewModel.insert(
+//            Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
+//            30, 1,true, true, false, true, false, false,
+//            true, false, null, null, null, null)
+//        )
+//
+//        pathViewModel.insert(PathToFile("jhjfgfg", 1) )
 
 
 //        groupViewModel.insert(GroupTask("groupTitle1"))

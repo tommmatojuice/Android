@@ -12,13 +12,31 @@ class TaskRepository(context: Context, scope: CoroutineScope)
 {
     private val taskDao: TaskDao
     val allTasks: LiveData<List<Task>>
-//    val taskAndGroup: LiveData<List<TaskAndGroup>>
+    val lastTask: LiveData<Task>
+    val routineMon: LiveData<List<Task>>
+    val routineTue: LiveData<List<Task>>
+    val routineWen: LiveData<List<Task>>
+    val routineThu: LiveData<List<Task>>
+    val routineFri: LiveData<List<Task>>
+    val routineSat: LiveData<List<Task>>
+    val routineSun: LiveData<List<Task>>
 
     init {
         val database: MyDataBase = MyDataBase.getDatabase(context, scope)
         taskDao = database.taskDao()
         allTasks = taskDao.allTasks()
-//        taskAndGroup = taskDao.taskAndGroup(category, type)
+        lastTask = taskDao.getLastTask()
+        routineMon = taskDao.routineMon()
+        routineTue = taskDao.routineTue()
+        routineWen = taskDao.routineWen()
+        routineThu = taskDao.routineThu()
+        routineFri = taskDao.routineFri()
+        routineSat = taskDao.routineSat()
+        routineSun = taskDao.routineSun()
+    }
+
+    fun fixedTasksByDate(date: String): LiveData<List<Task>> {
+        return taskDao.fixedTasksByDate(date)
     }
 
     fun taskById(id: Int): LiveData<Task> {

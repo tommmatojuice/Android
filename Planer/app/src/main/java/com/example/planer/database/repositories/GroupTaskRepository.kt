@@ -15,14 +15,12 @@ class GroupTaskRepository(context: Context, scope: CoroutineScope)
 {
     private val groupeDao: GroupTaskDao
     val allGroupe: LiveData<List<GroupTask>>
-//    val tasksWithGroup: LiveData<List<GroupAndAllTasks>>
     val lastGroup: LiveData<GroupTask>
 
     init {
         val database: MyDataBase = MyDataBase.getDatabase(context, scope)
         groupeDao = database.groupTaskDao()
         allGroupe = groupeDao.allGroups()
-//        tasksWithGroup = groupeDao.tasksWithGroup(category, type)
         lastGroup = groupeDao.getLastGroup()
     }
 

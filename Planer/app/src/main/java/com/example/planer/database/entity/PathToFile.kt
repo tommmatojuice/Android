@@ -10,7 +10,8 @@ import java.io.Serializable
             ForeignKey(entity = Task::class,
                 parentColumns = arrayOf("task_id"),
                 childColumns = arrayOf("task"),
-                onUpdate = ForeignKey.CASCADE
+                onUpdate = ForeignKey.CASCADE,
+                onDelete = ForeignKey.CASCADE
             )
         )
 )

@@ -63,4 +63,5 @@
     <string name="routine_task">Регулярные задачи</string>
     <string name="all_tasks">Все задачи</string>
     <string name="group_tasks">Составные задачи</string>
+    <string name="files">Файлы</string>
 </resources>

@@ -20,6 +20,10 @@ class PathToFileRepository(context: Context, scope: CoroutineScope)
         allPaths = pathDao.allPaths()
     }
 
+    fun pathsById(id: Int): LiveData<List<PathToFile>> {
+        return pathDao.pathsById(id)
+    }
+
     fun insert(path: PathToFile){
         pathDao.insert(path)
     }

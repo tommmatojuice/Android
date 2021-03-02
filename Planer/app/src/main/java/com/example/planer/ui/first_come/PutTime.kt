@@ -31,6 +31,9 @@ class PutTime : Fragment()
             view.breakfast_time.text = savedInstanceState.getString("breakfastTime")
             view.lunch_time.text = savedInstanceState.getString("lunchTime")
             view.diner_time.text = savedInstanceState.getString("dinerTime")
+            view.breakfast_end_time.text = savedInstanceState.getString("breakfastTimeEnd")
+            view.lunch_end_time.text = savedInstanceState.getString("lunchTimeEnd")
+            view.diner_end_time.text = savedInstanceState.getString("dinerTimeEnd")
         }
 
         initButtons(view)
@@ -45,6 +48,9 @@ class PutTime : Fragment()
         outState.putString("breakfastTime", breakfast_time.text.toString())
         outState.putString("lunchTime", lunch_time.text.toString())
         outState.putString("dinerTime", diner_time.text.toString())
+        outState.putString("breakfastTimeEnd", breakfast_end_time.text.toString())
+        outState.putString("lunchTimeEnd", lunch_end_time.text.toString())
+        outState.putString("dinerTimeEnd", diner_end_time.text.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
@@ -124,6 +130,33 @@ class PutTime : Fragment()
             }
         }
 
+        view.breakfast_end_buttom.setOnClickListener {
+            this.context?.let { it1 ->
+                TimeDialog.getTime(
+                        view.findViewById<TextView>(R.id.breakfast_end_time),
+                        it1
+                )
+            }
+        }
+
+        view.lunch_end_buttom.setOnClickListener {
+            this.context?.let { it1 ->
+                TimeDialog.getTime(
+                        view.findViewById<TextView>(R.id.lunch_end_time),
+                        it1
+                )
+            }
+        }
+
+        view.diner_end_buttom.setOnClickListener {
+            this.context?.let { it1 ->
+                TimeDialog.getTime(
+                        view.findViewById<TextView>(R.id.diner_end_time),
+                        it1
+                )
+            }
+        }
+
         view.next2_button.setOnClickListener {
             val checkSet: Set<String> = setOf(view.wakeup_time.text, view.bad_time.text, view.breakfast_time.text, view.lunch_time.text, view.diner_time.text) as Set<String>
             if(checkSet.size == 5){
@@ -132,6 +165,9 @@ class PutTime : Fragment()
                 mySharePreferences.setBreakfast(view.breakfast_time.text.toString())
                 mySharePreferences.setLunch(view.lunch_time.text.toString())
                 mySharePreferences.setDiner(view.diner_time.text.toString())
+                mySharePreferences.setBreakfastEnd(view.breakfast_end_time.text.toString())
+                mySharePreferences.setLunchEnd(view.lunch_end_time.text.toString())
+                mySharePreferences.setDinerEnd(view.diner_end_time.text.toString())
 
                 activity?.supportFragmentManager
                     ?.beginTransaction()

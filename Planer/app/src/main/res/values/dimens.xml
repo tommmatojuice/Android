@@ -6,4 +6,6 @@
     <dimen name="h2_text">22sp</dimen>
     <dimen name="h3_text">16sp</dimen>
     <dimen name="h4_text">20sp</dimen>
+    <dimen name="days_margin">45dp</dimen>
+    <dimen name="days_margin_2">40dp</dimen>
 </resources>

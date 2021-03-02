@@ -21,6 +21,9 @@ class MySharePreferences(context: Context) {
         const val BREAKFAST: String = "BREAKFAST"
         const val LUNCH: String = "LUNCH"
         const val DINER: String = "DINER"
+        const val BREAKFAST_END: String = "BREAKFAST_END"
+        const val LUNCH_END: String = "LUNCH_END"
+        const val DINER_END: String = "DINER_END"
         const val MONDAY_BEGIN: String = "MONDAY_BEGIN"
         const val MONDAY_WORK: String = "MONDAY_WORK"
         const val TUESDAY_BEGIN: String = "TUESDAY_BEGIN"
@@ -133,13 +136,31 @@ class MySharePreferences(context: Context) {
         return mySharedPreferences.getString(BREAKFAST, "00:00")
     }
 
+    fun setBreakfastEnd(time: String){
+        myEditor.putString(BREAKFAST_END, time)
+        myEditor.apply()
+    }
+
+    fun getBreakfastEnd(): String? {
+        return mySharedPreferences.getString(BREAKFAST_END, "00:00")
+    }
+
     fun setLunch(time: String){
         myEditor.putString(LUNCH, time)
         myEditor.apply()
     }
 
     fun getLunch(): String? {
-        return mySharedPreferences.getString(LUNCH, "00:00")
+        return mySharedPreferences.getString(LUNCH_END, "00:00")
+    }
+
+    fun setLunchEnd(time: String){
+        myEditor.putString(LUNCH, time)
+        myEditor.apply()
+    }
+
+    fun getLunchEnd(): String? {
+        return mySharedPreferences.getString(LUNCH_END, "00:00")
     }
 
     fun setDiner(time: String){
@@ -149,6 +170,15 @@ class MySharePreferences(context: Context) {
 
     fun getDiner(): String? {
         return mySharedPreferences.getString(DINER, "00:00")
+    }
+
+    fun setDinerEnd(time: String){
+        myEditor.putString(DINER_END, time)
+        myEditor.apply()
+    }
+
+    fun getDinerEnd(): String? {
+        return mySharedPreferences.getString(DINER_END, "00:00")
     }
 
     fun setMondayBegin(time: String){

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <root-path name="my_files" path="." />
+    <root-path path="application/*" name="myimages" />
+    <root-path path="audio/*" name="myimages" />
+    <root-path path="image/*" name="myimages" />
+    <root-path path="text/*" name="myimages" />
+    <root-path path="video/*" name="myimages" />
+    <root-path path="document/*" name="myimages" />
+    <root-path path="storage/" name="myFiles" />
+    <root-path path="*/*" name="myFiles" />
+</paths>

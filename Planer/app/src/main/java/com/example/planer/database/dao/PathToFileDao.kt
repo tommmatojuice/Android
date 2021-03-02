@@ -21,4 +21,7 @@ interface PathToFileDao
 
     @Query("SELECT * FROM path_to_file_table")
     fun allPaths(): LiveData<List<PathToFile>>
+
+    @Query("SELECT * FROM path_to_file_table WHERE task =:id")
+    fun pathsById(id: Int): LiveData<List<PathToFile>>
 }

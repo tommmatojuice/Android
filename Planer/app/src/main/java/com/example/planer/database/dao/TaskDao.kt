@@ -24,11 +24,8 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE task_id = :id")
     fun taskById(id: Int): LiveData<Task>
 
-//    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title FROM task_table, group_task_table WHERE `group` = group_task_id")
-//    fun taskAndGroup(): LiveData<List<TaskAndGroup>>
-
-//    @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type ORDER BY deadline, priority DESC")
-//    fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>>
+    @Query("SELECT * FROM task_table ORDER BY task_id DESC LIMIT 1")
+    fun getLastTask(): LiveData<Task>
 
     @Query("SELECT task_id, task_table.title, deadline, group_task_table.title as groupTitle, priority, date, `begin`, `end` FROM task_table, group_task_table WHERE `group` = group_task_id AND category = :category AND type = :type AND task_table.title != \"\" UNION SELECT task_id, task_table.title, deadline, null as groupTitle, priority, date, `begin`, `end` FROM task_table WHERE `group` is null AND category = :category AND type = :type AND task_table.title != \"\" ORDER BY deadline, priority DESC")
     fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>>
@@ -45,7 +42,27 @@ interface TaskDao {
     @Query("SELECT task_id, title, description, category, monday, tuesday, wednesday, thursday, friday, saturday, sunday, `begin`, `end` FROM task_table WHERE type = \"routine\" AND category = :category ORDER BY deadline DESC")
     fun getRoutineTasks(category: String): LiveData<List<RoutineTask>>
 
-    //    @Transaction
-//    @Query("SELECT * FROM task_table")
-//    fun tasksWithPaths(): LiveData<List<TaskAndAllPaths>>
+    @Query("SELECT * FROM task_table WHERE type=\"fixed\" AND date = :date ORDER BY `begin` DESC")
+    fun fixedTasksByDate(date: String): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE type=\"routine\" AND monday = \"true\" ORDER BY `begin` DESC")
+    fun routineMon(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE type=\"routine\" AND tuesday = \"true\" ORDER BY `begin` DESC")
+    fun routineTue(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE type=\"routine\" AND wednesday = \"true\" ORDER BY `begin` DESC")
+    fun routineWen(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE type=\"routine\" AND thursday = \"true\" ORDER BY `begin` DESC")
+    fun routineThu(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE type=\"routine\" AND friday = \"true\" ORDER BY `begin` DESC")
+    fun routineFri(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE type=\"routine\" AND saturday = \"true\" ORDER BY `begin` DESC")
+    fun routineSat(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE type=\"routine\" AND sunday = \"true\" ORDER BY `begin` DESC")
+    fun routineSun(): LiveData<List<Task>>
 }
