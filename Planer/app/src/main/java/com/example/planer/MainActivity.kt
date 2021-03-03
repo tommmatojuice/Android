@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.entity.Task
@@ -23,6 +24,7 @@ import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.first_come.PutName
 import com.example.planer.util.MySharePreferences
+import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity.DOWNLOAD_SERVICE as DOWNLOAD_SERVICE1
 import androidx.appcompat.app.AppCompatActivity.DOWNLOAD_SERVICE as DOWNLOAD_SERVICE1
@@ -145,7 +147,7 @@ class MainActivity : AppCompatActivity()
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        //initFragments(savedInstanceState)
+        initFragments(savedInstanceState)
     }
 
     private fun initFragments(savedInstanceState: Bundle?)

@@ -35,6 +35,42 @@ class TaskRepository(context: Context, scope: CoroutineScope)
         routineSun = taskDao.routineSun()
     }
 
+    fun oneTimeMon(category: String): LiveData<List<Task>> {
+        return taskDao.oneTimeMon(category)
+    }
+
+    fun oneTimeTue(category: String): LiveData<List<Task>> {
+        return taskDao.oneTimeTue(category)
+    }
+
+    fun oneTimeWen(category: String): LiveData<List<Task>> {
+        return taskDao.oneTimeWen(category)
+    }
+
+    fun oneTimeThu(category: String): LiveData<List<Task>> {
+        return taskDao.oneTimeThu(category)
+    }
+
+    fun oneTimeFri(category: String): LiveData<List<Task>> {
+        return taskDao.oneTimeFri(category)
+    }
+
+    fun oneTimeSat(category: String): LiveData<List<Task>> {
+        return taskDao.oneTimeSat(category)
+    }
+
+    fun oneTimeSun(category: String): LiveData<List<Task>> {
+        return taskDao.oneTimeSun(category)
+    }
+
+    fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>> {
+        return taskDao.oneTimeTasks(category, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+    }
+
+    fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>> {
+        return taskDao.getByCategoryAndType(category, type)
+    }
+
     fun fixedTasksByDate(date: String): LiveData<List<Task>> {
         return taskDao.fixedTasksByDate(date)
     }

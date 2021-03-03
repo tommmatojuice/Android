@@ -44,11 +44,26 @@ class PutPomodoro : Fragment()
             view.findViewById<RadioButton>(checkedId)?.apply {
                 mySharePreferences.setPomodoroWork( text.toString().toInt())
                 when(text.toString().toInt()){
-                    25 -> mySharePreferences.setPomodoroBreak(5)
-                    30 -> mySharePreferences.setPomodoroBreak(5)
-                    40 -> mySharePreferences.setPomodoroBreak(10)
-                    50 -> mySharePreferences.setPomodoroBreak(10)
-                    60 -> mySharePreferences.setPomodoroBreak(10)
+                    25 -> {
+                        mySharePreferences.setPomodoroBreak(5)
+                        mySharePreferences.setPomodoroBigBreak(10)
+                    }
+                    30 -> {
+                        mySharePreferences.setPomodoroBreak(5)
+                        mySharePreferences.setPomodoroBigBreak(10)
+                    }
+                    40 -> {
+                        mySharePreferences.setPomodoroBreak(10)
+                        mySharePreferences.setPomodoroBigBreak(20)
+                    }
+                    50 -> {
+                        mySharePreferences.setPomodoroBreak(10)
+                        mySharePreferences.setPomodoroBigBreak(30)
+                    }
+                    60 -> {
+                        mySharePreferences.setPomodoroBreak(10)
+                        mySharePreferences.setPomodoroBigBreak(30)
+                    }
                 }
             }
         }

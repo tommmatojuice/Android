@@ -24,6 +24,42 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
     val routineSat = repository.routineSat
     val routineSun = repository.routineSun
 
+    fun oneTimeMon(category: String): LiveData<List<Task>> {
+        return repository.oneTimeMon(category)
+    }
+
+    fun oneTimeTue(category: String): LiveData<List<Task>> {
+        return repository.oneTimeTue(category)
+    }
+
+    fun oneTimeWen(category: String): LiveData<List<Task>> {
+        return repository.oneTimeWen(category)
+    }
+
+    fun oneTimeThu(category: String): LiveData<List<Task>> {
+        return repository.oneTimeThu(category)
+    }
+
+    fun oneTimeFri(category: String): LiveData<List<Task>> {
+        return repository.oneTimeFri(category)
+    }
+
+    fun oneTimeSat(category: String): LiveData<List<Task>> {
+        return repository.oneTimeSat(category)
+    }
+
+    fun oneTimeSun(category: String): LiveData<List<Task>> {
+        return repository.oneTimeSun(category)
+    }
+
+    fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>> {
+        return repository.oneTimeTasks(category, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+    }
+
+    fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>> {
+        return repository.getByCategoryAndType(category, type)
+    }
+
     fun fixedTasksByDate(date: String): LiveData<List<Task>> {
         return repository.fixedTasksByDate(date)
     }

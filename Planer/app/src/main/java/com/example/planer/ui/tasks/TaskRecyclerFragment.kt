@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
 class TaskRecyclerFragment(private var type: String, private var category: String) : Fragment(), TaskRecyclerAdapter.OnItemClickListener
 {
     private val taskViewModel: TaskViewModel by viewModels()
-    private val pathViewModel: PathViewModel by viewModels()
     private var tasks: List<TaskAndGroup>? = null
     private var allTasks: List<Task>? = null
 
@@ -61,6 +60,7 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
                 viewLifecycleOwner, { tasks ->
             if (tasks != null) {
                 this.allTasks = tasks
+                Log.d("all_in", this.allTasks!!.size.toString())
             }
         }
         )

@@ -35,6 +35,12 @@ class PlanFragment : Fragment()
         initDays(view)
         initTitle(days[initToday(view)].toString(), view)
 
+        activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.plan_frag, AutoPlan())
+                ?.commit()
+
+
         return view
     }
 
@@ -163,9 +169,13 @@ class PlanFragment : Fragment()
         if(initToday(view) > dayNumber){
             activity?.supportFragmentManager
                     ?.beginTransaction()
-                    ?.replace(R.id.main_frag, PastDaysFragment())
+                    ?.replace(R.id.plan_frag, PastDaysFragment())
                     ?.commit()
         } else {
+//            activity?.supportFragmentManager
+//                    ?.beginTransaction()
+//                    ?.replace(R.id.main_frag, AutoPlan())
+//                    ?.commit()
             //план на день
 
             //        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
@@ -177,4 +187,6 @@ class PlanFragment : Fragment()
 //        }
         }
     }
+
+
 }

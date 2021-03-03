@@ -15,6 +15,7 @@ class MySharePreferences(context: Context) {
         const val PEAK_END: String = "PEAK_END"
         const val POMODORO_WORK: String = "POMODORO_WORK"
         const val POMODORO_BREAK: String = "POMODORO_BREAK"
+        const val POMODORO_BIG_BREAK_F: String = "POMODORO_BIG_BREAK_F"
         const val POMODORO_BIG_BREAK: String = "POMODORO_BIG_BREAK"
         const val WAKEUP: String = "WAKEUP"
         const val SLEEP: String = "SLEEP"
@@ -41,10 +42,20 @@ class MySharePreferences(context: Context) {
         const val AUTO_PLAN: String = "AUTO_PLAN"
         const val THEME: String = "THEME"
         const val AUTO_FINISH_TASK: String = "AUTO_FINISH_TASK"
+        const val PLAN_FOR_DAY: String = "PLAN_FOR_DAY"
     }
 
     private val mySharedPreferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, AppCompatActivity.MODE_PRIVATE)
     private val myEditor: SharedPreferences.Editor = mySharedPreferences.edit()
+
+    fun setPlanForDay(flag: Boolean){
+        myEditor.putBoolean(PLAN_FOR_DAY, flag)
+        myEditor.apply()
+    }
+
+    fun getPlanForDay(): Boolean {
+        return mySharedPreferences.getBoolean(PLAN_FOR_DAY, false)
+    }
 
     fun setAllInfo(flag: Boolean){
         myEditor.putBoolean(ALL_INFO, flag)
@@ -87,7 +98,7 @@ class MySharePreferences(context: Context) {
         myEditor.apply()
     }
 
-    fun getPomodoroWork(): Int? {
+    fun getPomodoroWork(): Int {
         return mySharedPreferences.getInt(POMODORO_WORK, 25)
     }
 
@@ -96,17 +107,26 @@ class MySharePreferences(context: Context) {
         myEditor.apply()
     }
 
-    fun getPomodoroBreak(): Int? {
+    fun getPomodoroBreak(): Int {
         return mySharedPreferences.getInt(POMODORO_BREAK, 5)
     }
 
-    fun setPomodoroBigBreak(flag: Boolean){
-        myEditor.putBoolean(POMODORO_BIG_BREAK, flag)
+    fun setPomodoroBigBreakF(flag: Boolean){
+        myEditor.putBoolean(POMODORO_BIG_BREAK_F, flag)
         myEditor.apply()
     }
 
-    fun getPomodoroBigBreak(): Boolean {
-        return mySharedPreferences.getBoolean(POMODORO_BIG_BREAK, true)
+    fun getPomodoroBigBreakF(): Boolean {
+        return mySharedPreferences.getBoolean(POMODORO_BIG_BREAK_F, true)
+    }
+
+    fun setPomodoroBigBreak(time: Int){
+        myEditor.putInt(POMODORO_BIG_BREAK, time)
+        myEditor.apply()
+    }
+
+    fun getPomodoroBigBreak(): Int {
+        return mySharedPreferences.getInt(POMODORO_BIG_BREAK, 15)
     }
 
     fun setWakeup(time: String){
@@ -151,11 +171,11 @@ class MySharePreferences(context: Context) {
     }
 
     fun getLunch(): String? {
-        return mySharedPreferences.getString(LUNCH_END, "00:00")
+        return mySharedPreferences.getString(LUNCH, "00:00")
     }
 
     fun setLunchEnd(time: String){
-        myEditor.putString(LUNCH, time)
+        myEditor.putString(LUNCH_END, time)
         myEditor.apply()
     }
 

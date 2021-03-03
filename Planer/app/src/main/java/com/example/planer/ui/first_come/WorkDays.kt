@@ -188,7 +188,7 @@ class WorkDays : Fragment()
             }
         }
 
-        view.fri_work_button.setOnClickListener {
+        view.sat_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
                     view.findViewById<TextView>(R.id.sat_work_time),

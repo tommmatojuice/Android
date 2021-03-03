@@ -176,7 +176,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
     <FrameLayout
-        android:id="@+id/main_frag"
+        android:id="@+id/plan_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="200dp"
