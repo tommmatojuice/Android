@@ -63,4 +63,19 @@ dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
+
+    //GSON
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
+}
+configurations {
+    testImplementation {
+        // Globally exclude JUnit, will not be on the testCompileClasspath thus
+        exclude group: 'junit', module: 'junit'
+    }
+}
+dependencies {
+    // Make sure JUnit is on the testRuntimeClasspath
+    testRuntimeOnly("junit:junit:4.12")
 }

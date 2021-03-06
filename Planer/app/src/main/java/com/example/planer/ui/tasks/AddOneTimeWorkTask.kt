@@ -21,6 +21,7 @@ import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
+import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.checkBoxFri
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.checkBoxMon
@@ -152,8 +153,8 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
         if (view.task_title.text.isNotEmpty()){
             if (view.work_time.text.isNotEmpty()){
                     if (view.deadline.text.isNotEmpty()){
-                        if (!view.checkBoxMon.isChecked || !view.checkBoxTue.isChecked || !view.checkBoxWed.isChecked || !view.checkBoxThu.isChecked ||
-                                !view.checkBoxFri.isChecked || !view.checkBoxSat.isChecked || !view.checkBoxSun.isChecked) {
+                        if (view.checkBoxMon.isChecked || view.checkBoxTue.isChecked || view.checkBoxWed.isChecked || view.checkBoxThu.isChecked ||
+                                view.checkBoxFri.isChecked || view.checkBoxSat.isChecked || view.checkBoxSun.isChecked) {
                             if(task != null){
                                 task.title = view.task_title.text.toString()
                                 task.description = view.task_description.text.toString()

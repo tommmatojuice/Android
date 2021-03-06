@@ -65,6 +65,9 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
         }
         )
 
+        Log.d("all", allTasks?.size.toString())
+
+
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
                 return false

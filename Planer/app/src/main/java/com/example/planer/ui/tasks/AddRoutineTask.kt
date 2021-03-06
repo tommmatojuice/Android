@@ -18,6 +18,7 @@ import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
+import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_button
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_time
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.checkBoxFri
@@ -119,8 +120,8 @@ class AddRoutineTask  : Fragment()
                 if(time1 > time2 || time1 == time2){
                     this.context?.let { ToastMessages.showMessage(it, "Неверно введено время начала или окончания") }
                 } else {
-                    if (!view.checkBoxMon.isChecked || !view.checkBoxTue.isChecked || !view.checkBoxWed.isChecked || !view.checkBoxThu.isChecked ||
-                            !view.checkBoxFri.isChecked || !view.checkBoxSat.isChecked || !view.checkBoxSun.isChecked) {
+                    if (view.checkBoxMon.isChecked || view.checkBoxTue.isChecked || view.checkBoxWed.isChecked || view.checkBoxThu.isChecked ||
+                            view.checkBoxFri.isChecked || view.checkBoxSat.isChecked || view.checkBoxSun.isChecked) {
                         if(task != null){
                             task.title = view.task_title.text.toString()
                             task.description = view.task_description.text.toString()

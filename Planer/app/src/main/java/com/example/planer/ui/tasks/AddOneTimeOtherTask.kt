@@ -81,8 +81,8 @@ class AddOneTimeOtherTask  : Fragment()
         else arguments?.getInt("group")
 
         if (view.task_title.text.isNotEmpty()){
-            if (!view.checkBoxMon.isChecked || !view.checkBoxTue.isChecked || !view.checkBoxWed.isChecked || !view.checkBoxThu.isChecked ||
-                    !view.checkBoxFri.isChecked || !view.checkBoxSat.isChecked || !view.checkBoxSun.isChecked){
+            if (view.checkBoxMon.isChecked || view.checkBoxTue.isChecked || view.checkBoxWed.isChecked || view.checkBoxThu.isChecked ||
+                    view.checkBoxFri.isChecked || view.checkBoxSat.isChecked || view.checkBoxSun.isChecked){
                 if(task != null){
                     task.title = view.task_title.text.toString()
                     task.description = view.task_description.text.toString()

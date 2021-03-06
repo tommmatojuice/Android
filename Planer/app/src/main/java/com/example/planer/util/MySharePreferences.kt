@@ -4,6 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
+import com.example.planer.ui.plan.TasksForPlan
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MySharePreferences(context: Context) {
     companion object
@@ -43,10 +48,35 @@ class MySharePreferences(context: Context) {
         const val THEME: String = "THEME"
         const val AUTO_FINISH_TASK: String = "AUTO_FINISH_TASK"
         const val PLAN_FOR_DAY: String = "PLAN_FOR_DAY"
+        const val PLAN: String = "PLAN"
+        const val TODAY: String = "TODAY"
     }
 
     private val mySharedPreferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, AppCompatActivity.MODE_PRIVATE)
     private val myEditor: SharedPreferences.Editor = mySharedPreferences.edit()
+
+    fun setToday(date: String){
+        myEditor.putString(TODAY, date)
+        myEditor.apply()
+    }
+
+    fun getToday(): String? {
+        return mySharedPreferences.getString(TODAY, "2020-10-10")
+    }
+
+    fun setPlan(list:List<TasksForPlan>){
+        val gson = Gson()
+        val json = gson.toJson(list)
+        myEditor.putString(PLAN,json)
+        myEditor.commit()
+    }
+
+    fun getPlan():List<TasksForPlan>?{
+        val gson = Gson()
+        val json = mySharedPreferences.getString(PLAN,null)
+        val type = object : TypeToken<List<TasksForPlan>>(){}.type
+        return gson.fromJson(json,type)
+    }
 
     fun setPlanForDay(flag: Boolean){
         myEditor.putBoolean(PLAN_FOR_DAY, flag)
