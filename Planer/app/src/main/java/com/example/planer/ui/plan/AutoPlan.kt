@@ -53,6 +53,7 @@ class AutoPlan(private val date: String,
     private var workTime: Int = 0
     private var dayNumber: Int = 0
     private lateinit var beginTime: LocalTime
+    private var countOfFullTasks = 0
 
     private var intervals: MutableList<TasksForPlan>? = mutableListOf()
     private var pomodoros: MutableList<TasksForPlan>? = mutableListOf()
@@ -461,14 +462,18 @@ class AutoPlan(private val date: String,
             intervals?.add(TasksForPlan(tasks.last().end, time, rest, null))
         }
 
+        Log.d("intervalsLast", intervals!!.last().end.toString())
+        Log.d("intervalsLastSleep", sleep.toString())
         if(!intervals.isNullOrEmpty()){
             if(sleep.hour < intervals?.last()?.end?.hour as Int){
-                    while(((intervals!!.last().end.hour*60 + intervals!!.last().end.minute) - (sleep.hour*60 + sleep.minute)) < 60){
-                        intervals!!.removeLast()
-                    }
-            } else {
-                while(((sleep.hour*60 + sleep.minute) - (intervals!!.last().end.hour*60 + intervals!!.last().end.minute)) < 60){
+                while(((intervals!!.last().end.hour*60 + intervals!!.last().end.minute) - (sleep.hour*60 + sleep.minute)) < 60){
                     intervals!!.removeLast()
+                }
+            } else {
+                while(intervals!!.isNotEmpty() && ((sleep.hour*60 + sleep.minute) - (intervals!!.last().end.hour*60 + intervals!!.last().end.minute)) < 60){
+                    if(sleep.hour > intervals?.last()?.end?.hour as Int)
+                        intervals!!.removeLast()
+                    else break
                 }
             }
 
@@ -488,6 +493,8 @@ class AutoPlan(private val date: String,
 
 
         intervals?.forEach {
+            val time = it.end.minusHours(it.begin.hour.toLong()).minusMinutes(it.begin.minute.toLong())
+            it.time = time.minute + time.hour*60
             Log.d("intervals", "${it.begin}/${it.end}")
             Log.d("intervals", it.time.toString())
         }
@@ -520,7 +527,9 @@ class AutoPlan(private val date: String,
                             }
                         }
                     } else {
-                        pomodoros?.removeLast()
+                        if(minutes != 0){
+                            pomodoros?.removeLast()
+                        }
                     }
                 }
             }
@@ -559,14 +568,19 @@ class AutoPlan(private val date: String,
                 Log.d("daysBetweenDates-${it.title}", daysBetweenDates.toString())
 
                 val leftWorkDays = calculateWorkDays(daysBetweenDates, it)
-                workDays = calculateWorkDays(daysBeforeDeadline, it) - 1
+                workDays = calculateWorkDays(daysBeforeDeadline, it)
 
                 pomodoros = if(it.duration?.rem(mySharePreferences.getPomodoroWork()) == 0)
                     it.duration?.div(mySharePreferences.getPomodoroWork())
                 else it.duration?.div(mySharePreferences.getPomodoroWork())?.plus(1)
 
                 if (pomodoros != null && workDays != 0) {
-                    pomodorosInDay = if(pomodorosInDay%workDays == 0)
+//                    pomodorosInDay = if(pomodorosInDay%workDays == 0)
+//                        pomodoros/workDays
+//                    else pomodoros/workDays + 1
+                    pomodorosInDay = if(workDays > pomodoros)
+                        1
+                    else if(pomodorosInDay%workDays == 0)
                         pomodoros/workDays
                     else pomodoros/workDays + 1
                 }
@@ -603,7 +617,13 @@ class AutoPlan(private val date: String,
                 Log.d("daysForWork", workDays.toString())
                 if(workDays != 0){
                     if (pomodoros != null && workDays != 0) {
-                        pomodorosInDay = if(pomodorosInDay%workDays == 0)
+//                        pomodorosInDay = if(pomodorosInDay%workDays == 0)
+//                            pomodoros/workDays
+//                        else pomodoros/workDays + 1
+
+                        pomodorosInDay = if(workDays > pomodoros)
+                            1
+                        else if(pomodorosInDay%workDays == 0)
                             pomodoros/workDays
                         else pomodoros/workDays + 1
 
@@ -614,21 +634,28 @@ class AutoPlan(private val date: String,
                             Log.d("count", count.toString())
                             if(count != null && count < pomodoros){
                                 tasks?.add(it)
-                            } else break
+                            } else {
+                                countOfFullTasks++
+                                break
+                            }
 //                            {
 //                                tasks?.add(null)
 //                            }
                         }
                     }
-                }
-            } else tasks?.add(null)
+                } else countOfFullTasks++
+            } else countOfFullTasks++
+            //else tasks?.add(null)
         }
+
+        Log.d("countOfFullTasks", countOfFullTasks.toString())
         Log.d("pomodoros_size3", pomodoros?.size.toString())
         Log.d("tasks_size3", tasks?.size.toString())
         if(pomodoros != null && tasks != null){
             if(oneTimeTasks.isNullOrEmpty()){
                 pomodoros?.removeIf { task -> task.task == null }
-            } else if (pomodoros?.size!! > tasks?.size!!) {
+            } else if (pomodoros?.size!! > tasks?.size!! && countOfFullTasks < oneTimeTasks!!.size) {
+                countOfFullTasks = 0
                 initTasks()
             }
         }
@@ -706,8 +733,9 @@ class AutoPlan(private val date: String,
 //        pomodoros?.removeIf { task -> task.task == null }
         Log.d("pomodoros_size2", pomodoros?.size.toString())
         Log.d("tasks_size2", tasks?.size.toString())
-        if(pomodoros != null && tasks != null)
-            if(pomodoros?.size!! <= tasks?.size!!){
+        if(pomodoros != null && tasks != null){
+            //            if(pomodoros?.size!! <= tasks?.size!!){
+            tasks!!.removeIf { tasks -> tasks == null }
 //                if(LocalDate.parse(mySharePreferences.getToday(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now()){
 //                    mySharePreferences.setToday(LocalDate.now().toString())
 //
@@ -774,44 +802,135 @@ class AutoPlan(private val date: String,
 //                    }
 //                    adapter?.setTasks(pomodoros!!)
 //                }
-                pomodoros!!.forEach {
-                    Log.d("finish1", "${it.begin}-${it.end}: ${it.task?.title}")
-                }
-                pomodoros!!.forEach {
-                    it.task = tasks!![i]
-                    i++
-                }
-                fixedTasks?.forEach{
-                    pomodoros!!.add(TasksForPlan(
-                            LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
-                            LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
-                            null, it
-                    ))
-                }
-                routineTasks?.forEach{
-                    pomodoros!!.add(TasksForPlan(
-                            LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
-                            LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
-                            null, it
-                    ))
-                }
+            pomodoros!!.forEach {
+                Log.d("finish1", "${it.begin}-${it.end}: ${it.task?.title}")
+            }
+//            pomodoros!!.forEach {
+//                if(i < tasks!!.size){
+//                    it.task = tasks!![i]
+//                    i++
+//                }
+//            }
+//            fixedTasks?.forEach{
+//                pomodoros!!.add(TasksForPlan(
+//                        LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+//                        LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+//                        null, it
+//                ))
+//            }
+//            routineTasks?.forEach{
+//                pomodoros!!.add(TasksForPlan(
+//                        LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+//                        LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+//                        null, it
+//                ))
+//            }
 
-                pomodoros!!.sortBy { it.begin }
-                adapter?.setTasks(pomodoros!!)
-                list.adapter = adapter
+//            pomodoros!!.sortBy { it.begin }
+            byWorkPeak()
+//                adapter?.setTasks(pomodoros!!)
+//                list.adapter = adapter
+//
+//                if(pomodoros.isNullOrEmpty()){
+//                    view?.textView?.visibility = View.VISIBLE
+//                    view?.imageView?.visibility = View.VISIBLE
+//                } else {
+//                    view?.textView?.visibility = View.INVISIBLE
+//                    view?.imageView?.visibility = View.INVISIBLE
+//                }
+//
+//                pomodoros!!.forEach {
+//                    Log.d("finish", "${it.begin}-${it.end}: ${it.task?.title}")
+//                }
+        }
 
-                if(pomodoros.isNullOrEmpty()){
-                    view?.textView?.visibility = View.VISIBLE
-                    view?.imageView?.visibility = View.VISIBLE
-                } else {
-                    view?.textView?.visibility = View.INVISIBLE
-                    view?.imageView?.visibility = View.INVISIBLE
-                }
 
-                pomodoros!!.forEach {
-                    Log.d("finish", "${it.begin}-${it.end}: ${it.task?.title}")
+//            }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun byWorkPeak(){
+        var i = 0
+
+        tasks!!.forEach {
+            Log.d("tasks", it?.title.toString())
+        }
+        Log.d("tasks@@", "1")
+
+        var pomodorsSmall: MutableList<TasksForPlan>? = mutableListOf()
+        var tasksSmall: MutableList<Task?>? = mutableListOf()
+        pomodorsSmall?.clear()
+        tasksSmall?.clear()
+        pomodoros?.let { pomodorsSmall?.addAll(it) }
+        tasks?.let { tasksSmall?.addAll(it) }
+
+        pomodorsSmall?.removeIf { task -> task.begin < beginTime }
+        if(tasksSmall?.isNotEmpty()!!){
+            while (tasksSmall?.size!! > pomodoros?.size!!){
+                Log.d("tut", tasksSmall?.size.toString())
+                tasksSmall?.removeLast()
+            }
+            tasksSmall!!.sortByDescending { it?.complexity }
+            tasksSmall!!.forEach {
+                Log.d("tasks@", it?.title.toString())
+            }
+            Log.d("getPeakBegin", mySharePreferences.getPeakBegin().toString())
+            Log.d("getPeakEnd", mySharePreferences.getPeakEnd().toString())
+
+            pomodorsSmall?.forEach {
+                if(it.begin >= LocalTime.parse(mySharePreferences.getPeakBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                        && it.begin < LocalTime.parse(mySharePreferences.getPeakEnd(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)) && tasks!!.isNotEmpty()){
+                    it.task = tasksSmall!!.first()
+                    tasksSmall!!.removeFirst()
                 }
             }
+
+            Log.d("tasks_size4", tasksSmall?.size.toString())
+            if(tasksSmall!!.isNotEmpty()){
+                pomodorsSmall!!.forEach {
+                    if(i < tasksSmall!!.size && it.task == null){
+                        it.task = tasksSmall!![i]
+                        i++
+                    }
+                }
+            }
+
+        }
+
+        fixedTasks?.forEach{
+            pomodorsSmall!!.add(TasksForPlan(
+                    LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    null, it
+            ))
+        }
+        routineTasks?.forEach{
+            pomodorsSmall!!.add(TasksForPlan(
+                    LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    null, it
+            ))
+        }
+
+        pomodorsSmall?.removeIf { task -> task.task == null }
+        pomodorsSmall!!.sortBy { it.begin }
+
+        adapter?.setTasks(pomodorsSmall!!)
+        list.adapter = adapter
+
+        Log.d("pomodorsSmall", pomodorsSmall?.size.toString())
+
+        if(pomodorsSmall.isNullOrEmpty()){
+            view?.textView?.visibility = View.VISIBLE
+            view?.imageView?.visibility = View.VISIBLE
+        } else {
+            view?.textView?.visibility = View.INVISIBLE
+            view?.imageView?.visibility = View.INVISIBLE
+        }
+
+        pomodorsSmall!!.forEach {
+            Log.d("finish", "${it.begin}-${it.end}: ${it.task?.title}")
+        }
     }
 
     override fun onItemClick(position: Int) {

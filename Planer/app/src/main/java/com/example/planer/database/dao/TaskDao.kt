@@ -69,24 +69,24 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND monday = :monday AND tuesday = :tuesday AND wednesday = :wednesday AND thursday = :thursday AND friday = :friday AND saturday = :saturday AND sunday = :sunday ORDER BY complexity DESC")
     fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND monday = 1 ORDER BY complexity, deadline DESC")
+    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND monday = 1 ORDER BY complexity DESC, deadline ")
     fun oneTimeMon(category: String): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND tuesday = 1 ORDER BY complexity,deadline DESC")
+    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND tuesday = 1 ORDER BY complexity DESC,deadline ")
     fun oneTimeTue(category: String): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND wednesday = 1 ORDER BY complexity,deadline DESC")
+    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND wednesday = 1 ORDER BY complexity DESC,deadline ")
     fun oneTimeWen(category: String): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND thursday = 1 ORDER BY complexity,deadline DESC")
+    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND thursday = 1 ORDER BY complexity DESC,deadline ")
     fun oneTimeThu(category: String): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND friday = 1 ORDER BY complexity,deadline DESC")
+    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND friday = 1 ORDER BY complexity DESC,deadline ")
     fun oneTimeFri(category: String): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND saturday = 1 ORDER BY complexity,deadline DESC")
+    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND saturday = 1 ORDER BY complexity DESC,deadline ")
     fun oneTimeSat(category: String): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND sunday = 1 ORDER BY complexity,deadline DESC")
+    @Query("SELECT * FROM task_table WHERE type='one_time' AND category = :category AND sunday = 1 ORDER BY complexity DESC,deadline ")
     fun oneTimeSun(category: String): LiveData<List<Task>>
 }
