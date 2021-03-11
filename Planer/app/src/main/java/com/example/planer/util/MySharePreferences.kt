@@ -1,14 +1,11 @@
 package com.example.planer.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.example.planer.ui.plan.TasksForPlan
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MySharePreferences(context: Context) {
     companion object
@@ -49,11 +46,30 @@ class MySharePreferences(context: Context) {
         const val AUTO_FINISH_TASK: String = "AUTO_FINISH_TASK"
         const val PLAN_FOR_DAY: String = "PLAN_FOR_DAY"
         const val PLAN: String = "PLAN"
+        const val FIRST_TASKS: String = "FIRST_TASKS"
         const val TODAY: String = "TODAY"
     }
 
     private val mySharedPreferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, AppCompatActivity.MODE_PRIVATE)
     private val myEditor: SharedPreferences.Editor = mySharedPreferences.edit()
+
+//    fun <T> setPlan(list: List<T>?) {
+//        val gson = Gson()
+//        val json = gson.toJson(list)
+//        myEditor.putString(PLAN, json)
+//        myEditor.commit()
+//    }
+//
+//    fun getPlan():List<TasksForPlan>? {
+//        var arrayItems: List<TasksForPlan>? = listOf()
+//        val serializedObject: String? = mySharedPreferences.getString(PLAN, null)
+//        if (serializedObject != null) {
+//            val gson = Gson()
+//            val type: Type = object : TypeToken<List<TasksForPlan?>?>() {}.type
+//            arrayItems = gson.fromJson<List<TasksForPlan>>(serializedObject, type)
+//        }
+//        return arrayItems
+//    }
 
     fun setToday(date: String){
         myEditor.putString(TODAY, date)
@@ -64,18 +80,32 @@ class MySharePreferences(context: Context) {
         return mySharedPreferences.getString(TODAY, "2020-10-10")
     }
 
-    fun setPlan(list:List<TasksForPlan>){
+    fun setFirstTasks(list: List<TasksForPlan>){
         val gson = Gson()
         val json = gson.toJson(list)
-        myEditor.putString(PLAN,json)
+        myEditor.putString(FIRST_TASKS, json)
         myEditor.commit()
     }
 
-    fun getPlan():List<TasksForPlan>?{
+    fun getFirstTasks():List<TasksForPlan>?{
         val gson = Gson()
-        val json = mySharedPreferences.getString(PLAN,null)
+        val json = mySharedPreferences.getString(FIRST_TASKS, null)
         val type = object : TypeToken<List<TasksForPlan>>(){}.type
-        return gson.fromJson(json,type)
+        return gson.fromJson(json, type)
+    }
+
+    fun setPlan(list: MutableList<TasksForPlan>?){
+        val gson = Gson()
+        val json = gson.toJson(list)
+        myEditor.putString(PLAN, json)
+        myEditor.commit()
+    }
+
+    fun getPlan():MutableList<TasksForPlan>?{
+        val gson = Gson()
+        val json = mySharedPreferences.getString(PLAN, null)
+        val type = object : TypeToken<List<TasksForPlan>>(){}.type
+        return gson.fromJson(json, type)
     }
 
     fun setPlanForDay(flag: Boolean){
