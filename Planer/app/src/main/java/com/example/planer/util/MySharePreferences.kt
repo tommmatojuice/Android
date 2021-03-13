@@ -2,10 +2,17 @@ package com.example.planer.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.planer.database.entity.Task
+import com.example.planer.ui.plan.TaskForPlanTimeString
 import com.example.planer.ui.plan.TasksForPlan
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class MySharePreferences(context: Context) {
     companion object
@@ -96,16 +103,27 @@ class MySharePreferences(context: Context) {
 
     fun setPlan(list: MutableList<TasksForPlan>?){
         val gson = Gson()
-        val json = gson.toJson(list)
+        val tasks: MutableList<TaskForPlanTimeString>? = mutableListOf()
+        list?.forEach {
+            tasks?.add(TaskForPlanTimeString(it.begin.toString(), it.end.toString(), it.time, it.task))
+        }
+        val json = gson.toJson(tasks)
         myEditor.putString(PLAN, json)
         myEditor.commit()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getPlan():MutableList<TasksForPlan>?{
         val gson = Gson()
+        val list: MutableList<TasksForPlan>? = mutableListOf()
         val json = mySharedPreferences.getString(PLAN, null)
-        val type = object : TypeToken<List<TasksForPlan>>(){}.type
-        return gson.fromJson(json, type)
+        val type = object : TypeToken<List<TaskForPlanTimeString>>(){}.type
+        val tasks: MutableList<TaskForPlanTimeString>? = gson.fromJson(json, type)
+        tasks?.forEach {
+            list?.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), it.time, it.task))
+        }
+        return list
     }
 
     fun setPlanForDay(flag: Boolean){

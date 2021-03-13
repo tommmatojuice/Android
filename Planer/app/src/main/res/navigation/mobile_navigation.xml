@@ -82,7 +82,7 @@
     <fragment
         android:id="@+id/add_fixed_task"
         android:name="com.example.planer.ui.tasks.AddFixedTask"
-        android:label="Новая задача"
+        android:label="Задача"
         tools:layout="@layout/fragment_add_fixed_task"/>
 
     <fragment

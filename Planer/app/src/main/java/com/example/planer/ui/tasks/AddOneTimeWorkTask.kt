@@ -195,10 +195,12 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
                             }
 
                             val navBuilder = NavOptions.Builder()
-                            if (group == null) {
+                            if(group == null && arguments?.getBoolean("back") == null) {
                                 arguments?.putString("choice", "all")
                                 val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
                                 Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                            } else if(arguments?.getBoolean("back") != null){
+                                Navigation.findNavController(view).navigate(R.id.navigation_plan)
                             } else {
                                 arguments?.putString("choice", "groups")
                                 val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()

@@ -11,7 +11,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
 import com.example.planer.adapters.PlanRecyclerAdapter
@@ -42,6 +44,7 @@ class AutoPlan(private val date: String,
 
     private var intervals: MutableList<TasksForPlan>? = mutableListOf()
     private var pomodoros: MutableList<TasksForPlan>? = mutableListOf()
+    private var pomodorosSmall: MutableList<TasksForPlan>? = mutableListOf()
     private var tasks: MutableList<Task?>? = mutableListOf()
 
     private var adapter: PlanRecyclerAdapter? = null
@@ -79,6 +82,26 @@ class AutoPlan(private val date: String,
         Log.d("first_work_time", workTime.toString())
         Log.d("dateeee", date)
         Log.d("weekday", weekDay)
+
+        if(date == LocalDate.now().toString())
+        {
+            val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
+                    Log.d("onSwiped", viewHolder.adapterPosition.toString())
+                    pomodorosSmall?.removeAt(viewHolder.adapterPosition)
+                    mySharePreferences.setPlan(pomodorosSmall)
+                    pomodorosSmall?.let { adapter?.setTasks(it) }
+                    list.adapter = adapter
+                }
+            }
+
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(list)
+        }
 
         return view
     }
@@ -384,7 +407,7 @@ class AutoPlan(private val date: String,
             var minutes = it.time
             for (i in 0 until count!!){
                 if (minutes != null) {
-                    if(minutes > 0){
+                    if(minutes >= mySharePreferences.getPomodoroWork()){
                         minutes -= if(i == 0){
                             pomodoros?.add(TasksForPlan(it.begin, it.begin.plusMinutes(pomodoro.toLong()), null, null))
                             pomodoro
@@ -398,10 +421,12 @@ class AutoPlan(private val date: String,
                             }
                         }
                     } else {
-                        if(minutes != 0){
+//                        if(minutes != 0){
+                        if(minutes < 0){
                             pomodoros?.removeLast()
                         }
                     }
+                    Log.d("minutes $i", minutes.toString())
                 }
             }
         }
@@ -586,7 +611,7 @@ class AutoPlan(private val date: String,
     @RequiresApi(Build.VERSION_CODES.O)
     private fun unitAll(){
 //        mySharePreferences.setToday("2020-09-09")
-        var pomodorosSmall: MutableList<TasksForPlan>? = mutableListOf()
+//        var pomodorosSmall: MutableList<TasksForPlan>? = mutableListOf()
         val firstTasks: MutableList<TasksForPlan>? = mutableListOf()
         //условия сохранения нового плана
         Log.d("pomodoros_size2", pomodoros?.size.toString())
@@ -598,11 +623,8 @@ class AutoPlan(private val date: String,
             {
                 Log.d("plan", "1")
                 Log.d("plan", mySharePreferences.getToday().toString())
-                pomodorosSmall?.clear()
 
-//                if(mySharePreferences.getPlan().isNullOrEmpty()){
-//                    mySharePreferences.getPlan()?.let { pomodorosSmall!!.addAll(it) }
-//                }
+                pomodorosSmall?.clear()
 
                 pomodorosSmall = mySharePreferences.getPlan()
 
@@ -624,6 +646,8 @@ class AutoPlan(private val date: String,
                 pomodorosSmall?.removeIf { task -> task.begin < beginTime && task.task?.type == "one_time"}
 
                 mySharePreferences.getFirstTasks()?.let { pomodorosSmall?.addAll(it) }
+
+
 
                 mySharePreferences.setPlan(pomodorosSmall)
                 mySharePreferences.setPlanForDay(true)
@@ -647,11 +671,16 @@ class AutoPlan(private val date: String,
                 }
                 showTasks(pomodorosSmall)
             } else {
+                Log.d("plan", "3")
+                Log.d("getFirstTasks", mySharePreferences.getFirstTasks()?.size.toString())
                 val days = ChronoUnit.DAYS.between(LocalDate.now(),
                         LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 val i: Long = 1
                 pomodorosSmall?.clear()
                 pomodorosSmall = byWorkPeak()
+                pomodorosSmall?.forEach {
+                    Log.d("finish3", "${it.begin}-${it.end}: ${it.task?.title}")
+                }
                 if(days == i){
                     mySharePreferences.getFirstTasks()?.let { pomodorosSmall?.addAll(it) }
                 }
@@ -750,7 +779,30 @@ class AutoPlan(private val date: String,
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        pomodorosSmall?.sortBy { it.begin }
+        view?.let { openTask(it, pomodorosSmall?.get(position)?.task) }
+    }
+
+    private fun openTask(view: View, task: Task?)
+    {
+        val bundle = Bundle().apply { putString("type", task?.type) }
+                .apply { putString("category", task?.category) }
+                .apply { putSerializable("task", task) }
+                .apply { putBoolean("back", true) }
+        when(task?.type){
+            "one_time" -> {
+                if(task.category == "work")
+                    Navigation.findNavController(view).navigate(R.id.add_one_time_work_task, bundle)
+                else Navigation.findNavController(view).navigate(R.id.add_one_time_other_task, bundle)
+            }
+            "fixed" -> {
+                Navigation.findNavController(view).navigate(R.id.add_fixed_task, bundle)
+            }
+            "routine" -> {
+                Navigation.findNavController(view).navigate(R.id.add_routine_task, bundle)
+            }
+        }
     }
 }

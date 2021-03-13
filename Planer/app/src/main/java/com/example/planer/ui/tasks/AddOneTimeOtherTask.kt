@@ -121,14 +121,20 @@ class AddOneTimeOtherTask  : Fragment()
                 }
 
                 val navBuilder = NavOptions.Builder()
-                if (group == null) {
-                    arguments?.putString("choice", "all")
-                    val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
-                    Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
-                } else {
-                    arguments?.putString("choice", "groups")
-                    val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
-                    Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                when {
+                    group == null -> {
+                        arguments?.putString("choice", "all")
+                        val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                        Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                    }
+                    arguments?.getBoolean("back") != null -> {
+                        Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                    }
+                    else -> {
+                        arguments?.putString("choice", "groups")
+                        val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                        Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                    }
                 }
             } else this.context?.let { ToastMessages.showMessage(it, "Необходимо выбрать хотя бы один день недели") }
         } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести название") }
