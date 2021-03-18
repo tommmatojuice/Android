@@ -17,12 +17,14 @@ import android.media.RingtoneManager.TYPE_NOTIFICATION
 import android.media.RingtoneManager.getDefaultUri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.O
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_MAX
 import androidx.work.ListenableWorker.Result.success
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.planer.MainActivity
+import com.example.planer.MainActivity.Companion.scheduleNotification
 
 class NotifyWork(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams)
 {
@@ -34,8 +36,9 @@ class NotifyWork(context: Context, workerParams: WorkerParameters) : Worker(cont
     }
 
     override fun doWork(): Result {
-        val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
-        sendNotification(id)
+        Log.d("mvm", "NotifyWork running")
+
+//        scheduleNotification()
 
         return success()
     }

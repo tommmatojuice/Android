@@ -20,6 +20,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import com.example.planer.database.viewModel.GroupViewModel
 import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
@@ -27,8 +28,12 @@ import com.example.planer.ui.first_come.PutName
 import com.example.planer.util.MyAlarmReceiver
 import com.example.planer.util.MyService
 import com.example.planer.util.MySharePreferences
+import com.example.planer.util.NotifyWork
+import com.example.planer.util.NotifyWork.Companion.NOTIFICATION_WORK
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.nio.charset.CodingErrorAction.REPLACE
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity()
@@ -41,6 +46,19 @@ class MainActivity : AppCompatActivity()
     private val groupViewModel: GroupViewModel by viewModels()
     private val taskViewModel: TaskViewModel by viewModels()
     private val pathViewModel: PathViewModel by viewModels()
+
+    companion object {
+        fun scheduleNotification() {
+            Log.d("mvm", "scheduleNotification running")
+
+            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+                .setInitialDelay(5, TimeUnit.SECONDS)
+                .build()
+
+            val instanceWorkManager = WorkManager.getInstance()
+            instanceWorkManager.beginUniqueWork(NOTIFICATION_WORK, ExistingWorkPolicy.REPLACE, notificationWork).enqueue()
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?)
@@ -68,65 +86,30 @@ class MainActivity : AppCompatActivity()
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-//        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-//        val intent = Intent(this, AlertReceiver::class.java)
-//        val pendingIntent = PendingIntent.getBroadcast(this,1,
-//                intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//        val calendar: Calendar = Calendar.getInstance().apply {
-//            timeInMillis = System.currentTimeMillis()
-//        }
-//        alarmManager.setExactAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                calendar.timeInMillis,
-//                pendingIntent
-//        )
+        Log.d("MyTestService1", "Service running")
 
-        Log.d("MyTestService1", "Service running");
+        initFragments(savedInstanceState)
+
+//        scheduleNotification()
+
+//        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+//        val intent = Intent(this, MyAlarmReceiver::class.java)
+//        val sender = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 //
-//        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-//        val intent = Intent(this, MyAlarmReceiver::class.java)
-//        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
 //        val calendar: Calendar = Calendar.getInstance().apply {
 //            timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, 18)
-//            set(Calendar.MINUTE, 51)
-//            set(Calendar.SECOND, 0)
+//            set(Calendar.HOUR_OF_DAY, 19)
+//            set(Calendar.MINUTE, 28)
+//            set(Calendar.SECOND, 40)
 //        }
-//        intent.putExtra("TITLE", calendar.timeInMillis.toString())
+//
 //        alarmManager.setExactAndAllowWhileIdle(
 //                AlarmManager.RTC_WAKEUP,
 //                calendar.timeInMillis,
-//                pendingIntent
-//        )
-
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, MyAlarmReceiver::class.java)
-        val sender = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 19)
-            set(Calendar.MINUTE, 28)
-            set(Calendar.SECOND, 40)
-        }
-
-        alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                sender
-        )
-
-//        val intent = Intent(this, MyAlarmReceiver::class.java)
-//        val pIntent = PendingIntent.getBroadcast(this, MyAlarmReceiver.REQUEST_CODE,
-//                intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//        val firstMillis = System.currentTimeMillis() // alarm is set right away
-//        val alarm = getSystemService(ALARM_SERVICE) as AlarmManager
-//        alarm.setExactAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                firstMillis,
-//                pIntent
+//                sender
 //        )
     }
+
 
     private fun initFragments(savedInstanceState: Bundle?)
     {

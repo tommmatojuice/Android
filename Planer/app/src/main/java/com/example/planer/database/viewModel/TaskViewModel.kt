@@ -16,45 +16,45 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
 
     val allTasks = repository.allTasks
     val lastTask = repository.lastTask
-    val routineMon = repository.routineMon
-    val routineTue = repository.routineTue
-    val routineWen = repository.routineWen
-    val routineThu = repository.routineThu
-    val routineFri = repository.routineFri
-    val routineSat = repository.routineSat
-    val routineSun = repository.routineSun
+//    val routineMon = repository.routineMon
+//    val routineTue = repository.routineTue
+//    val routineWen = repository.routineWen
+//    val routineThu = repository.routineThu
+//    val routineFri = repository.routineFri
+//    val routineSat = repository.routineSat
+//    val routineSun = repository.routineSun
 
-    fun oneTimeMon(category: String): LiveData<List<Task>> {
-        return repository.oneTimeMon(category)
+    fun tasksMon(type: String): LiveData<List<Task>> {
+        return repository.tasksMon(type)
     }
 
-    fun oneTimeTue(category: String): LiveData<List<Task>> {
-        return repository.oneTimeTue(category)
+    fun tasksTue(type: String): LiveData<List<Task>> {
+        return repository.tasksTue(type)
     }
 
-    fun oneTimeWen(category: String): LiveData<List<Task>> {
-        return repository.oneTimeWen(category)
+    fun tasksWen(type: String): LiveData<List<Task>> {
+        return repository.tasksWen(type)
     }
 
-    fun oneTimeThu(category: String): LiveData<List<Task>> {
-        return repository.oneTimeThu(category)
+    fun tasksThu(type: String): LiveData<List<Task>> {
+        return repository.tasksThu(type)
     }
 
-    fun oneTimeFri(category: String): LiveData<List<Task>> {
-        return repository.oneTimeFri(category)
+    fun tasksFri(type: String): LiveData<List<Task>> {
+        return repository.tasksFri(type)
     }
 
-    fun oneTimeSat(category: String): LiveData<List<Task>> {
-        return repository.oneTimeSat(category)
+    fun tasksSat(type: String): LiveData<List<Task>> {
+        return repository.tasksSat(type)
     }
 
-    fun oneTimeSun(category: String): LiveData<List<Task>> {
-        return repository.oneTimeSun(category)
+    fun tasksSun(type: String): LiveData<List<Task>> {
+        return repository.tasksSun(type)
     }
 
-    fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>> {
-        return repository.oneTimeTasks(category, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
-    }
+//    fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>> {
+//        return repository.oneTimeTasks(category, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+//    }
 
     fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>> {
         return repository.getByCategoryAndType(category, type)

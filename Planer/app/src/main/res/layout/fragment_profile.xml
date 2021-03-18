@@ -1,13 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/profile_text"
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Имя"
+        android:textSize="@dimen/h2_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/profile"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/gray"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <TextView
+        android:id="@+id/wake_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Время подъема"
+        android:textSize="@dimen/h2_text"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+    <TextView
+        android:id="@+id/wake_up_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_00_00"
+        android:textSize="@dimen/settings"
+        app:layout_constraintBottom_toBottomOf="@+id/wake_up_button"
+        app:layout_constraintEnd_toStartOf="@+id/wake_up_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wake_up" />
+
+    <Button
+        android:id="@+id/wake_up_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wake_up" />
+
+
+    <TextView
+        android:id="@+id/sleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Время отхода ко сну"
+        android:textSize="@dimen/h2_text"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wake_up_time" />
+
+    <TextView
+        android:id="@+id/sleep_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_00_00"
+        android:textSize="@dimen/settings"
+        app:layout_constraintBottom_toBottomOf="@+id/sleep_button"
+        app:layout_constraintEnd_toStartOf="@+id/sleep_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sleep" />
+
+    <Button
+        android:id="@+id/sleep_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sleep" />
+
+
+    <TextView
+        android:id="@+id/breakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Завтрак"
+        android:textSize="@dimen/h2_text"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sleep_time" />
+
+    <TextView
+        android:id="@+id/breakfast_begin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Начало"
+        android:textSize="@dimen/h3_text"
+        app:layout_constraintBottom_toBottomOf="@+id/breakfast_begin_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast" />
+
+    <TextView
+        android:id="@+id/breakfast_begin_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_00_00"
+        android:textSize="@dimen/settings"
+        app:layout_constraintBottom_toBottomOf="@+id/breakfast_begin_button"
+        app:layout_constraintEnd_toStartOf="@+id/breakfast_begin_button"
+        app:layout_constraintStart_toEndOf="@+id/breakfast_begin"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast" />
+
+    <Button
+        android:id="@+id/breakfast_begin_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast" />
+
+    <TextView
+        android:id="@+id/breakfast_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Конец"
+        android:textSize="@dimen/h3_text"
+        app:layout_constraintBottom_toBottomOf="@+id/breakfast_end_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast_begin_button" />
+
+    <TextView
+        android:id="@+id/breakfast_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_00_00"
+        android:textSize="@dimen/settings"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/breakfast_end_button"
+        app:layout_constraintEnd_toStartOf="@+id/breakfast_end_button"
+        app:layout_constraintStart_toEndOf="@+id/breakfast_end"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast_begin_button" />
+
+    <Button
+        android:id="@+id/breakfast_end_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/set"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast_begin_button" />
+
+<!--    обед -->
+    <TextView
+        android:id="@+id/lunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Обед"
+        android:textSize="@dimen/h2_text"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breakfast_end" />
+
+    <TextView
+        android:id="@+id/lunch_begin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Начало"
+        android:textSize="@dimen/h3_text"
+        app:layout_constraintBottom_toBottomOf="@+id/lunch_begin_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch" />
+
+    <TextView
+        android:id="@+id/lunch_begin_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_00_00"
+        android:textSize="@dimen/settings"
+        app:layout_constraintBottom_toBottomOf="@+id/lunch_begin_button"
+        app:layout_constraintEnd_toStartOf="@+id/lunch_begin_button"
+        app:layout_constraintStart_toEndOf="@+id/lunch_begin"
+        app:layout_constraintTop_toBottomOf="@+id/lunch" />
+
+    <Button
+        android:id="@+id/lunch_begin_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch" />
+
+    <TextView
+        android:id="@+id/lunch_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Конец"
+        android:textSize="@dimen/h3_text"
+        app:layout_constraintBottom_toBottomOf="@+id/lunch_end_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_begin_button" />
+
+    <TextView
+        android:id="@+id/lunch_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_00_00"
+        android:textSize="@dimen/settings"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lunch_end_button"
+        app:layout_constraintEnd_toStartOf="@+id/lunch_end_button"
+        app:layout_constraintStart_toEndOf="@+id/lunch_end"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_begin_button" />
+
+    <Button
+        android:id="@+id/lunch_end_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_begin_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

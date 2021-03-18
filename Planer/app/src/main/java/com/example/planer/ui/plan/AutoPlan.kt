@@ -35,7 +35,8 @@ class AutoPlan(private val date: String,
     private val taskViewModel: TaskViewModel by viewModels()
     private var fixedTasks: List<Task>? = null
     private var routineTasks: List<Task>? = null
-    private var oneTimeTasks: List<Task>? = null
+    private var oneTimeTasks: MutableList<Task>? = mutableListOf()
+    private var rest: MutableList<Task>? = mutableListOf()
 
     private var workTime: Int = 0
     private var dayNumber: Int = 0
@@ -108,22 +109,27 @@ class AutoPlan(private val date: String,
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initWeekDay(){
+        oneTimeTasks?.clear()
+        rest?.clear()
         when(weekDay){
             "MONDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getMondayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 beginTime = LocalTime.parse(mySharePreferences.getMondayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.routineMon.observe(
+                taskViewModel.tasksMon("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
                     }
                 })
 
-                taskViewModel.oneTimeMon("work").observe(
+                taskViewModel.tasksMon("one_time").observe(
                         viewLifecycleOwner, { oneTimeTasks ->
                     if (oneTimeTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks
+                        this.oneTimeTasks?.addAll(oneTimeTasks)
+                        this.rest?.addAll(oneTimeTasks)
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 })
             }
@@ -132,7 +138,7 @@ class AutoPlan(private val date: String,
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 1
                 beginTime = LocalTime.parse(mySharePreferences.getTuesdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.routineTue.observe(
+                taskViewModel.tasksTue("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
@@ -140,10 +146,13 @@ class AutoPlan(private val date: String,
                 }
                 )
 
-                taskViewModel.oneTimeTue("work").observe(
+                taskViewModel.tasksTue("one_time").observe(
                         viewLifecycleOwner, { oneTimeTasks ->
                     if (oneTimeTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks
+                        this.oneTimeTasks?.addAll(oneTimeTasks)
+                        this.rest?.addAll(oneTimeTasks)
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 })
             }
@@ -152,18 +161,25 @@ class AutoPlan(private val date: String,
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 2
                 beginTime = LocalTime.parse(mySharePreferences.getWednesdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.routineWen.observe(
+                taskViewModel.tasksWen("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
-                        this.routineTasks = routineTasks
+                        this.oneTimeTasks = oneTimeTasks as MutableList<Task>?
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+
+                        this.rest = oneTimeTasks
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 }
                 )
 
-                taskViewModel.oneTimeWen("work").observe(
+                taskViewModel.tasksWen("one_time").observe(
                         viewLifecycleOwner, { oneTimeTasks ->
                     if (oneTimeTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks
+                        this.oneTimeTasks?.addAll(oneTimeTasks)
+                        this.rest?.addAll(oneTimeTasks)
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 })
             }
@@ -172,17 +188,20 @@ class AutoPlan(private val date: String,
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 3
                 beginTime = LocalTime.parse(mySharePreferences.getThursdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.routineThu.observe(
+                taskViewModel.tasksThu("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
                     }
                 })
 
-                taskViewModel.oneTimeThu("work").observe(
+                taskViewModel.tasksThu("one_time").observe(
                         viewLifecycleOwner, { oneTimeTasks ->
                     if (oneTimeTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks
+                        this.oneTimeTasks?.addAll(oneTimeTasks)
+                        this.rest?.addAll(oneTimeTasks)
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 })
             }
@@ -191,17 +210,20 @@ class AutoPlan(private val date: String,
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 4
                 beginTime = LocalTime.parse(mySharePreferences.getFridayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.routineFri.observe(
+                taskViewModel.tasksFri("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
                     }
                 })
 
-                taskViewModel.oneTimeFri("work").observe(
+                taskViewModel.tasksFri("one_time").observe(
                         viewLifecycleOwner, { oneTimeTasks ->
                     if (oneTimeTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks
+                        this.oneTimeTasks?.addAll(oneTimeTasks)
+                        this.rest?.addAll(oneTimeTasks)
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 })
             }
@@ -210,17 +232,20 @@ class AutoPlan(private val date: String,
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 5
                 beginTime = LocalTime.parse(mySharePreferences.getSaturdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.routineSat.observe(
+                taskViewModel.tasksSat("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
                     }
                 })
 
-                taskViewModel.oneTimeSat("work").observe(
+                taskViewModel.tasksSat("one_time").observe(
                         viewLifecycleOwner, { oneTimeTasks ->
                     if (oneTimeTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks
+                        this.oneTimeTasks?.addAll(oneTimeTasks)
+                        this.rest?.addAll(oneTimeTasks)
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 })
             }
@@ -229,17 +254,20 @@ class AutoPlan(private val date: String,
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 6
                 beginTime = LocalTime.parse(mySharePreferences.getSundayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.routineSun.observe(
+                taskViewModel.tasksSun("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
                     }
                 })
 
-                taskViewModel.oneTimeSun("work").observe(
+                taskViewModel.tasksSun("one_time").observe(
                         viewLifecycleOwner, { oneTimeTasks ->
                     if (oneTimeTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks
+                        this.oneTimeTasks?.addAll(oneTimeTasks)
+                        this.rest?.addAll(oneTimeTasks)
+                        this.oneTimeTasks?.removeIf { it.category != "work" }
+                        this.rest?.removeIf { it.category == "work" }
                     }
                 })
             }
@@ -355,6 +383,7 @@ class AutoPlan(private val date: String,
                     time = tasks[i].begin.minus(tasks[i - 1].end.hour.toLong(), ChronoUnit.HOURS).minus(tasks[i - 1].end.minute.toLong(), ChronoUnit.MINUTES)
                     intervals?.add(TasksForPlan(tasks[i - 1].end, tasks[i].begin, (time.hour * 60 + time.minute), null))
                     work += time.hour*60 + time.minute
+                    Log.d("work3", (time.hour*60 + time.minute).toString())
                 } else break
             }
         }
@@ -362,19 +391,33 @@ class AutoPlan(private val date: String,
         if(!intervals.isNullOrEmpty() && intervals?.first()?.begin!! < beginTime){
             intervals?.first()?.begin = beginTime
         }
+
+        work = 0
+//        intervals?.forEach {
+//            work += it.time!!
+//            Log.d("intervals2", "${it.begin}/${it.end}")
+//            Log.d("intervals2", it.time.toString())
+//        }
+
         intervals?.forEach {
-            Log.d("intervals2", "${it.begin}/${it.end}")
-            Log.d("intervals2", it.time.toString())
+            val time = it.end.minusHours(it.begin.hour.toLong()).minusMinutes(it.begin.minute.toLong())
+            it.time = time.minute + time.hour*60
+            Log.d("intervals", "${it.begin}/${it.end}")
+            Log.d("intervals", it.time.toString())
+            work += it.time!!
         }
+
+        Log.d("work1", work.toString())
+        Log.d("work2", workTime.toString())
 
         if(work < workTime){
             val rest = workTime - work
-            time = tasks.last().end.plus((rest / 60).toLong(), ChronoUnit.HOURS).plus((rest % 60).toLong(), ChronoUnit.MINUTES)
-            intervals?.add(TasksForPlan(tasks.last().end, time, rest, null))
+//            time = tasks.last().end.plus((rest / 60).toLong(), ChronoUnit.HOURS).plus((rest % 60).toLong(), ChronoUnit.MINUTES)
+//            intervals?.add(TasksForPlan(tasks.last().end, time, rest, null))
+            intervals?.last()?.end = intervals?.last()?.end?.plusMinutes(rest.toLong())!!
+            intervals?.last()?.time = intervals?.last()?.time?.plus(rest)
         }
 
-//        Log.d("intervalsLast", intervals!!.last().end.toString())
-//        Log.d("intervalsLastSleep", sleep.toString())
         if(!intervals.isNullOrEmpty()){
             if(sleep.hour < intervals?.last()?.end?.hour as Int){
                 while(((intervals!!.last().end.hour*60 + intervals!!.last().end.minute) - (sleep.hour*60 + sleep.minute)) < 60){
@@ -390,10 +433,10 @@ class AutoPlan(private val date: String,
         }
 
         intervals?.forEach {
-            val time = it.end.minusHours(it.begin.hour.toLong()).minusMinutes(it.begin.minute.toLong())
-            it.time = time.minute + time.hour*60
-            Log.d("intervals", "${it.begin}/${it.end}")
-            Log.d("intervals", it.time.toString())
+//            val time = it.end.minusHours(it.begin.hour.toLong()).minusMinutes(it.begin.minute.toLong())
+//            it.time = time.minute + time.hour*60
+            Log.d("intervals3", "${it.begin}/${it.end}")
+            Log.d("intervals3", it.time.toString())
         }
 
         //pomodoros
@@ -437,12 +480,18 @@ class AutoPlan(private val date: String,
             Log.d("pomodoros", "${it.begin}/${it.end}")
         }
 
+        this.tasks?.clear()
         initTasks()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initTasks() {
         Log.d("one_time", oneTimeTasks?.size.toString())
+
+        if(LocalTime.now() > beginTime && !mySharePreferences.getPlan().isNullOrEmpty() && date == LocalDate.now().toString()){
+            beginTime = mySharePreferences.getPlan()?.first()?.begin ?: beginTime
+            Log.d("beginTimeNew", beginTime.toString())
+        }
 
         oneTimeTasks?.forEach {
             val current = LocalDate.now()
@@ -515,8 +564,8 @@ class AutoPlan(private val date: String,
                         else -> pomodoros/workDays + 1
                     }
 
-                    Log.d("pomodoros", pomodoros.toString())
-                    Log.d("pomodorosInDay", pomodorosInDay.toString())
+                    Log.d("pomodoros-${it.title}", pomodoros.toString())
+                    Log.d("pomodorosInDay-${it.title}", pomodorosInDay.toString())
                     for(i in 0 until pomodorosInDay){
                         val count = tasks?.count { task -> task == it }
                         Log.d("count", count.toString())
@@ -542,6 +591,11 @@ class AutoPlan(private val date: String,
                 initTasks()
             }
         }
+
+        tasks?.forEach {
+            it?.title?.let { it1 -> Log.d("tasksInPLan", it1) }
+        }
+
         unitAll()
     }
 
@@ -618,7 +672,7 @@ class AutoPlan(private val date: String,
         Log.d("tasks_size2", tasks?.size.toString())
         if(pomodoros != null && tasks != null){
             tasks!!.removeIf { tasks -> tasks == null }
-            if(LocalDate.parse(mySharePreferences.getToday(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now()
+            if(LocalDate.parse(mySharePreferences.getToday(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) != LocalDate.now()
                     && LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now())
             {
                 Log.d("plan", "1")
@@ -628,8 +682,30 @@ class AutoPlan(private val date: String,
 
                 pomodorosSmall = mySharePreferences.getPlan()
 
+                pomodorosSmall?.forEach {
+                    Log.d("finish1", "${it.begin}-${it.end}: ${it.task?.title}")
+                }
+
+                pomodorosSmall?.forEach {
+                    if(it.end <  LocalTime.now()){
+                        val task = it.task
+                        task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
+                        task?.let { it1 -> taskViewModel.update(it1) }
+                    }
+                }
+
+                pomodorosSmall?.removeIf { pom -> pom.end < LocalTime.now()}
+
+                if(pomodorosSmall != null && pomodorosSmall?.isEmpty()!!){
+                    rest?.forEach {
+                        pomodorosSmall!!.add(TasksForPlan(LocalTime.now(), LocalTime.now(), null, it))
+                    }
+                }
+
+                mySharePreferences.setPlan(pomodorosSmall)
+
                 showTasks(pomodorosSmall)
-            } else if(LocalDate.parse(mySharePreferences.getToday(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) != LocalDate.now()
+            } else if(LocalDate.parse(mySharePreferences.getToday(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now()
                     && LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now())
             {
                 Log.d("plan", "2")
@@ -647,8 +723,6 @@ class AutoPlan(private val date: String,
 
                 mySharePreferences.getFirstTasks()?.let { pomodorosSmall?.addAll(it) }
 
-
-
                 mySharePreferences.setPlan(pomodorosSmall)
                 mySharePreferences.setPlanForDay(true)
 //                pomodorosSmall?.let { mySharePreferences.setPlan(it)
@@ -664,7 +738,24 @@ class AutoPlan(private val date: String,
 
                 pomodorosSmall = mySharePreferences.getPlan()
 
+                pomodorosSmall?.forEach {
+                    if(it.end < LocalTime.now()){
+                        val task = it.task
+                        task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
+                        task?.let { it1 -> taskViewModel.update(it1) }
+                    }
+                }
+
+                pomodorosSmall?.removeIf { pom -> pom.end < LocalTime.now()}
+
+                if(pomodorosSmall != null && pomodorosSmall?.isEmpty()!!){
+                    rest?.forEach {
+                        pomodorosSmall!!.add(TasksForPlan(LocalTime.now(), LocalTime.now(), null, it))
+                    }
+                }
+
 //                mySharePreferences.getPlan()?.let { pomodorosSmall?.addAll(it) }
+                mySharePreferences.setPlan(pomodorosSmall)
 
                 pomodorosSmall?.forEach {
                     Log.d("finish2", "${it.begin}-${it.end}: ${it.task?.title}")
@@ -693,13 +784,17 @@ class AutoPlan(private val date: String,
     private fun byWorkPeak(): MutableList<TasksForPlan>? {
         var i = 0
         val pomodorsSmall: MutableList<TasksForPlan>? = mutableListOf()
-        val tasksSmall: MutableList<Task?>? = mutableListOf()
+        var tasksSmall: MutableList<Task?>? = mutableListOf()
 
         pomodorsSmall?.clear()
         tasksSmall?.clear()
 
         pomodoros?.let { pomodorsSmall?.addAll(it) }
         tasks?.let { tasksSmall?.addAll(it) }
+
+//        tasks?.forEach {
+//            it?.title?.let { it1 -> Log.d("tasksInPLan2", it1) }
+//        }
 
         if(tasksSmall?.isNotEmpty()!!)
         {
@@ -708,21 +803,27 @@ class AutoPlan(private val date: String,
             }
             tasksSmall.sortByDescending { it?.complexity }
 
+            tasksSmall?.forEach {
+                it?.title?.let { it1 -> Log.d("tasksInPLan2", it1) }
+            }
+
             //расставление по пику
             pomodorsSmall?.forEach {
                 if(it.begin >= LocalTime.parse(mySharePreferences.getPeakBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                        && it.begin < LocalTime.parse(mySharePreferences.getPeakEnd(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)) && tasksSmall.isNotEmpty()){
-                    it.task = tasksSmall.first()
-                    tasksSmall.removeFirst()
+                        && it.begin < LocalTime.parse(mySharePreferences.getPeakEnd(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)) && tasksSmall?.isNotEmpty()!!){
+                    it.task = tasksSmall?.first()
+//                    tasksSmall.first()?.title?.let { it1 -> Log.d("tasksInPLan2", it1) }
+                    tasksSmall?.removeFirst()
                 }
             }
 
             //расставление оставшихся интервалов
-            Log.d("tasks_size4", tasksSmall.size.toString())
-            if(tasksSmall.isNotEmpty()){
+            Log.d("tasks_size4", tasksSmall?.size.toString())
+            if(tasksSmall?.isNotEmpty()!!){
                 pomodorsSmall!!.forEach {
-                    if(i < tasksSmall.size && it.task == null){
-                        it.task = tasksSmall[i]
+                    if(i < tasksSmall?.size!! && it.task == null){
+                        it.task = tasksSmall?.get(i)
+//                        tasksSmall[i]?.title?.let { it1 -> Log.d("tasksInPLan2", it1) }
                         i++
                     }
                 }

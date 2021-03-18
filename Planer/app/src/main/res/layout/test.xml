@@ -10,211 +10,431 @@
         android:layout_width="match_parent"
         android:layout_margin="16dp">
 
-        <EditText
-            android:id="@+id/task_title"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/name"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Имя"
+            android:textSize="@dimen/settings"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/task_description"
+            android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task_title" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/task_work_time"
-            android:layout_marginTop="16dp"
-            android:textSize="@dimen/h2_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task_description" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
+        <View
+            android:id="@+id/view1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:layout_height="1sp"
+            android:background="@color/gray"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2">
-
-            <TextView
-                android:id="@+id/work_time"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:gravity="center"
-                android:text="@string/_00_00"
-                android:textSize="@dimen/h2_text" />
-
-            <Button
-                android:id="@+id/work_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/set" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/difficulty"
-            android:layout_marginTop="16dp"
-            android:textSize="@dimen/h2_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
 
         <TextView
-            android:id="@+id/count"
+            android:id="@+id/wake_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/_0"
             android:layout_marginTop="16dp"
-            android:textSize="@dimen/h2_text"
-            app:layout_constraintBottom_toTopOf="@+id/difficulty"
+            android:text="Время подъема"
+            android:textSize="@dimen/settings"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alarm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/wake_up" />
+
+        <TextView
+            android:id="@+id/wake_up_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="@+id/wake_up"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+            app:layout_constraintTop_toTopOf="@+id/wake_up" />
 
-        <SeekBar
-            android:id="@+id/difficulty"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:max="5"
-            android:progress="1"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <TextView
-            android:id="@+id/deadline_text"
+        <ImageView
+            android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/deadline"
-            android:layout_marginTop="16dp"
-            android:textSize="@dimen/h2_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/difficulty" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:src="@drawable/alarm"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deadline_text">
-
-            <TextView
-                android:id="@+id/deadline"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:gravity="center"
-                android:text="@string/dd_mm"
-                android:textSize="@dimen/h2_text" />
-
-            <Button
-                android:id="@+id/deadline_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/set" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/imageView1" />
 
         <TextView
-            android:id="@+id/days_text"
+            android:id="@+id/sleep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/week_days"
-            android:layout_marginTop="16dp"
-            android:textSize="@dimen/h2_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+            android:layout_marginStart="8dp"
+            android:text="Время отхода ко сну"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView1" />
 
-        <CheckBox
-            android:id="@+id/checkBoxMon"
+        <TextView
+            android:id="@+id/sleep_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/sleep"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sleep" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="@color/gray"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sleep" />
+
+<!--        breakfast-->
+        <TextView
+            android:id="@+id/breakfast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/breakfast_time"
+            android:textSize="@dimen/settings"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <TextView
+            android:id="@+id/breakfast_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/begin"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/breakfast" />
+
+        <TextView
+            android:id="@+id/breakfast_begin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/breakfast_begin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/breakfast_begin" />
+
+        <TextView
+            android:id="@+id/breakfast_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/breakfast_begin" />
+
+        <TextView
+            android:id="@+id/breakfast_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/breakfast_end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/breakfast_end" />
+
+<!--        lunch-->
+        <TextView
+            android:id="@+id/lunch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lunch_time"
+            android:textSize="@dimen/settings"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/breakfast_end" />
+
+        <TextView
+            android:id="@+id/lunch_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Начало"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lunch" />
+
+        <TextView
+            android:id="@+id/lunch_begin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/lunch_begin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lunch_begin" />
+
+        <TextView
+            android:id="@+id/lunch_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Конец"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lunch_begin" />
+
+        <TextView
+            android:id="@+id/lunch_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/lunch_end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lunch_end" />
+
+<!--        diner-->
+        <TextView
+            android:id="@+id/diner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/diner_time"
+            android:textSize="@dimen/settings"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lunch_end" />
+
+        <TextView
+            android:id="@+id/diner_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Начало"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diner" />
+
+        <TextView
+            android:id="@+id/diner_begin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/diner_begin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/diner_begin" />
+
+        <TextView
+            android:id="@+id/diner_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Конец"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diner_begin" />
+
+        <TextView
+            android:id="@+id/diner_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/diner_end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/diner_end" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="@color/gray"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diner_end" />
+
+<!--        peak-->
+        <TextView
+            android:id="@+id/peak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/work_peak"
+            android:textSize="@dimen/settings"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+        <TextView
+            android:id="@+id/peak_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Начало"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/peak" />
+
+        <TextView
+            android:id="@+id/peak_begin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/peak_begin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/peak_begin" />
+
+        <TextView
+            android:id="@+id/peak_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Конец"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/peak_begin" />
+
+        <TextView
+            android:id="@+id/peak_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/peak_end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/peak_end" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_marginTop="16dp"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/peak_end" />
+
+<!--        work days-->
+<!--        monday-->
+        <TextView
+            android:id="@+id/mon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/monday"
-            android:layout_marginTop="8dp"
-            android:textSize="@dimen/h4_text"
+            android:textSize="@dimen/settings"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/days_text" />
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
 
-        <CheckBox
-            android:id="@+id/checkBoxTue"
+        <TextView
+            android:id="@+id/work_mon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/work_day"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mon" />
+
+        <TextView
+            android:id="@+id/work_mon_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/work_mon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/work_mon" />
+
+        <TextView
+            android:id="@+id/begin_mon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/begin_time"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/work_mon" />
+
+        <TextView
+            android:id="@+id/begin_mon_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toTopOf="@+id/tue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/begin_mon" />
+
+<!--        tuesday-->
+        <TextView
+            android:id="@+id/tue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tuesday"
-            android:textSize="@dimen/h4_text"
+            android:layout_marginTop="16dp"
+            android:textSize="@dimen/settings"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxMon" />
+            app:layout_constraintTop_toBottomOf="@+id/begin_mon" />
 
-        <CheckBox
-            android:id="@+id/checkBoxWed"
+        <TextView
+            android:id="@+id/work_tue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/wednesday"
-            android:textSize="@dimen/h4_text"
+            android:text="@string/work_day"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxTue" />
+            app:layout_constraintTop_toBottomOf="@+id/tue" />
 
-        <CheckBox
-            android:id="@+id/checkBoxThu"
+        <TextView
+            android:id="@+id/work_tue_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/thursday"
-            android:textSize="@dimen/h4_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxWed" />
-
-        <CheckBox
-            android:id="@+id/checkBoxFri"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/friday"
-            android:textSize="@dimen/h4_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxThu" />
-
-        <CheckBox
-            android:id="@+id/checkBoxSat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/saturday"
-            android:textSize="@dimen/h4_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxFri" />
-
-        <CheckBox
-            android:id="@+id/checkBoxSun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sunday"
-            android:textSize="@dimen/h4_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxSat" />
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/work_tue"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />
+            app:layout_constraintTop_toBottomOf="@+id/tue" />
+
+        <TextView
+            android:id="@+id/begin_tue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/begin_time"
+            android:textSize="@dimen/h3_text"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/work_tue" />
+
+        <TextView
+            android:id="@+id/begin_tue_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_00_00"
+            android:textSize="@dimen/settings"
+            app:layout_constraintBottom_toBottomOf="@+id/begin_tue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/begin_tue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

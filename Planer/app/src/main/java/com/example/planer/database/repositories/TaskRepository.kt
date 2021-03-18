@@ -14,59 +14,59 @@ class TaskRepository(context: Context, scope: CoroutineScope)
     private val taskDao: TaskDao
     val allTasks: LiveData<List<Task>>
     val lastTask: LiveData<Task>
-    val routineMon: LiveData<List<Task>>
-    val routineTue: LiveData<List<Task>>
-    val routineWen: LiveData<List<Task>>
-    val routineThu: LiveData<List<Task>>
-    val routineFri: LiveData<List<Task>>
-    val routineSat: LiveData<List<Task>>
-    val routineSun: LiveData<List<Task>>
+//    val routineMon: LiveData<List<Task>>
+//    val routineTue: LiveData<List<Task>>
+//    val routineWen: LiveData<List<Task>>
+//    val routineThu: LiveData<List<Task>>
+//    val routineFri: LiveData<List<Task>>
+//    val routineSat: LiveData<List<Task>>
+//    val routineSun: LiveData<List<Task>>
 
     init {
         val database: MyDataBase = MyDataBase.getDatabase(context, scope)
         taskDao = database.taskDao()
         allTasks = taskDao.allTasks()
         lastTask = taskDao.getLastTask()
-        routineMon = taskDao.routineMon()
-        routineTue = taskDao.routineTue()
-        routineWen = taskDao.routineWen()
-        routineThu = taskDao.routineThu()
-        routineFri = taskDao.routineFri()
-        routineSat = taskDao.routineSat()
-        routineSun = taskDao.routineSun()
+//        routineMon = taskDao.routineMon()
+//        routineTue = taskDao.routineTue()
+//        routineWen = taskDao.routineWen()
+//        routineThu = taskDao.routineThu()
+//        routineFri = taskDao.routineFri()
+//        routineSat = taskDao.routineSat()
+//        routineSun = taskDao.routineSun()
     }
 
-    fun oneTimeMon(category: String): LiveData<List<Task>> {
-        return taskDao.oneTimeMon(category)
+    fun tasksMon(type: String): LiveData<List<Task>> {
+        return taskDao.tasksMon(type)
     }
 
-    fun oneTimeTue(category: String): LiveData<List<Task>> {
-        return taskDao.oneTimeTue(category)
+    fun tasksTue(type: String): LiveData<List<Task>> {
+        return taskDao.tasksTue(type)
     }
 
-    fun oneTimeWen(category: String): LiveData<List<Task>> {
-        return taskDao.oneTimeWen(category)
+    fun tasksWen(type: String): LiveData<List<Task>> {
+        return taskDao.tasksWen(type)
     }
 
-    fun oneTimeThu(category: String): LiveData<List<Task>> {
-        return taskDao.oneTimeThu(category)
+    fun tasksThu(type: String): LiveData<List<Task>> {
+        return taskDao.tasksThu(type)
     }
 
-    fun oneTimeFri(category: String): LiveData<List<Task>> {
-        return taskDao.oneTimeFri(category)
+    fun tasksFri(type: String): LiveData<List<Task>> {
+        return taskDao.tasksFri(type)
     }
 
-    fun oneTimeSat(category: String): LiveData<List<Task>> {
-        return taskDao.oneTimeSat(category)
+    fun tasksSat(type: String): LiveData<List<Task>> {
+        return taskDao.tasksSat(type)
     }
 
-    fun oneTimeSun(category: String): LiveData<List<Task>> {
-        return taskDao.oneTimeSun(category)
+    fun tasksSun(type: String): LiveData<List<Task>> {
+        return taskDao.tasksSun(type)
     }
 
-    fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>> {
-        return taskDao.oneTimeTasks(category, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
-    }
+//    fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>> {
+//        return taskDao.oneTimeTasks(category, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+//    }
 
     fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>> {
         return taskDao.getByCategoryAndType(category, type)

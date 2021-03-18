@@ -61,10 +61,10 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
         if(task != null) {
             val hours: String = if(task.duration?.div(60)!! < 10)
                 "0" + task.duration?.div(60)
-            else "0" + task.duration?.div(60)
+            else task.duration?.div(60).toString()
             val minutes: String = if(task.duration?.rem(60)!! < 10)
                 "0" + task.duration?.rem(60)
-            else "0" + task.duration?.rem(60)
+            else task.duration?.rem(60).toString()
 
             view.task_title.setText(task.title)
             view.task_description.setText(task.description)
