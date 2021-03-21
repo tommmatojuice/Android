@@ -35,7 +35,6 @@ import java.nio.charset.CodingErrorAction.REPLACE
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 class MainActivity : AppCompatActivity()
 {
     private lateinit var mySharePreferences: MySharePreferences
@@ -88,26 +87,30 @@ class MainActivity : AppCompatActivity()
 
         Log.d("MyTestService1", "Service running")
 
+//        mySharePreferences.setAllInfo(false)
+//        mySharePreferences.setPlan(null)
+
         initFragments(savedInstanceState)
 
 //        scheduleNotification()
 
-//        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-//        val intent = Intent(this, MyAlarmReceiver::class.java)
-//        val sender = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//
-//        val calendar: Calendar = Calendar.getInstance().apply {
-//            timeInMillis = System.currentTimeMillis()
-//            set(Calendar.HOUR_OF_DAY, 19)
-//            set(Calendar.MINUTE, 28)
-//            set(Calendar.SECOND, 40)
-//        }
-//
-//        alarmManager.setExactAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                calendar.timeInMillis,
-//                sender
-//        )
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, MyAlarmReceiver::class.java)
+        val sender = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 14)
+            set(Calendar.MINUTE, 35)
+            set(Calendar.SECOND, 0)
+        }
+
+        alarmManager.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                1000*15,
+                sender
+        )
     }
 
 

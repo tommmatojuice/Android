@@ -15,7 +15,6 @@ import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 class AlertReceiver: BroadcastReceiver()
 {
     private lateinit var mySharePreferences: MySharePreferences

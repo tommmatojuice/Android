@@ -398,31 +398,16 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
                         }
 
                         val navBuilder = NavOptions.Builder()
-                        when {
-                            group == null -> {
-                                arguments?.putString("choice", "all")
-                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
-                                Navigation.findNavController(view).navigate(
-                                        R.id.all_tasks,
-                                        arguments,
-                                        navOptions
-                                )
-                            }
-                            arguments?.getBoolean("back") != null -> {
-                                Navigation.findNavController(view).navigate(R.id.navigation_plan)
-                            }
-                            else -> {
-                                arguments?.putString("choice", "groups")
-                                val navOptions: NavOptions = navBuilder.setPopUpTo(
-                                        R.id.group_tasks,
-                                        true
-                                ).build()
-                                Navigation.findNavController(view).navigate(
-                                        R.id.group_tasks,
-                                        arguments,
-                                        navOptions
-                                )
-                            }
+                        if(group == null && arguments?.getBoolean("back") == null) {
+                            arguments?.putString("choice", "all")
+                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                            Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                        } else if(arguments?.getBoolean("back") != null){
+                            Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                        } else {
+                            arguments?.putString("choice", "groups")
+                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                            Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
                         }
                     } else this.context?.let { ToastMessages.showMessage(
                         it,

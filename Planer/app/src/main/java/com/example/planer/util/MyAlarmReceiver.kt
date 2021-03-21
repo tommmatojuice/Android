@@ -7,7 +7,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.JobIntentService.enqueueWork
+import androidx.core.content.ContextCompat.getSystemService
+import com.example.planer.MainActivity.Companion.scheduleNotification
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MyAlarmReceiver: BroadcastReceiver()
@@ -18,9 +22,18 @@ class MyAlarmReceiver: BroadcastReceiver()
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d("MyTestService2", "Service running");
+        Log.d("MyTestService2", "Service running")
+
+//        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val intentPlan = Intent(context, MyAlarmReceiver::class.java)
+//        val pendingIntentPlan = PendingIntent.getBroadcast(context, 1, intentPlan, 0)
+//
+//        alarmManager.cancel(pendingIntentPlan)
+
         val i = Intent(context, MyIntentService::class.java)
         i.putExtra("maxCountValue", 10)
-        MyIntentService.enqueueWork(context, intent)
+        MyIntentService.enqueueWork(context, i)
+
+//        scheduleNotification()
     }
 }

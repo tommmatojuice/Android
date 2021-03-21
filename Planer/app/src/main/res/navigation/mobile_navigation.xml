@@ -88,19 +88,19 @@
     <fragment
         android:id="@+id/add_routine_task"
         android:name="com.example.planer.ui.tasks.AddRoutineTask"
-        android:label="Новая задача"
+        android:label="Задача"
         tools:layout="@layout/fragment_add_routine_task"/>
 
     <fragment
         android:id="@+id/add_one_time_work_task"
         android:name="com.example.planer.ui.tasks.AddOneTimeWorkTask"
-        android:label="Новая задача"
+        android:label="Задача"
         tools:layout="@layout/fragment_add_one_time_work_task"/>
 
     <fragment
         android:id="@+id/add_one_time_other_task"
         android:name="com.example.planer.ui.tasks.AddOneTimeOtherTask"
-        android:label="Новая задача"
+        android:label="Задача"
         tools:layout="@layout/fragment_add_one_time_other_task"/>
 
 </navigation>

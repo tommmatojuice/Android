@@ -26,7 +26,7 @@ import androidx.work.WorkerParameters
 import com.example.planer.MainActivity
 import com.example.planer.MainActivity.Companion.scheduleNotification
 
-class NotifyWork(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams)
+class NotifyWork(private val context: Context, private val workerParams: WorkerParameters) : Worker(context, workerParams)
 {
     companion object {
         const val NOTIFICATION_ID = "appName_notification_id"
@@ -39,6 +39,9 @@ class NotifyWork(context: Context, workerParams: WorkerParameters) : Worker(cont
         Log.d("mvm", "NotifyWork running")
 
 //        scheduleNotification()
+
+        val i = Intent(context, MyIntentService::class.java)
+        MyIntentService.enqueueWork(applicationContext, i)
 
         return success()
     }
@@ -60,7 +63,7 @@ class NotifyWork(context: Context, workerParams: WorkerParameters) : Worker(cont
                 .setContentIntent(pendingIntent)
                 .setStyle(NotificationCompat.BigTextStyle().bigText("Через 5 минут начинается задача title. При необходимости перенесите задача ну 5, 10 или 30 минут."))
                 .addAction(android.R.drawable.btn_plus, "5 минут", pendingIntent)
-                .addAction(android.R.drawable.btn_plus,"10 минут", pendingIntent)
+                .addAction(android.R.drawable.btn_plus, "10 минут", pendingIntent)
                 .addAction(android.R.drawable.btn_plus, "30 минут", pendingIntent)
                 .setAutoCancel(true)
 
