@@ -55,6 +55,7 @@ class MySharePreferences(context: Context) {
         const val PLAN: String = "PLAN"
         const val FIRST_TASKS: String = "FIRST_TASKS"
         const val TODAY: String = "TODAY"
+        const val WORK_TIME_PAST: String = "WORKTIMEPAST"
     }
 
     private val mySharedPreferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, AppCompatActivity.MODE_PRIVATE)
@@ -77,6 +78,15 @@ class MySharePreferences(context: Context) {
 //        }
 //        return arrayItems
 //    }
+
+    fun setWorkTimePast(time: Int){
+        myEditor.putInt(WORK_TIME_PAST, time)
+        myEditor.apply()
+    }
+
+    fun getWorkTimePast(): Int {
+        return mySharedPreferences.getInt(WORK_TIME_PAST, 0)
+    }
 
     fun setToday(date: String){
         myEditor.putString(TODAY, date)

@@ -20,6 +20,7 @@ import com.example.planer.adapters.PlanRecyclerAdapter
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.MySharePreferences
+import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
 import kotlinx.android.synthetic.main.test.*
 import java.time.LocalDate
@@ -40,7 +41,6 @@ class AutoPlan(private val date: String,
     private var rest: MutableList<Task>? = mutableListOf()
 
     private var workTime: Int = 0
-    private var workTimePast: Int = 0
     private var dayNumber: Int = 0
     private lateinit var beginTime: LocalTime
     private lateinit var beginTimeReserve: LocalTime
@@ -71,15 +71,27 @@ class AutoPlan(private val date: String,
         //вычитаем время пройденных задач
         pomodorosSmall = mySharePreferences.getPlan()
 
-        pomodorosSmall?.forEach {
-            if(it.end < LocalTime.now() && !pomodorosSmall.isNullOrEmpty()){
-                val task = it.task
-                task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
-                workTimePast += mySharePreferences.getPomodoroWork()
-                Log.d("duration", task?.duration.toString())
-                task?.let { it1 -> taskViewModel.update(it1) }
-            }
-        }
+//        if(LocalDate.now().toString() != mySharePreferences.getToday()){
+//            mySharePreferences.setWorkTimePast(0)
+//        }
+//
+//        if(!pomodorosSmall.isNullOrEmpty()){
+//            pomodorosSmall?.forEach {
+//                if(it.end < LocalTime.now() || LocalDate.now().toString() != mySharePreferences.getToday()){
+//                    val task = it.task
+//                    task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
+//                    mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
+//                    this.context?.let { it1 -> ToastMessages.showMessage(it1, "Minus time!") }
+//                    task?.let { it1 -> taskViewModel.update(it1) }
+//                }
+//            }
+//        }
+//
+//        if(LocalDate.now().toString() != mySharePreferences.getToday()){
+//            mySharePreferences.setWorkTimePast(0)
+//        }
+
+        Log.d("workTimePast", mySharePreferences.getWorkTimePast().toString())
 
         taskViewModel.fixedTasksByDate(date).observe(
                 viewLifecycleOwner, { fixedTasks ->
@@ -180,11 +192,7 @@ class AutoPlan(private val date: String,
                 taskViewModel.tasksWen("routine").observe(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
-                        this.oneTimeTasks = oneTimeTasks as MutableList<Task>?
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-
-                        this.rest = oneTimeTasks
-                        this.rest?.removeIf { it.category == "work" }
+                        this.routineTasks = routineTasks
                     }
                 }
                 )
@@ -289,7 +297,7 @@ class AutoPlan(private val date: String,
             }
         }
         beginTimeReserve = beginTime
-        workTime -= workTimePast
+        workTime -= mySharePreferences.getWorkTimePast()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -847,9 +855,9 @@ class AutoPlan(private val date: String,
                 pomodorosSmall?.forEach {
                     Log.d("finish3", "${it.begin}-${it.end}: ${it.task?.title}")
                 }
-                if(days == i){
-                    mySharePreferences.getFirstTasks()?.let { pomodorosSmall?.addAll(it) }
-                }
+//                if(days == i){
+//                    mySharePreferences.getFirstTasks()?.let { pomodorosSmall?.addAll(it) }
+//                }
                 showTasks(pomodorosSmall)
             }
         }

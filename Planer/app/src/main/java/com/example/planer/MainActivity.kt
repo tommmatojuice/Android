@@ -25,13 +25,13 @@ import com.example.planer.database.viewModel.GroupViewModel
 import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.first_come.PutName
-import com.example.planer.util.MyAlarmReceiver
-import com.example.planer.util.MyService
-import com.example.planer.util.MySharePreferences
-import com.example.planer.util.NotifyWork
+import com.example.planer.ui.plan.TasksForPlan
+import com.example.planer.util.*
 import com.example.planer.util.NotifyWork.Companion.NOTIFICATION_WORK
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.nio.charset.CodingErrorAction.REPLACE
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity()
         setContentView(R.layout.activity_main)
 
         mySharePreferences = MySharePreferences(this)
+        minusTime()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.itemIconTintList = null
@@ -161,5 +162,34 @@ class MainActivity : AppCompatActivity()
     override fun onBackPressed() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         super.onBackPressed()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun minusTime()
+    {
+        var pomodoros: MutableList<TasksForPlan>? = mutableListOf()
+
+        if(LocalDate.now().toString() != mySharePreferences.getToday()){
+            mySharePreferences.setWorkTimePast(0)
+        }
+
+        if(!pomodoros.isNullOrEmpty()){
+            pomodoros.forEach {
+                Log.d("pomodorosFromMain", "${it.begin}-${it.end}: ${it.task?.title}")
+                if(it.end < LocalTime.now() || LocalDate.now().toString() != mySharePreferences.getToday()){
+                    val task = it.task
+                    task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
+                    mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
+                    task?.let { it1 -> taskViewModel.update(it1) }
+                }
+            }
+        }
+
+        if(LocalDate.now().toString() != mySharePreferences.getToday()){
+            mySharePreferences.setWorkTimePast(0)
+        }
+
+        pomodoros?.removeIf { it.end < LocalTime.now() }
+        mySharePreferences.setPlan(pomodoros)
     }
 }
