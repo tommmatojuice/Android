@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +31,11 @@ import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.util.InfoDialog
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -44,6 +47,7 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
     private val taskViewModel: TaskViewModel by viewModels()
     private val pathViewModel: PathViewModel by viewModels()
     private var files: MutableList<PathToFile> = mutableListOf()
+    private var checkTasks: MutableList<Task>? = null
     private var adapter: FilesRecyclerAdapter? = null
     private var count by Delegates.notNull<Int>()
     private lateinit var list: RecyclerView
@@ -94,6 +98,38 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
             }
         )
 
+        taskViewModel.allTasks.observe(
+                viewLifecycleOwner, {
+            if (it != null) {
+                this.checkTasks = it as MutableList<Task>?
+//                checkTasks?.removeIf { it.date != view.date.text.toString()
+//                        && !((view.begin_work_time.text.toString() >= it.begin.toString()
+//                        && view.begin_work_time.text.toString() < it.end.toString())
+//                        || (view.end_work_time.text.toString() > it.begin.toString()
+//                        && view.end_work_time.text.toString() <= it.end.toString()))
+//                        && it.type != "fixed"
+//                }
+                Log.d("checkTasks5", it?.size.toString())
+                Log.d("checkTasks5", checkTasks?.size.toString())
+            }
+        }
+        )
+
+
+        Log.d("checkTasks5", checkTasks?.size.toString())
+
+//        taskViewModel.checkTimeFixed(view.begin_work_time.text.toString(), view.end_work_time.text.toString(), view.date.text.toString()).observe(
+//                viewLifecycleOwner, {
+//            if (it != null) {
+//                this.checkTasks = it
+//                Log.d("checkTasks5", view.begin_work_time.text.toString())
+//                Log.d("checkTasks5", view.end_work_time.text.toString())
+//                Log.d("checkTasks5", view.date.text.toString())
+//                Log.d("checkTasks5", it!!.size.toString())
+//            }
+//        }
+//        )
+
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -134,7 +170,7 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
             PICKFILE_RESULT_CODE -> {
                 if (resultCode == RESULT_OK) {
                     val pathFile = data?.data
-                    pathFile?.let { openFile(it) }
+//                    pathFile?.let { openFile(it) }
                     files.add(PathToFile(pathFile.toString(), -1))
                     adapter?.setTasks(files)
                     list.adapter = adapter
@@ -334,6 +370,23 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         }
     }
 
+//    fun checkTask(view: View){
+//        Log.d("checkTasks3", view.begin_work_time.text.toString())
+//        Log.d("checkTasks3", view.end_work_time.text.toString())
+//        Log.d("checkTasks3", view.date.text.toString())
+//        taskViewModel.checkTimeFixed(view.begin_work_time.text.toString(), view.end_work_time.text.toString(), view.date.text.toString()).observe(
+//                viewLifecycleOwner, {
+//            if (it != null) {
+//                this.checkTasks = it
+////                Log.d("checkTasks3", view.begin_work_time.text.toString())
+////                Log.d("checkTasks3", view.end_work_time.text.toString())
+////                Log.d("checkTasks3", view.date.text.toString())
+//                Log.d("checkTasks3", it.size.toString())
+//            }
+//        }
+//        )
+//    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveTask(view: View, task: Task?)
     {
@@ -362,52 +415,74 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
                 } else {
                     if (view.date.text.isNotEmpty())
                     {
-                        if(task != null){
-                            task.title = view.task_title.text.toString()
-                            task.description = view.task_description.text.toString()
-                            task.date = view.date.text.toString()
-                            task.begin = view.begin_work_time.text.toString()
-                            task.end = view.end_work_time.text.toString()
-                            task.let { taskViewModel.update(it) }
-                            addFiles(task.task_id)
-                        } else {
-                            taskViewModel.insert(
-                                Task(
-                                    "fixed",
-                                    view.task_title.text.toString(),
-                                    view.task_description.text.toString(),
-                                    arguments?.getString("category").toString(),
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    false,
-                                    view.date.text.toString(),
-                                    view.begin_work_time.text.toString(),
-                                    view.end_work_time.text.toString(),
-                                    group
-                                )
-                            )
-                            taskViewModel.lastTask.value?.task_id?.plus(1)?.let { addFiles(it) }
+                        checkTasks?.removeIf { it.type != "fixed" }
+                        checkTasks?.removeIf { it.date != view.date.text.toString() }
+                        checkTasks?.removeIf {
+                                !((view.begin_work_time.text.toString() >= it.begin.toString()
+                                && view.begin_work_time.text.toString() < it.end.toString())
+                                || (view.end_work_time.text.toString() > it.begin.toString()
+                                && view.end_work_time.text.toString() <= it.end.toString()))
+                        }
+                        Log.d("checkTasks2", checkTasks?.size.toString())
+                        checkTasks?.forEach {
+                            Log.d("checkTasks2", it?.title.toString())
                         }
 
-                        val navBuilder = NavOptions.Builder()
-                        if(group == null && arguments?.getBoolean("back") == null) {
-                            arguments?.putString("choice", "all")
-                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
-                            Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
-                        } else if(arguments?.getBoolean("back") != null){
-                            Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                        if(task != null){
+                            checkTasks?.removeIf { it.task_id == task.task_id }
+                        }
+
+                        if(checkTasks.isNullOrEmpty()){
+                            Log.d("checkTasks4", checkTasks?.size.toString())
+                            if(task != null){
+                                task.title = view.task_title.text.toString()
+                                task.description = view.task_description.text.toString()
+                                task.date = view.date.text.toString()
+                                task.begin = view.begin_work_time.text.toString()
+                                task.end = view.end_work_time.text.toString()
+                                task.let { taskViewModel.update(it) }
+                                addFiles(task.task_id)
+                            } else {
+                                taskViewModel.insert(
+                                    Task(
+                                        "fixed",
+                                        view.task_title.text.toString(),
+                                        view.task_description.text.toString(),
+                                        arguments?.getString("category").toString(),
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        false,
+                                        view.date.text.toString(),
+                                        view.begin_work_time.text.toString(),
+                                        view.end_work_time.text.toString(),
+                                        group
+                                    )
+                                )
+                                taskViewModel.lastTask.value?.task_id?.plus(1)?.let { addFiles(it) }
+                            }
+
+                            val navBuilder = NavOptions.Builder()
+                            if(group == null && arguments?.getBoolean("back") == false) {
+                                arguments?.putString("choice", "all")
+                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                                Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                            } else if(arguments?.getBoolean("back") == true){
+                                Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                            } else {
+                                arguments?.putString("choice", "groups")
+                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                                Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                            }
                         } else {
-                            arguments?.putString("choice", "groups")
-                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
-                            Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                            this.context?.let { InfoDialog.onCreateDialog(it, "Совпадение задач", "Вы уже добавили задачу на это время.", R.drawable.info_green) }
                         }
                     } else this.context?.let { ToastMessages.showMessage(
                         it,
@@ -423,6 +498,6 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
 
     override fun onItemClick(position: Int) {
         val file = files.find { file -> file.path_id == files[position].path_id }
-        openFile(Uri.parse(file?.path))
+//        openFile(Uri.parse(file?.path))
     }
 }

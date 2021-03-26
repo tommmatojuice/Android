@@ -1,5 +1,7 @@
 package com.example.planer.ui.tasks
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,14 +16,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
 import com.example.planer.adapters.TaskRecyclerAdapter
-import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
-import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
-import com.example.planer.util.ToastMessages
+import com.example.planer.util.InfoDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
+
 
 class TaskRecyclerFragment(private var type: String, private var category: String) : Fragment(), TaskRecyclerAdapter.OnItemClickListener
 {
@@ -48,12 +49,12 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
 
         taskViewModel.taskAndGroup(category, type).observe(
                 viewLifecycleOwner, { tasks ->
-                if (tasks != null) {
-                    this.tasks = tasks
-                    adapter?.setTasks(tasks)
-                    list.adapter = adapter
-                }
+            if (tasks != null) {
+                this.tasks = tasks
+                adapter?.setTasks(tasks)
+                list.adapter = adapter
             }
+        }
         )
 
         taskViewModel.allTasks.observe(
@@ -76,9 +77,19 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
                 val id = tasks?.find { task -> task.task_id == tasks?.get(viewHolder.adapterPosition)?.task_id }?.task_id
                 val task = allTasks?.find { task -> task.task_id == id }
-                if (task != null) {
-                    taskViewModel.delete(task)
+
+                val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
+                    when (which) {
+                        Dialog.BUTTON_POSITIVE -> {
+                            if (task != null) {
+                                taskViewModel.delete(task)
+                            }
+                        }
+                        Dialog.BUTTON_NEGATIVE -> { }
+                    }
                 }
+
+                context?.let { InfoDialog.onCreateConfirmDialog(it, "Удаление", "Удалить задачу \"${task?.title}\"?", R.drawable.delete, myClickListener)}
             }
         }
 
@@ -98,9 +109,10 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
         val bundle = Bundle().apply { putString("type", type) }
                 .apply { putString("category", category) }
                 .apply { putSerializable("task", task) }
+                .apply { putBoolean("back", false) }
         when(type){
             "one_time" -> {
-                if(category == "work")
+                if (category == "work")
                     Navigation.findNavController(view).navigate(R.id.add_one_time_work_task, bundle)
                 else Navigation.findNavController(view).navigate(R.id.add_one_time_other_task, bundle)
             }

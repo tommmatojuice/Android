@@ -66,6 +66,11 @@ class MainActivity : AppCompatActivity()
         setContentView(R.layout.activity_main)
 
         mySharePreferences = MySharePreferences(this)
+
+//        mySharePreferences.setAllInfo(false)
+//        mySharePreferences.setPlan(null)
+//        mySharePreferences.setWorkTimePast(30)
+
         minusTime()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -87,9 +92,6 @@ class MainActivity : AppCompatActivity()
         navView.setupWithNavController(navController)
 
         Log.d("MyTestService1", "Service running")
-
-//        mySharePreferences.setAllInfo(false)
-//        mySharePreferences.setPlan(null)
 
         initFragments(savedInstanceState)
 
@@ -168,22 +170,26 @@ class MainActivity : AppCompatActivity()
     private fun minusTime()
     {
         var pomodoros: MutableList<TasksForPlan>? = mutableListOf()
+        pomodoros = mySharePreferences.getPlan()
 
         if(LocalDate.now().toString() != mySharePreferences.getToday()){
             mySharePreferences.setWorkTimePast(0)
+            mySharePreferences.getFirstTasksNext()?.let { mySharePreferences.setFirstTasksToday(it) }
+            mySharePreferences.setFirstTasksNext(null)
         }
 
         if(!pomodoros.isNullOrEmpty()){
+            mySharePreferences.setWorkEnd(pomodoros.last().end.toString())
             pomodoros.forEach {
                 Log.d("pomodorosFromMain", "${it.begin}-${it.end}: ${it.task?.title}")
-                if(it.end < LocalTime.now() || LocalDate.now().toString() != mySharePreferences.getToday()){
+                if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
                     val task = it.task
                     task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
                     mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
                     task?.let { it1 -> taskViewModel.update(it1) }
                 }
             }
-        }
+        } else mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
 
         if(LocalDate.now().toString() != mySharePreferences.getToday()){
             mySharePreferences.setWorkTimePast(0)

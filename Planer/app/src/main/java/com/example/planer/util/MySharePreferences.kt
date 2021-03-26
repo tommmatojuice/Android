@@ -3,6 +3,7 @@ package com.example.planer.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.planer.database.entity.Task
@@ -53,9 +54,11 @@ class MySharePreferences(context: Context) {
         const val AUTO_FINISH_TASK: String = "AUTO_FINISH_TASK"
         const val PLAN_FOR_DAY: String = "PLAN_FOR_DAY"
         const val PLAN: String = "PLAN"
-        const val FIRST_TASKS: String = "FIRST_TASKS"
+        const val FIRST_TASKS_TODAY: String = "FIRST_TASKS_TODAY"
+        const val FIRST_TASKS_NEXT: String = "FIRST_TASKS_NEXT"
         const val TODAY: String = "TODAY"
         const val WORK_TIME_PAST: String = "WORKTIMEPAST"
+        const val WORK_END: String = "WORK_END"
     }
 
     private val mySharedPreferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, AppCompatActivity.MODE_PRIVATE)
@@ -79,6 +82,15 @@ class MySharePreferences(context: Context) {
 //        return arrayItems
 //    }
 
+    fun setWorkEnd(time: String){
+        myEditor.putString(WORK_END, time)
+        myEditor.apply()
+    }
+
+    fun getWorkEnd(): String? {
+        return mySharedPreferences.getString(WORK_END, "00:00")
+    }
+
     fun setWorkTimePast(time: Int){
         myEditor.putInt(WORK_TIME_PAST, time)
         myEditor.apply()
@@ -97,18 +109,62 @@ class MySharePreferences(context: Context) {
         return mySharedPreferences.getString(TODAY, "2020-10-10")
     }
 
-    fun setFirstTasks(list: List<TasksForPlan>){
+    fun setFirstTasksNext(list: List<TasksForPlan>?){
         val gson = Gson()
-        val json = gson.toJson(list)
-        myEditor.putString(FIRST_TASKS, json)
+        val tasks: MutableList<TaskForPlanTimeString>? = mutableListOf()
+        list?.forEach {
+            tasks?.add(TaskForPlanTimeString(it.begin.toString(), it.end.toString(), it.time, it.task))
+        }
+        val json = gson.toJson(tasks)
+        myEditor.putString(FIRST_TASKS_NEXT, json)
         myEditor.commit()
     }
 
-    fun getFirstTasks():List<TasksForPlan>?{
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getFirstTasksNext():List<TasksForPlan>?{
         val gson = Gson()
-        val json = mySharedPreferences.getString(FIRST_TASKS, null)
-        val type = object : TypeToken<List<TasksForPlan>>(){}.type
-        return gson.fromJson(json, type)
+        val list: MutableList<TasksForPlan>? = mutableListOf()
+        val json = mySharedPreferences.getString(FIRST_TASKS_NEXT, null)
+        val type = object : TypeToken<List<TaskForPlanTimeString>>(){}.type
+        val tasks: MutableList<TaskForPlanTimeString>? = gson.fromJson(json, type)
+        tasks?.forEach {
+            if(it.begin.length > 5)
+                it.begin = it.begin.removeRange(5, it.begin.length)
+            if(it.end.length > 5)
+                it.end = it.end.removeRange(5, it.end.length)
+            list?.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), it.time, it.task))
+        }
+        return list
+    }
+
+    fun setFirstTasksToday(list: List<TasksForPlan>){
+        val gson = Gson()
+        val tasks: MutableList<TaskForPlanTimeString>? = mutableListOf()
+        list.forEach {
+            tasks?.add(TaskForPlanTimeString(it.begin.toString(), it.end.toString(), it.time, it.task))
+        }
+        val json = gson.toJson(tasks)
+        myEditor.putString(FIRST_TASKS_TODAY, json)
+        myEditor.commit()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getFirstTasksToday():List<TasksForPlan>?{
+        val gson = Gson()
+        val list: MutableList<TasksForPlan>? = mutableListOf()
+        val json = mySharedPreferences.getString(FIRST_TASKS_TODAY, null)
+        val type = object : TypeToken<List<TaskForPlanTimeString>>(){}.type
+        val tasks: MutableList<TaskForPlanTimeString>? = gson.fromJson(json, type)
+        tasks?.forEach {
+            if(it.begin.length > 5)
+                it.begin = it.begin.removeRange(5, it.begin.length)
+            if(it.end.length > 5)
+                it.end = it.end.removeRange(5, it.end.length)
+            list?.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), it.time, it.task))
+        }
+        return list
     }
 
     fun setPlan(list: MutableList<TasksForPlan>?){
@@ -130,6 +186,10 @@ class MySharePreferences(context: Context) {
         val type = object : TypeToken<List<TaskForPlanTimeString>>(){}.type
         val tasks: MutableList<TaskForPlanTimeString>? = gson.fromJson(json, type)
         tasks?.forEach {
+            if(it.begin.length > 5)
+                it.begin = it.begin.removeRange(5, it.begin.length)
+            if(it.end.length > 5)
+                it.end = it.end.removeRange(5, it.end.length)
             list?.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
                 LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), it.time, it.task))
         }

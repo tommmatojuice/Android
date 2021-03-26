@@ -3,6 +3,7 @@ package com.example.planer.ui.tasks
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +17,10 @@ import androidx.navigation.Navigation
 import com.example.planer.R
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.util.InfoDialog
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
+import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_button
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_time
@@ -40,6 +43,7 @@ import java.time.format.FormatStyle
 class AddRoutineTask  : Fragment()
 {
     private val taskViewModel: TaskViewModel by viewModels()
+    private var checkTasks: MutableList<Task>? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -50,6 +54,14 @@ class AddRoutineTask  : Fragment()
         initUI(view)
         initButtons(view, task)
         initTask(view, task)
+
+        taskViewModel.allTasks.observe(
+                viewLifecycleOwner, {
+            if (it != null) {
+                this.checkTasks = it as MutableList<Task>?
+            }
+        }
+        )
 
         return view
     }
@@ -108,6 +120,22 @@ class AddRoutineTask  : Fragment()
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveTask(view: View, task: Task?)
     {
+        checkTasks?.removeIf { it.type != "routine" }
+        checkTasks?.removeIf { !(it.monday == view.checkBoxMon.isChecked || it.tuesday == view.checkBoxTue.isChecked
+                || it.wednesday == view.checkBoxWed.isChecked || it.thursday == view.checkBoxThu.isChecked
+                || it.friday == view.checkBoxFri.isChecked || it.saturday == view.checkBoxSat.isChecked
+                || it.sunday == view.checkBoxSun.isChecked)}
+        checkTasks?.removeIf {
+            !((view.begin_work_time.text.toString() >= it.begin.toString()
+                    && view.begin_work_time.text.toString() < it.end.toString())
+                    || (view.end_work_time.text.toString() > it.begin.toString()
+                    && view.end_work_time.text.toString() <= it.end.toString()))
+        }
+        Log.d("checkTasks2", checkTasks?.size.toString())
+        checkTasks?.forEach {
+            Log.d("checkTasks2", it?.title.toString())
+        }
+
         val group: Int? = if(arguments?.getInt("group") == 0)
             null
         else arguments?.getInt("group")
@@ -121,57 +149,63 @@ class AddRoutineTask  : Fragment()
                     this.context?.let { ToastMessages.showMessage(it, "Неверно введено время начала или окончания") }
                 } else {
                     if (view.checkBoxMon.isChecked || view.checkBoxTue.isChecked || view.checkBoxWed.isChecked || view.checkBoxThu.isChecked ||
-                            view.checkBoxFri.isChecked || view.checkBoxSat.isChecked || view.checkBoxSun.isChecked) {
+                            view.checkBoxFri.isChecked || view.checkBoxSat.isChecked || view.checkBoxSun.isChecked)
+                    {
                         if(task != null){
-                            task.title = view.task_title.text.toString()
-                            task.description = view.task_description.text.toString()
-                            task.begin = view.begin_work_time.text.toString()
-                            task.end = view.end_work_time.text.toString()
-                            task.monday =view.checkBoxMon.isChecked
-                            task.tuesday =view.checkBoxTue.isChecked
-                            task.wednesday = view.checkBoxWed.isChecked
-                            task.thursday = view.checkBoxThu.isChecked
-                            task.friday = view.checkBoxFri.isChecked
-                            task.saturday = view.checkBoxSat.isChecked
-                            task.sunday = view.checkBoxSun.isChecked
-                            task.let { taskViewModel.update(it) }
-                        } else {
-                            taskViewModel.insert(Task(
-                                    "routine",
-                                    view.task_title.text.toString(),
-                                    view.task_description.text.toString(),
-                                    arguments?.getString("category").toString(),
-                                    null,
-                                    null,
-                                    null,
-                                    view.checkBoxMon.isChecked ,
-                                    view.checkBoxTue.isChecked ,
-                                    view.checkBoxWed.isChecked ,
-                                    view.checkBoxThu.isChecked ,
-                                    view.checkBoxFri.isChecked ,
-                                    view.checkBoxSat.isChecked ,
-                                    view.checkBoxSun.isChecked ,
-                                    false,
-                                    null,
-                                    view.begin_work_time.text.toString(),
-                                    view.end_work_time.text.toString(),
-                                    group
-                            )
-                            )
+                            checkTasks?.removeIf { it.task_id == task.task_id }
                         }
+                        if(checkTasks.isNullOrEmpty()){
+                            if(task != null){
+                                task.title = view.task_title.text.toString()
+                                task.description = view.task_description.text.toString()
+                                task.begin = view.begin_work_time.text.toString()
+                                task.end = view.end_work_time.text.toString()
+                                task.monday =view.checkBoxMon.isChecked
+                                task.tuesday =view.checkBoxTue.isChecked
+                                task.wednesday = view.checkBoxWed.isChecked
+                                task.thursday = view.checkBoxThu.isChecked
+                                task.friday = view.checkBoxFri.isChecked
+                                task.saturday = view.checkBoxSat.isChecked
+                                task.sunday = view.checkBoxSun.isChecked
+                                task.let { taskViewModel.update(it) }
+                            } else {
+                                taskViewModel.insert(Task(
+                                        "routine",
+                                        view.task_title.text.toString(),
+                                        view.task_description.text.toString(),
+                                        arguments?.getString("category").toString(),
+                                        null,
+                                        null,
+                                        null,
+                                        view.checkBoxMon.isChecked ,
+                                        view.checkBoxTue.isChecked ,
+                                        view.checkBoxWed.isChecked ,
+                                        view.checkBoxThu.isChecked ,
+                                        view.checkBoxFri.isChecked ,
+                                        view.checkBoxSat.isChecked ,
+                                        view.checkBoxSun.isChecked ,
+                                        false,
+                                        null,
+                                        view.begin_work_time.text.toString(),
+                                        view.end_work_time.text.toString(),
+                                        group
+                                )
+                                )
+                            }
 
-                        val navBuilder = NavOptions.Builder()
-                        if(group == null && arguments?.getBoolean("back") == null) {
-                            arguments?.putString("choice", "all")
-                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
-                            Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
-                        } else if(arguments?.getBoolean("back") != null){
-                            Navigation.findNavController(view).navigate(R.id.navigation_plan)
-                        } else {
-                            arguments?.putString("choice", "groups")
-                            val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
-                            Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
-                        }
+                            val navBuilder = NavOptions.Builder()
+                            if(group == null && arguments?.getBoolean("back") == false) {
+                                arguments?.putString("choice", "all")
+                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                                Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                            } else if(arguments?.getBoolean("back") == true){
+                                Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                            } else {
+                                arguments?.putString("choice", "groups")
+                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                                Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                            }
+                        } else this.context?.let { InfoDialog.onCreateDialog(it, "Совпадение задач", "Вы уже добавили задачу на это время.", R.drawable.info_green) }
                     } else this.context?.let { ToastMessages.showMessage(it, "Необходимо выбрать хотя бы один день недели") }
                 }
             } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести название") }

@@ -16,13 +16,14 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
 
     val allTasks = repository.allTasks
     val lastTask = repository.lastTask
-//    val routineMon = repository.routineMon
-//    val routineTue = repository.routineTue
-//    val routineWen = repository.routineWen
-//    val routineThu = repository.routineThu
-//    val routineFri = repository.routineFri
-//    val routineSat = repository.routineSat
-//    val routineSun = repository.routineSun
+
+    fun checkTimeFixed(begin: String, end: String, date: String): LiveData<List<Task>>{
+        return repository.checkTimeFixed(begin, end, date)
+    }
+
+    fun checkTimeRoutine(begin: String, end: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>>{
+        return repository.checkTimeRoutine(begin, end, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+    }
 
     fun tasksMon(type: String): LiveData<List<Task>> {
         return repository.tasksMon(type)
