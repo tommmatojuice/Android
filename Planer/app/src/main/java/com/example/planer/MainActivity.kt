@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity()
         setContentView(R.layout.activity_main)
 
         mySharePreferences = MySharePreferences(this)
+//        mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
 
 //        mySharePreferences.setAllInfo(false)
 //        mySharePreferences.setPlan(null)
@@ -175,18 +176,22 @@ class MainActivity : AppCompatActivity()
         if(LocalDate.now().toString() != mySharePreferences.getToday()){
             mySharePreferences.setWorkTimePast(0)
             mySharePreferences.getFirstTasksNext()?.let { mySharePreferences.setFirstTasksToday(it) }
-            mySharePreferences.setFirstTasksNext(null)
+            mySharePreferences.setWorkEnd(null)
         }
 
         if(!pomodoros.isNullOrEmpty()){
-            mySharePreferences.setWorkEnd(pomodoros.last().end.toString())
-            pomodoros.forEach {
-                Log.d("pomodorosFromMain", "${it.begin}-${it.end}: ${it.task?.title}")
-                if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
-                    val task = it.task
-                    task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
-                    mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
-                    task?.let { it1 -> taskViewModel.update(it1) }
+            if(pomodoros.last().task?.type == "one_time" && pomodoros.last().task?.category != "work"){
+                //no
+            } else {
+                mySharePreferences.setWorkEnd(pomodoros.last().end.toString())
+                pomodoros.forEach {
+                    Log.d("pomodorosFromMain", "${it.begin}-${it.end}: ${it.task?.title}")
+                    if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
+                        val task = it.task
+                        task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
+                        mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
+                        task?.let { it1 -> taskViewModel.update(it1) }
+                    }
                 }
             }
         } else mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
@@ -195,7 +200,7 @@ class MainActivity : AppCompatActivity()
             mySharePreferences.setWorkTimePast(0)
         }
 
-        pomodoros?.removeIf { it.end < LocalTime.now() }
+        pomodoros?.removeIf { it.end < LocalTime.now() && it.begin != it.end }
         mySharePreferences.setPlan(pomodoros)
     }
 }

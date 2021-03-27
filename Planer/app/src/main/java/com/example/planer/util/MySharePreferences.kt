@@ -82,7 +82,7 @@ class MySharePreferences(context: Context) {
 //        return arrayItems
 //    }
 
-    fun setWorkEnd(time: String){
+    fun setWorkEnd(time: String?){
         myEditor.putString(WORK_END, time)
         myEditor.apply()
     }

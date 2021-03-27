@@ -1,6 +1,8 @@
 package com.example.planer.ui.tasks
 
 import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.text.Html
@@ -46,7 +48,8 @@ class GroupTasksRecyclerFragment : Fragment(), TaskRecyclerAdapter.OnItemClickLi
 
         arguments?.putInt("group", id)
 
-        val tasks = taskViewModel.taskByGroup(id).value
+//        val tasks = taskViewModel.taskByGroup(id).value
+//        this.tasks = tasks
 
         (activity as AppCompatActivity).supportActionBar?.title = group.title
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -88,11 +91,24 @@ class GroupTasksRecyclerFragment : Fragment(), TaskRecyclerAdapter.OnItemClickLi
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
-                val task = allTasks?.find { task -> task.task_id == allTasks?.get(viewHolder.adapterPosition + 1)?.task_id}
+                val task = allTasks?.find { task -> task.task_id == tasks?.find { task -> task.task_id == tasks?.get(viewHolder.adapterPosition)?.task_id }?.task_id }
                 Log.d("task", task?.task_id.toString())
-                if (task != null) {
-                    taskViewModel.delete(task)
+
+                val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
+                    when (which) {
+                        Dialog.BUTTON_POSITIVE -> {
+                            if (task != null) {
+                                taskViewModel.delete(task)
+                            }
+                        }
+                        Dialog.BUTTON_NEGATIVE -> {
+                            tasks?.let { adapter?.setTasks(it) }
+                            list.adapter = adapter
+                        }
+                    }
                 }
+
+                context?.let { InfoDialog.onCreateConfirmDialog(it, "Удаление", "Удалить задачу \"${task?.title}\"?", R.drawable.delete, myClickListener)}
             }
         }
 

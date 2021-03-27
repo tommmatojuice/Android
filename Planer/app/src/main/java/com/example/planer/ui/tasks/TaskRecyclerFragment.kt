@@ -85,7 +85,10 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
                                 taskViewModel.delete(task)
                             }
                         }
-                        Dialog.BUTTON_NEGATIVE -> { }
+                        Dialog.BUTTON_NEGATIVE -> {
+                            tasks?.let { adapter?.setTasks(it) }
+                            list.adapter = adapter
+                        }
                     }
                 }
 
