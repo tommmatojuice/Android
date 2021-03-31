@@ -51,6 +51,7 @@ class GroupTasksRecyclerAdapter(private val context: Context,
         private val card: CardView = taskView.card_view
         private val rec: ImageView? = taskView.rectangle
         private val rec2: ImageView? = taskView.rectangle2
+        private val selfImprovement: ImageView? = taskView.self_improvement
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(version: Task)
@@ -70,6 +71,8 @@ class GroupTasksRecyclerAdapter(private val context: Context,
 
             title.text = version.title
             description.text = version.description
+            selfImprovement?.visibility = View.INVISIBLE
+
             when {
                 version.deadline != null -> {
                     val deadline = LocalDate.parse(version.deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"))

@@ -4,9 +4,8 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.DatePicker
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
@@ -31,7 +30,6 @@ import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.check
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.checkBoxTue
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.checkBoxWed
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.deadline_button
-import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.save_button
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.task_description
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.task_title
 import java.time.LocalTime
@@ -42,18 +40,47 @@ import java.util.*
 class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekBar.OnSeekBarChangeListener
 {
     private val taskViewModel: TaskViewModel by viewModels()
+    private lateinit var myView: View
+    private var task: Task? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_add_one_time_work_task, container, false)
-        val task = arguments?.getSerializable("task") as Task?
+        myView = view
+        task = arguments?.getSerializable("task") as Task?
 
         initUI(view)
         initButtons(view, task)
         initTask(view, task)
 
         return view
+    }
+
+    //Сохрание
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
+    {
+        inflater.inflate(R.menu.save_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    {
+        return when (item.itemId) {
+            R.id.save_item -> {
+                Log.d("click", "click")
+                myView.let { saveTask(it, task) }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     @SuppressLint("NewApi", "SetTextI18n")
@@ -96,16 +123,16 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
         }
         color?.let { view.work_button.setBackgroundColor(it) }
         color?.let { view.deadline_button.setBackgroundColor(it) }
-        color?.let { view.save_button.setBackgroundColor(it) }
+//        color?.let { view.save_button.setBackgroundColor(it) }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initButtons(view: View, task: Task?)
     {
-        view.save_button.setOnClickListener {
-            saveTask(view, task)
-        }
+//        view.save_button.setOnClickListener {
+//            saveTask(view, task)
+//        }
 
         view.work_button.setOnClickListener {
             this.context?.let { it1 -> TimeDialog.getTime(view.work_time, it1) }

@@ -205,18 +205,20 @@
             android:layout_height="wrap_content"
             android:text="@string/sunday"
             android:textSize="@dimen/h4_text"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkBoxSat" />
 
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />
+<!--        <Button-->
+<!--            android:id="@+id/save_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/save"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

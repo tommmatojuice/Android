@@ -51,6 +51,7 @@ class PlanRecyclerAdapter (context: Context,
         private val card: CardView = taskView.card_view
         private val rec: ImageView? = taskView.rectangle
         private val rec2: ImageView? = taskView.rectangle2
+        private val selfImprovement: ImageView? = taskView.self_improvement
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(version: TasksForPlan)
@@ -61,9 +62,11 @@ class PlanRecyclerAdapter (context: Context,
 
             title.text = version.task?.title
             group.visibility = View.GONE
+            selfImprovement?.visibility = View.INVISIBLE
 
             if(version.task?.category != "work" && version.task?.type == "one_time"){
                 date.text = null
+                selfImprovement?.visibility = View.VISIBLE
             } else {
                 date.text = "${version.begin}\n-\n${version.end}"
             }

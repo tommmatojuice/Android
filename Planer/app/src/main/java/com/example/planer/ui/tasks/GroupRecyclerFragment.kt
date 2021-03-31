@@ -1,6 +1,8 @@
 package com.example.planer.ui.tasks
 
 import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.text.InputType
@@ -23,6 +25,7 @@ import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.GroupViewModel
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.util.InfoDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_group_recycler.view.*
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.button_add_item
@@ -74,7 +77,21 @@ class GroupRecyclerFragment(private var type: String, private var category: Stri
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
                 val id = groups!!.get(viewHolder.adapterPosition).group.group_task_id
                 val group =  groups?.find { group -> group.group.group_task_id == id}?.group
-                group?.let { groupViewModel.delete(it) }
+                Log.d("groupDelete", group?.group_task_id.toString())
+
+                val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
+                    when (which) {
+                        Dialog.BUTTON_POSITIVE -> {
+                            group?.let { groupViewModel.delete(it) }
+                        }
+                        Dialog.BUTTON_NEGATIVE -> {
+                            groups?.let { adapter?.setTasks(it) }
+                            list.adapter = adapter
+                        }
+                    }
+                }
+
+                context?.let { InfoDialog.onCreateConfirmDialog(it, "Удаление", "Удалить составную задачу \"${group?.title}\"?", R.drawable.delete, myClickListener)}
             }
         }
 

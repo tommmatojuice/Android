@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -33,7 +31,6 @@ import kotlinx.android.synthetic.main.fragment_add_routine_task.view.checkBoxTue
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.checkBoxWed
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.end_work_button
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.end_work_time
-import kotlinx.android.synthetic.main.fragment_add_routine_task.view.save_button
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_description
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_title
 import java.time.LocalTime
@@ -44,12 +41,15 @@ class AddRoutineTask  : Fragment()
 {
     private val taskViewModel: TaskViewModel by viewModels()
     private var checkTasks: MutableList<Task>? = null
+    private lateinit var myView: View
+    private var task: Task? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_add_routine_task, container, false)
-        val task = arguments?.getSerializable("task") as Task?
+        myView = view
+        task = arguments?.getSerializable("task") as Task?
 
         initUI(view)
         initButtons(view, task)
@@ -64,6 +64,32 @@ class AddRoutineTask  : Fragment()
         )
 
         return view
+    }
+
+    //Сохрание
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
+    {
+        inflater.inflate(R.menu.save_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    {
+        return when (item.itemId) {
+            R.id.save_item -> {
+                Log.d("click", "click")
+                myView.let { saveTask(it, task) }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     @SuppressLint("NewApi")
@@ -97,16 +123,16 @@ class AddRoutineTask  : Fragment()
         }
         color?.let { view.begin_work_button.setBackgroundColor(it) }
         color?.let { view.end_work_button.setBackgroundColor(it) }
-        color?.let { view.save_button.setBackgroundColor(it) }
+//        color?.let { view.save_button.setBackgroundColor(it) }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initButtons(view: View, task: Task?)
     {
-        view.save_button.setOnClickListener {
-            saveTask(view, task)
-        }
+//        view.save_button.setOnClickListener {
+//            saveTask(view, task)
+//        }
 
         view.begin_work_button.setOnClickListener {
             this.context?.let { it1 -> TimeDialog.getTime(view.begin_work_time, it1) }

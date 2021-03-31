@@ -10,9 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -50,6 +48,8 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
     private var checkTasks: MutableList<Task>? = null
     private var adapter: FilesRecyclerAdapter? = null
     private var count by Delegates.notNull<Int>()
+    private var task: Task? = null
+    private lateinit var MyView: View
     private lateinit var list: RecyclerView
     private val PICKFILE_RESULT_CODE = 1
 
@@ -60,11 +60,12 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         savedInstanceState: Bundle?
     ): View?
     {
-        val view = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
-        val task = arguments?.getSerializable("task") as Task?
+        MyView = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
+//        val task = arguments?.getSerializable("task") as Task?
+        task = arguments?.getSerializable("task") as Task?
 
         adapter = this.context?.let { FilesRecyclerAdapter(it, files, this) }
-        list = view.files_recycler_view
+        list = MyView.files_recycler_view
         list.adapter = adapter
 
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.HORIZONTAL)
@@ -76,9 +77,9 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         }!!)
         list.addItemDecoration(decoration)
 
-        initUI(view)
-        initButtons(view, task)
-        initTask(view, task)
+        initUI(MyView)
+        initButtons(MyView, task)
+        initTask(MyView, task)
 
         task?.task_id?.let {
             pathViewModel.pathsById(it).observe(
@@ -151,7 +152,33 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(list)
 
-        return view
+        return MyView
+    }
+
+    //Сохрание
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
+    {
+        inflater.inflate(R.menu.save_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    {
+        return when (item.itemId) {
+            R.id.save_item -> {
+                Log.d("click", "click")
+                MyView?.let { saveTask(it, task) }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun addFiles(task_id: Int){
@@ -316,16 +343,16 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         color?.let { view.begin_work_button.setBackgroundColor(it) }
         color?.let { view.end_work_button.setBackgroundColor(it) }
         color?.let { view.deadline_button.setBackgroundColor(it) }
-        color?.let { view.save_button.setBackgroundColor(it) }
+//        color?.let { view.save_button.setBackgroundColor(it) }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initButtons(view: View, task: Task?)
     {
-        view.save_button.setOnClickListener {
-            saveTask(view, task)
-        }
+//        view.save_button.setOnClickListener {
+//            saveTask(view, task)
+//        }
 
         view.begin_work_button.setOnClickListener {
             this.context?.let { it1 -> TimeDialog.getTime(view.begin_work_time, it1) }
@@ -393,6 +420,8 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         val group: Int? = if(arguments?.getInt("group") == 0)
             null
         else arguments?.getInt("group")
+
+        Log.d("checkTasks", view.begin_work_time.text.toString())
 
         if (view.begin_work_time.text.isNotEmpty() && view.end_work_time.text.isNotEmpty()){
             val date1 = LocalTime.parse(

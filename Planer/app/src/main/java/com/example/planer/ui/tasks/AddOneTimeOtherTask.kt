@@ -1,10 +1,11 @@
 package com.example.planer.ui.tasks
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,24 +17,52 @@ import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.*
-import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.save_button
 import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.task_description
 import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.task_title
 
 class AddOneTimeOtherTask  : Fragment()
 {
     private val taskViewModel: TaskViewModel by viewModels()
+    private lateinit var myView: View
+    private var task: Task? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_add_one_time_other_task, container, false)
-        val task = arguments?.getSerializable("task") as Task?
+        myView = view
+        task = arguments?.getSerializable("task") as Task?
 
         initUI(view)
         initButtons(view, task)
         initTask(view, task)
 
         return view
+    }
+
+    //Сохрание
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
+    {
+        inflater.inflate(R.menu.save_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    {
+        return when (item.itemId) {
+            R.id.save_item -> {
+                Log.d("click", "click")
+                myView.let { saveTask(it, task) }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initTask(view: View, task: Task?){
@@ -63,16 +92,16 @@ class AddOneTimeOtherTask  : Fragment()
                 color = this.context?.let { ContextCompat.getColor(it, R.color.dark_orange) }!!
             }
         }
-        color?.let { view.save_button.setBackgroundColor(it) }
+//        color?.let { view.save_button.setBackgroundColor(it) }
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun initButtons(view: View, task: Task?)
     {
-        view.save_button.setOnClickListener {
-            saveTask(view, task)
-        }
+//        view.save_button.setOnClickListener {
+//            saveTask(view, task)
+//        }
     }
 
     private fun saveTask(view: View, task: Task?){
