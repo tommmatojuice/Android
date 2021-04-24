@@ -47,11 +47,12 @@ class MainActivity : AppCompatActivity()
     private val pathViewModel: PathViewModel by viewModels()
 
     companion object {
+        @RequiresApi(Build.VERSION_CODES.O)
         fun scheduleNotification() {
             Log.d("mvm", "scheduleNotification running")
 
             val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
-                .setInitialDelay(5, TimeUnit.SECONDS)
+                .setInitialDelay(30, TimeUnit.SECONDS)
                 .build()
 
             val instanceWorkManager = WorkManager.getInstance()
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity()
 
 //        mySharePreferences.setAllInfo(false)
 //        mySharePreferences.setPlan(null)
-//        mySharePreferences.setWorkTimePast(30)
+//        mySharePreferences.setWorkTimePast(0)
 
         minusTime()
 
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity()
 
         initFragments(savedInstanceState)
 
-//        scheduleNotification()
+        scheduleNotification()
 
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, MyAlarmReceiver::class.java)
@@ -170,6 +171,7 @@ class MainActivity : AppCompatActivity()
     @RequiresApi(Build.VERSION_CODES.O)
     private fun minusTime()
     {
+        Log.d("minusTime", "minusTime")
         var pomodoros: MutableList<TasksForPlan>? = mutableListOf()
         pomodoros = mySharePreferences.getPlan()
 
@@ -187,6 +189,7 @@ class MainActivity : AppCompatActivity()
                 pomodoros.forEach {
                     Log.d("pomodorosFromMain", "${it.begin}-${it.end}: ${it.task?.title}")
                     if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
+                        Log.d("pomodorosFromMainMT", "${it.begin}-${it.end}: ${it.task?.title}")
                         val task = it.task
                         task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
                         mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())

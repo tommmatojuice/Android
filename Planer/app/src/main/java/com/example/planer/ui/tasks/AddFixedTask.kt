@@ -30,6 +30,7 @@ import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.InfoDialog
+import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
@@ -52,6 +53,7 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
     private lateinit var MyView: View
     private lateinit var list: RecyclerView
     private val PICKFILE_RESULT_CODE = 1
+    private lateinit var mySharePreferences: MySharePreferences
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -63,6 +65,8 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         MyView = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
 //        val task = arguments?.getSerializable("task") as Task?
         task = arguments?.getSerializable("task") as Task?
+
+        mySharePreferences = activity?.applicationContext?.let { MySharePreferences(it) }!!
 
         adapter = this.context?.let { FilesRecyclerAdapter(it, files, this) }
         list = MyView.files_recycler_view
@@ -462,53 +466,59 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
                         }
 
                         if(checkTasks.isNullOrEmpty()){
-                            Log.d("checkTasks4", checkTasks?.size.toString())
-                            if(task != null){
-                                task.title = view.task_title.text.toString()
-                                task.description = view.task_description.text.toString()
-                                task.date = view.date.text.toString()
-                                task.begin = view.begin_work_time.text.toString()
-                                task.end = view.end_work_time.text.toString()
-                                task.let { taskViewModel.update(it) }
-                                addFiles(task.task_id)
-                            } else {
-                                taskViewModel.insert(
-                                    Task(
-                                        "fixed",
-                                        view.task_title.text.toString(),
-                                        view.task_description.text.toString(),
-                                        arguments?.getString("category").toString(),
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        null,
-                                        false,
-                                        view.date.text.toString(),
-                                        view.begin_work_time.text.toString(),
-                                        view.end_work_time.text.toString(),
-                                        group
+                            if(checkEat(view, mySharePreferences.getBreakfast().toString(), mySharePreferences.getBreakfastEnd().toString())
+                                    && checkEat(view, mySharePreferences.getLunch().toString(), mySharePreferences.getLunchEnd().toString())
+                                    && checkEat(view, mySharePreferences.getDiner().toString(), mySharePreferences.getDinerEnd().toString())){
+                                Log.d("checkTasks4", checkTasks?.size.toString())
+                                if(task != null){
+                                    task.title = view.task_title.text.toString()
+                                    task.description = view.task_description.text.toString()
+                                    task.date = view.date.text.toString()
+                                    task.begin = view.begin_work_time.text.toString()
+                                    task.end = view.end_work_time.text.toString()
+                                    task.let { taskViewModel.update(it) }
+                                    addFiles(task.task_id)
+                                } else {
+                                    taskViewModel.insert(
+                                            Task(
+                                                    "fixed",
+                                                    view.task_title.text.toString(),
+                                                    view.task_description.text.toString(),
+                                                    arguments?.getString("category").toString(),
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    false,
+                                                    view.date.text.toString(),
+                                                    view.begin_work_time.text.toString(),
+                                                    view.end_work_time.text.toString(),
+                                                    group
+                                            )
                                     )
-                                )
-                                taskViewModel.lastTask.value?.task_id?.plus(1)?.let { addFiles(it) }
-                            }
+                                    taskViewModel.lastTask.value?.task_id?.plus(1)?.let { addFiles(it) }
+                                }
 
-                            val navBuilder = NavOptions.Builder()
-                            if(group == null && arguments?.getBoolean("back") == false) {
-                                arguments?.putString("choice", "all")
-                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
-                                Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
-                            } else if(arguments?.getBoolean("back") == true){
-                                Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                                val navBuilder = NavOptions.Builder()
+                                if(group == null && arguments?.getBoolean("back") == false) {
+                                    arguments?.putString("choice", "all")
+                                    val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                                    Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                                } else if(arguments?.getBoolean("back") == true){
+                                    Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                                } else {
+                                    arguments?.putString("choice", "groups")
+                                    val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                                    Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                                }
                             } else {
-                                arguments?.putString("choice", "groups")
-                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
-                                Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                                this.context?.let { InfoDialog.onCreateDialog(it, "Прием пищи", "Время задачи совпадает с приемом пищи. Для добавления задачи измените время примема пищи в разделе \"Профиль\".", R.drawable.info_green) }
                             }
                         } else {
                             this.context?.let { InfoDialog.onCreateDialog(it, "Совпадение задач", "Вы уже добавили задачу на это время.", R.drawable.info_green) }
@@ -528,5 +538,12 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
     override fun onItemClick(position: Int) {
         val file = files.find { file -> file.path_id == files[position].path_id }
 //        openFile(Uri.parse(file?.path))
+    }
+
+    fun checkEat(view: View, beginTime: String, endTime: String): Boolean{
+        return !((view.begin_work_time.text.toString() >= beginTime
+                && view.begin_work_time.text.toString() < endTime)
+                || (view.end_work_time.text.toString() > beginTime
+                && view.end_work_time.text.toString() <= endTime))
     }
 }

@@ -75,7 +75,7 @@ class PutTime : Fragment()
     {
         return when (item.itemId) {
             R.id.info_item -> {
-                this.context?.let { InfoDialog.onCreateDialog(it, "Подсказка", "Введите время своих приемов пиши, а так же время, когда вы ложитесь спать и просыпаетесь.", R.drawable.blue_info) }
+                this.context?.let { InfoDialog.onCreateDialog(it, "Подсказка", "Введите время своих приемов пищи, а также время, когда вы ложитесь спать и просыпаетесь.", R.drawable.blue_info) }
                 true
             }
             else -> super.onOptionsItemSelected(item)

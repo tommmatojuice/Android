@@ -10,9 +10,11 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
 import com.example.planer.MainActivity
+import com.example.planer.database.viewModel.TaskViewModel
 
 class MyIntentService: JobIntentService()
 {
@@ -22,12 +24,15 @@ class MyIntentService: JobIntentService()
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onHandleWork(intent: Intent) {
         Log.d("MyTestService3", "Service running")
         sendNotification(1)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun sendNotification(id: Int) {
+        val mySharePreferences: MySharePreferences = MySharePreferences(applicationContext)
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra(NotifyWork.NOTIFICATION_ID, id)
@@ -44,7 +49,7 @@ class MyIntentService: JobIntentService()
             .setContentText("Через 5 минут начинается задача title")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .setStyle(NotificationCompat.BigTextStyle().bigText("Через 5 минут начинается задача title. При необходимости перенесите задача ну 5, 10 или 30 минут."))
+            .setStyle(NotificationCompat.BigTextStyle().bigText("Через 5 минут начинается задача ${mySharePreferences.getPlan()?.get(0)?.task?.title}. При необходимости перенесите задача ну 5, 10 или 30 минут."))
             .addAction(android.R.drawable.btn_plus, "5 минут", pendingIntent)
             .addAction(android.R.drawable.btn_plus,"10 минут", pendingIntent)
             .addAction(android.R.drawable.btn_plus, "30 минут", pendingIntent)

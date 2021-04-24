@@ -16,6 +16,7 @@ import com.example.planer.R
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.InfoDialog
+import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
@@ -43,6 +44,7 @@ class AddRoutineTask  : Fragment()
     private var checkTasks: MutableList<Task>? = null
     private lateinit var myView: View
     private var task: Task? = null
+    private lateinit var mySharePreferences: MySharePreferences
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -50,6 +52,8 @@ class AddRoutineTask  : Fragment()
         val view = inflater.inflate(R.layout.fragment_add_routine_task, container, false)
         myView = view
         task = arguments?.getSerializable("task") as Task?
+
+        mySharePreferences = activity?.applicationContext?.let { MySharePreferences(it) }!!
 
         initUI(view)
         initButtons(view, task)
@@ -181,60 +185,71 @@ class AddRoutineTask  : Fragment()
                             checkTasks?.removeIf { it.task_id == task.task_id }
                         }
                         if(checkTasks.isNullOrEmpty()){
-                            if(task != null){
-                                task.title = view.task_title.text.toString()
-                                task.description = view.task_description.text.toString()
-                                task.begin = view.begin_work_time.text.toString()
-                                task.end = view.end_work_time.text.toString()
-                                task.monday =view.checkBoxMon.isChecked
-                                task.tuesday =view.checkBoxTue.isChecked
-                                task.wednesday = view.checkBoxWed.isChecked
-                                task.thursday = view.checkBoxThu.isChecked
-                                task.friday = view.checkBoxFri.isChecked
-                                task.saturday = view.checkBoxSat.isChecked
-                                task.sunday = view.checkBoxSun.isChecked
-                                task.let { taskViewModel.update(it) }
-                            } else {
-                                taskViewModel.insert(Task(
-                                        "routine",
-                                        view.task_title.text.toString(),
-                                        view.task_description.text.toString(),
-                                        arguments?.getString("category").toString(),
-                                        null,
-                                        null,
-                                        null,
-                                        view.checkBoxMon.isChecked ,
-                                        view.checkBoxTue.isChecked ,
-                                        view.checkBoxWed.isChecked ,
-                                        view.checkBoxThu.isChecked ,
-                                        view.checkBoxFri.isChecked ,
-                                        view.checkBoxSat.isChecked ,
-                                        view.checkBoxSun.isChecked ,
-                                        false,
-                                        null,
-                                        view.begin_work_time.text.toString(),
-                                        view.end_work_time.text.toString(),
-                                        group
-                                )
-                                )
-                            }
+                            if(checkEat(view, mySharePreferences.getBreakfast().toString(), mySharePreferences.getBreakfastEnd().toString())
+                                    && checkEat(view, mySharePreferences.getLunch().toString(), mySharePreferences.getLunchEnd().toString())
+                                    && checkEat(view, mySharePreferences.getDiner().toString(), mySharePreferences.getDinerEnd().toString())){
+                                if(task != null){
+                                    task.title = view.task_title.text.toString()
+                                    task.description = view.task_description.text.toString()
+                                    task.begin = view.begin_work_time.text.toString()
+                                    task.end = view.end_work_time.text.toString()
+                                    task.monday =view.checkBoxMon.isChecked
+                                    task.tuesday =view.checkBoxTue.isChecked
+                                    task.wednesday = view.checkBoxWed.isChecked
+                                    task.thursday = view.checkBoxThu.isChecked
+                                    task.friday = view.checkBoxFri.isChecked
+                                    task.saturday = view.checkBoxSat.isChecked
+                                    task.sunday = view.checkBoxSun.isChecked
+                                    task.let { taskViewModel.update(it) }
+                                } else {
+                                    taskViewModel.insert(Task(
+                                            "routine",
+                                            view.task_title.text.toString(),
+                                            view.task_description.text.toString(),
+                                            arguments?.getString("category").toString(),
+                                            null,
+                                            null,
+                                            null,
+                                            view.checkBoxMon.isChecked ,
+                                            view.checkBoxTue.isChecked ,
+                                            view.checkBoxWed.isChecked ,
+                                            view.checkBoxThu.isChecked ,
+                                            view.checkBoxFri.isChecked ,
+                                            view.checkBoxSat.isChecked ,
+                                            view.checkBoxSun.isChecked ,
+                                            false,
+                                            null,
+                                            view.begin_work_time.text.toString(),
+                                            view.end_work_time.text.toString(),
+                                            group
+                                    )
+                                    )
+                                }
 
-                            val navBuilder = NavOptions.Builder()
-                            if(group == null && arguments?.getBoolean("back") == false) {
-                                arguments?.putString("choice", "all")
-                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
-                                Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
-                            } else if(arguments?.getBoolean("back") == true){
-                                Navigation.findNavController(view).navigate(R.id.navigation_plan)
-                            } else {
-                                arguments?.putString("choice", "groups")
-                                val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
-                                Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
-                            }
+                                val navBuilder = NavOptions.Builder()
+                                if(group == null && arguments?.getBoolean("back") == false) {
+                                    arguments?.putString("choice", "all")
+                                    val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.all_tasks, true).build()
+                                    Navigation.findNavController(view).navigate(R.id.all_tasks, arguments, navOptions)
+                                } else if(arguments?.getBoolean("back") == true){
+                                    Navigation.findNavController(view).navigate(R.id.navigation_plan)
+                                } else {
+                                    arguments?.putString("choice", "groups")
+                                    val navOptions: NavOptions = navBuilder.setPopUpTo(R.id.group_tasks, true).build()
+                                    Navigation.findNavController(view).navigate(R.id.group_tasks, arguments, navOptions)
+                                }
+                            } else this.context?.let { InfoDialog.onCreateDialog(it, "Прием пищи", "Время задачи совпадает с приемом пищи. Для добавления задачи измените время примема пищи в разделе \"Профиль\".", R.drawable.info_green) }
                         } else this.context?.let { InfoDialog.onCreateDialog(it, "Совпадение задач", "Вы уже добавили задачу на это время.", R.drawable.info_green) }
                     } else this.context?.let { ToastMessages.showMessage(it, "Необходимо выбрать хотя бы один день недели") }
                 }
             } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести название") }
         } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести время начала и окончания") }
+    }
+
+    fun checkEat(view: View, beginTime: String, endTime: String): Boolean{
+        return !((view.begin_work_time.text.toString() >= beginTime
+                && view.begin_work_time.text.toString() < endTime)
+                || (view.end_work_time.text.toString() > beginTime
+                && view.end_work_time.text.toString() <= endTime))
     }
 }

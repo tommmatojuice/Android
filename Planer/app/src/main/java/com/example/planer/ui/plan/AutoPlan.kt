@@ -39,6 +39,7 @@ class AutoPlan(private val date: String,
     private var rest: MutableList<Task>? = mutableListOf()
 
     private var workTime: Int = 0
+    private var workTimeFirst: Int = 0
     private var workTimePast: Int = 0
     private var dayNumber: Int = 0
     private lateinit var beginTime: LocalTime
@@ -58,6 +59,7 @@ class AutoPlan(private val date: String,
     {
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
         mySharePreferences = context?.let { MySharePreferences(it) }!!
+        view.button_add_item.visibility = View.INVISIBLE
 //        mySharePreferences.setWorkEnd(null)
 //        mySharePreferences.setPlan(null)
 
@@ -90,6 +92,8 @@ class AutoPlan(private val date: String,
         }
         )
 
+        Log.d("AllInfo", mySharePreferences.getAllInfo().toString())
+
         if(mySharePreferences.getAllInfo()){
 //            if(pomodorosSmall != null && mySharePreferences.getSleep() == mySharePreferences.getWorkEnd() && date == LocalDate.now().toString()){
 //                initWeekDay()
@@ -111,6 +115,9 @@ class AutoPlan(private val date: String,
                     getPomodoros()
                     view.progressBar.visibility = View.INVISIBLE}, 200)
 //            }
+        } else {
+            view?.textView?.visibility = View.VISIBLE
+            view?.imageView?.visibility = View.VISIBLE
         }
 
         Log.d("first_work_time", workTime.toString())
@@ -163,6 +170,7 @@ class AutoPlan(private val date: String,
                 pomodoros.forEach {
                     Log.d("pomodorosFromAutoPlan", "${it.begin}-${it.end}: ${it.task?.title}")
                     if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
+                        Log.d("pomodorosFromAutoPlanMT", "${it.begin}-${it.end}: ${it.task?.title}")
                         val task = it.task
                         task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
                         mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
@@ -354,6 +362,8 @@ class AutoPlan(private val date: String,
         }
         beginTimeReserve = beginTime
         Log.d("WorkTime", mySharePreferences.getWorkTimePast().toString())
+        Log.d("workTime", workTime.toString())
+        workTimeFirst = workTime
         workTime -= this.workTimePast
     }
 
@@ -396,7 +406,14 @@ class AutoPlan(private val date: String,
 
         if(LocalTime.now() > beginTimeReserve && date == LocalDate.now().toString()){
             if(mySharePreferences.getPlan().isNullOrEmpty() || (mySharePreferences.getPlan()?.last()?.task?.type == "one_time" && mySharePreferences.getPlan()?.last()?.task?.category != "work")){
-                beginTime = LocalTime.of(LocalTime.now().hour, LocalTime.now().minute).plusMinutes(5)
+                beginTime = LocalTime.of(LocalTime.now().hour, LocalTime.now().minute).plusMinutes(10)
+                val pastTime = beginTimeReserve?.hour?.toLong()?.let { beginTimeReserve?.minute?.toLong()?.let { it1 -> LocalTime.now().minusHours(it).minusMinutes(it1) } }
+                Log.d("5MinuteTime", pastTime.toString())
+                mySharePreferences.setWorkTimePast(((pastTime?.hour)?.times(60)?: 0).plus((pastTime?.minute ?: 0)))
+//                workTime -= ((pastTime?.hour)?.times(60)?: 0).plus((pastTime?.minute ?: 0))
+                Log.d("5MinuteTimeWT", workTime.toString())
+//                beginTimeReserve?.hour?.toLong()?.let { beginTimeReserve?.minute?.toLong()?.let { it1 -> LocalTime.now().minusHours(it).minusMinutes(it1).toString() } }?.let { Log.d("5MinuteTime", it) }
+
             }
 //            else if (LocalTime.now() > LocalTime.parse(mySharePreferences.getWorkEnd(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))){
 //                beginTime = LocalTime.parse(mySharePreferences.getSleep(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -536,6 +553,19 @@ class AutoPlan(private val date: String,
             work += it.time!!
         }
 
+        if(intervals != null && work > workTime){
+            if(intervals!!.isNotEmpty()){
+                if(intervals?.last()?.time!! > work-workTime){
+                    intervals!!.last().end = intervals!!.last().begin.minusMinutes((work-workTime).toLong())
+                    intervals!!.last().time = intervals!!.last().time!! - (work-workTime)
+                } else {
+                    while (work > workTime){
+                        work -= intervals!!.last().time!!
+                        intervals!!.removeLast()
+                    }
+                }
+            }
+        }
 
         Log.d("work1", work.toString())
         Log.d("work2", workTime.toString())
@@ -563,9 +593,24 @@ class AutoPlan(private val date: String,
 //        }
 
         if(!intervals.isNullOrEmpty()){
-            if(intervals!!.last().end > sleep && ((intervals!!.last().end.hour - sleep.hour) < ((beginTimeReserve?.hour)?.minus(sleep.hour)!!))){
-                intervals!!.last().end = sleep.minusHours(1)
-            }
+//            if(intervals!!.last().end > sleep && ((intervals!!.last().end.hour - sleep.hour) < ((beginTimeReserve?.hour)?.minus(sleep.hour)!!))){
+//                intervals!!.last().end = sleep.minusHours(1)
+//            }
+
+            intervals!!.removeIf { ((it.end > sleep.minusHours(1) && sleep > LocalTime.of(12, 0) && it.end > LocalTime.of(12, 0))
+                    || (intervals!!.last().end > sleep.minusHours(1) && sleep < LocalTime.of(12, 0) && it.end < LocalTime.of(12, 0)))
+                    && it.task?.type == "one_time"}
+
+//            while((intervals!!.last().end > sleep.minusHours(1)
+//                            && sleep > LocalTime.of(12, 0) && intervals!!.last().end > LocalTime.of(12, 0))
+//                    || (intervals!!.last().end > sleep.minusHours(1)
+//                            && sleep < LocalTime.of(12, 0) && intervals!!.last().end < LocalTime.of(12, 0))){
+//                if(intervals!!.last().task?.type == "one_time"){
+//                    Log.d("here", intervals!!.last().end.toString())
+//                    intervals!!.removeLast()
+//                } else break
+//            }
+
 //            val time = sleep.minusHours(intervals!!.last().end.hour.toLong()).minusMinutes(intervals!!.last().end.minute.toLong())
 //            if((time.hour*60  + time.minute) < 60){
 //                Log.d("here", time.toString())
@@ -827,7 +872,7 @@ class AutoPlan(private val date: String,
         Log.d("tasks_size2", tasks?.size.toString())
         if(pomodoros != null && tasks != null) {
             tasks!!.removeIf { tasks -> tasks == null }
-
+            var sleepTime = LocalTime.parse(mySharePreferences.getSleep(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             if(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now())
             {
                 Log.d("plan", "1")
@@ -854,6 +899,8 @@ class AutoPlan(private val date: String,
                 }
 
 //                mySharePreferences.getFirstTasksToday()?.let { pomodorosSmall?.addAll(it) }
+
+                pomodorosSmall?.removeIf {it.end < LocalTime.now() && it.task?.type != "one_time"}
 
                 mySharePreferences.setPlan(pomodorosSmall)
                 mySharePreferences.setPlanForDay(true)
@@ -889,14 +936,14 @@ class AutoPlan(private val date: String,
 
 //                pomodorosSmall?.removeIf { pom -> pom.end < LocalTime.now()}
 
-                var sleepTime = LocalTime.parse(mySharePreferences.getSleep(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
                 if(pomodorosSmall != null){
-                    if(workTime <= this.workTimePast
+                    if(workTimeFirst <= this.workTimePast
+                            || pomodorosSmall!!.isEmpty()
                             || (oneTimeTasks?.isEmpty() != false && routineTasks?.isEmpty() != false && fixedTasks?.isEmpty() != false)
                             || LocalTime.now() >= sleepTime.minusHours(1) && sleepTime > LocalTime.of(12, 0)
                             || LocalTime.now() <= sleepTime.minusHours(1) && sleepTime < LocalTime.of(12, 0))
                     {
+                        Log.d("rest", "rest")
                         pomodorosSmall!!.clear()
                         rest?.forEach {
                             pomodorosSmall!!.add(TasksForPlan(LocalTime.now(), LocalTime.now(), null, it))
@@ -925,6 +972,23 @@ class AutoPlan(private val date: String,
                 if(days == i){
                     mySharePreferences.getFirstTasksNext()?.let { pomodorosSmall?.addAll(it) }
                 }
+
+                //добавлено
+                if(pomodorosSmall != null){
+                    if(workTimeFirst <= this.workTimePast
+                            || pomodorosSmall!!.isEmpty()
+                            || (oneTimeTasks?.isEmpty() != false && routineTasks?.isEmpty() != false && fixedTasks?.isEmpty() != false)
+                            || LocalTime.now() >= sleepTime.minusHours(1) && sleepTime > LocalTime.of(12, 0)
+                            || LocalTime.now() <= sleepTime.minusHours(1) && sleepTime < LocalTime.of(12, 0))
+                    {
+                        Log.d("rest", "rest")
+                        pomodorosSmall!!.clear()
+                        rest?.forEach {
+                            pomodorosSmall!!.add(TasksForPlan(LocalTime.now(), LocalTime.now(), null, it))
+                        }
+                    }
+                }
+                //
                 showTasks(pomodorosSmall)
             }
         }
@@ -1027,22 +1091,16 @@ class AutoPlan(private val date: String,
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showTasks(pomodoros: MutableList<TasksForPlan>?)
     {
-//        var lateTasks: MutableList<TasksForPlan>? = mutableListOf()
-//        pomodoros?.forEach {
-//            if(it.begin < beginTimeReserve && it.task?.type == "one_time"){
-//                lateTasks?.add(it)
-//            }
-//        }
-//        pomodoros?.removeIf { it.begin < beginTimeReserve && it.task?.type == "one_time" }
+        if (pomodoros != null && pomodoros.isNotEmpty()) {
+            if(pomodoros.first().task?.type == "one_time" && pomodoros.first().task?.category != "work"){
+                pomodoros.sortByDescending { it.task?.priority }
+            } else pomodoros.sortBy { it.begin }
 
-        pomodoros!!.sortBy { it.begin }
-        pomodoros.removeIf { it.task?.type != "one_time" && it.end < LocalTime.now() && it.end != it.begin && date == LocalDate.now().toString()}
-//        lateTasks!!.sortBy { it.begin }
+            pomodoros.removeIf { it.task?.type != "one_time" && it.end < LocalTime.now() && it.end != it.begin && date == LocalDate.now().toString()}
 
-//        pomodoros.addAll(lateTasks)
-
-        adapter?.setTasks(pomodoros)
-        list.adapter = adapter
+            adapter?.setTasks(pomodoros)
+            list.adapter = adapter
+        }
 
         if(pomodoros.isNullOrEmpty()){
             view?.textView?.visibility = View.VISIBLE

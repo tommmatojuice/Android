@@ -5,437 +5,1011 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_margin="16dp">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_margin="16dp">-->
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Имя"
-            android:textSize="@dimen/settings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/enter_name"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+<!--        <EditText-->
+<!--            android:id="@+id/editText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView4"-->
+<!--            android:autofillHints="имя" />-->
 
-        <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="1sp"
-            android:background="@color/gray"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+<!--        <View-->
+<!--            android:id="@+id/view1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:background="@color/gray"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/editText" />-->
 
-        <TextView
-            android:id="@+id/wake_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Время подъема"
-            android:textSize="@dimen/settings"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/imageView1"
-            app:layout_constraintTop_toBottomOf="@+id/view1" />
+<!--        <ToggleButton-->
+<!--            android:id="@+id/autoPlan"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:checked="true"-->
+<!--            android:textOff="@string/off"-->
+<!--            android:textOn="@string/on"-->
+<!--            android:backgroundTint="@color/dark_orange"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view1" />-->
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/alarm"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/wake_up" />
+<!--        <TextView-->
+<!--            android:id="@+id/autoPlanText"-->
+<!--            android:layout_width="220dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/auto_plan"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/view0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view1" />-->
 
-        <TextView
-            android:id="@+id/wake_up_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="@+id/wake_up"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/wake_up" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/alarm"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView1" />
+<!--        <View-->
+<!--            android:id="@+id/view0"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:background="@color/gray"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/autoPlan" />-->
 
-        <TextView
-            android:id="@+id/sleep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Время отхода ко сну"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView1" />
+<!--        <TextView-->
+<!--            android:id="@+id/wake_up"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/wakeup_time"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView1"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/autoPlan" />-->
 
-        <TextView
-            android:id="@+id/sleep_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/sleep"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sleep" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_wb_sunny_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/wake_up" />-->
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="match_parent"
-            android:layout_height="1sp"
-            android:background="@color/gray"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sleep" />
+<!--        <TextView-->
+<!--            android:id="@+id/wake_up_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/wake_up"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/wake_up"-->
+<!--            android:focusable="true" />-->
 
-<!--        breakfast-->
-        <TextView
-            android:id="@+id/breakfast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/breakfast_time"
-            android:textSize="@dimen/settings"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:src="@drawable/ic_baseline_nightlight_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/wake_up" />-->
 
-        <TextView
-            android:id="@+id/breakfast_begin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/begin"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/breakfast" />
+<!--        <TextView-->
+<!--            android:id="@+id/sleep"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:text="@string/bed_time"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/imageView2"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView2"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/imageView1" />-->
 
-        <TextView
-            android:id="@+id/breakfast_begin_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/breakfast_begin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/breakfast_begin" />
+<!--        <TextView-->
+<!--            android:id="@+id/sleep_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:clickable="true"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/sleep"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/sleep"-->
+<!--            android:focusable="true" />-->
 
-        <TextView
-            android:id="@+id/breakfast_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/end"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/breakfast_begin" />
+<!--        <View-->
+<!--            android:id="@+id/view2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:background="@color/gray"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/sleep" />-->
 
-        <TextView
-            android:id="@+id/breakfast_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/breakfast_end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/breakfast_end" />
+<!--&lt;!&ndash;        breakfast&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/breakfast"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/breakfast_time"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView3"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view2" />-->
 
-<!--        lunch-->
-        <TextView
-            android:id="@+id/lunch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lunch_time"
-            android:textSize="@dimen/settings"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/breakfast_end" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView3"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_bakery_dining_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/breakfast" />-->
 
-        <TextView
-            android:id="@+id/lunch_begin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Начало"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lunch" />
+<!--        <TextView-->
+<!--            android:id="@+id/breakfast_begin"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/breakfast" />-->
 
-        <TextView
-            android:id="@+id/lunch_begin_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/lunch_begin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lunch_begin" />
+<!--        <TextView-->
+<!--            android:id="@+id/breakfast_begin_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/breakfast_begin"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/breakfast_begin"-->
+<!--            android:focusable="true" />-->
 
-        <TextView
-            android:id="@+id/lunch_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Конец"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
+<!--        <TextView-->
+<!--            android:id="@+id/breakfast_end"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/end"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/breakfast_begin" />-->
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lunch_begin" />
+<!--        <TextView-->
+<!--            android:id="@+id/breakfast_end_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/breakfast_end"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/breakfast_end"-->
+<!--            android:focusable="true" />-->
 
-        <TextView
-            android:id="@+id/lunch_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/lunch_end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lunch_end" />
+<!--&lt;!&ndash;        lunch&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/lunch"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/lunch_time"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView4"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/breakfast_end" />-->
 
-<!--        diner-->
-        <TextView
-            android:id="@+id/diner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/diner_time"
-            android:textSize="@dimen/settings"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lunch_end" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_lunch_dining_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/lunch" />-->
 
-        <TextView
-            android:id="@+id/diner_begin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Начало"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diner" />
+<!--        <TextView-->
+<!--            android:id="@+id/lunch_begin"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lunch" />-->
 
-        <TextView
-            android:id="@+id/diner_begin_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/diner_begin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/diner_begin" />
+<!--        <TextView-->
+<!--            android:id="@+id/lunch_begin_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/lunch_begin"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/lunch_begin"-->
+<!--            android:focusable="true" />-->
 
-        <TextView
-            android:id="@+id/diner_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Конец"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diner_begin" />
+<!--        <TextView-->
+<!--            android:id="@+id/lunch_end"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/end"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
 
-        <TextView
-            android:id="@+id/diner_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/diner_end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/diner_end" />
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lunch_begin" />-->
 
-        <View
-            android:id="@+id/view3"
-            android:layout_width="match_parent"
-            android:layout_height="1sp"
-            android:background="@color/gray"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diner_end" />
+<!--        <TextView-->
+<!--            android:id="@+id/lunch_end_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/lunch_end"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/lunch_end"-->
+<!--            android:focusable="true" />-->
 
-<!--        peak-->
-        <TextView
-            android:id="@+id/peak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_peak"
-            android:textSize="@dimen/settings"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+<!--&lt;!&ndash;        diner&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/diner"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/diner_time"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView5"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lunch_end" />-->
 
-        <TextView
-            android:id="@+id/peak_begin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Начало"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/peak" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView5"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_dinner_dining_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/diner" />-->
 
-        <TextView
-            android:id="@+id/peak_begin_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/peak_begin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/peak_begin" />
+<!--        <TextView-->
+<!--            android:id="@+id/diner_begin"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/diner" />-->
 
-        <TextView
-            android:id="@+id/peak_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Конец"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/peak_begin" />
+<!--        <TextView-->
+<!--            android:id="@+id/diner_begin_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/diner_begin"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/diner_begin"-->
+<!--            android:focusable="true" />-->
 
-        <TextView
-            android:id="@+id/peak_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/peak_end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/peak_end" />
+<!--        <TextView-->
+<!--            android:id="@+id/diner_end"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/end"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/diner_begin" />-->
 
-        <View
-            android:id="@+id/view4"
-            android:layout_width="match_parent"
-            android:layout_height="1sp"
-            android:layout_marginTop="16dp"
-            android:background="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/peak_end" />
+<!--        <TextView-->
+<!--            android:id="@+id/diner_end_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/diner_end"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/diner_end"-->
+<!--            android:focusable="true" />-->
 
-<!--        work days-->
-<!--        monday-->
-        <TextView
-            android:id="@+id/mon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/monday"
-            android:textSize="@dimen/settings"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view4" />
+<!--        <View-->
+<!--            android:id="@+id/view3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:background="@color/gray"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/diner_end" />-->
 
-        <TextView
-            android:id="@+id/work_mon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_day"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mon" />
+<!--&lt;!&ndash;        peak&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/peak"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/work_peak"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView6"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view3" />-->
 
-        <TextView
-            android:id="@+id/work_mon_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/work_mon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/work_mon" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView6"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_landscape_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/peak" />-->
 
-        <TextView
-            android:id="@+id/begin_mon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/begin_time"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/work_mon" />
+<!--        <TextView-->
+<!--            android:id="@+id/peak_begin"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/peak" />-->
 
-        <TextView
-            android:id="@+id/begin_mon_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toTopOf="@+id/tue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/begin_mon" />
+<!--        <TextView-->
+<!--            android:id="@+id/peak_begin_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/peak_begin"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/peak_begin"-->
+<!--            android:focusable="true" />-->
 
-<!--        tuesday-->
-        <TextView
-            android:id="@+id/tue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tuesday"
-            android:layout_marginTop="16dp"
-            android:textSize="@dimen/settings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/begin_mon" />
+<!--        <TextView-->
+<!--            android:id="@+id/peak_end"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/end"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/peak_begin" />-->
 
-        <TextView
-            android:id="@+id/work_tue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/work_day"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tue" />
+<!--        <TextView-->
+<!--            android:id="@+id/peak_end_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/peak_end"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/peak_end"-->
+<!--            android:focusable="true" />-->
 
-        <TextView
-            android:id="@+id/work_tue_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/work_tue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tue" />
+<!--        <View-->
+<!--            android:id="@+id/view4"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@color/gray"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/peak_end" />-->
 
-        <TextView
-            android:id="@+id/begin_tue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/begin_time"
-            android:textSize="@dimen/h3_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/work_tue" />
+<!--&lt;!&ndash;        work days&ndash;&gt;-->
+<!--&lt;!&ndash;        monday&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/mon"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/monday"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView7"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view4" />-->
 
-        <TextView
-            android:id="@+id/begin_tue_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_00_00"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/begin_tue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/begin_tue" />
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView7"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_calendar_today_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/mon" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/work_mon"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/work_day"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/mon" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_mon_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/work_mon"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/work_mon"-->
+<!--            android:focusable="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_mon"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin_time"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/work_mon" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_mon_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/tue"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/begin_mon"-->
+<!--            android:focusable="true" />-->
+
+<!--&lt;!&ndash;        tuesday&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/tue"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/tuesday"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView8"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/begin_mon" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView8"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_calendar_today_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/tue" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_tue"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/work_day"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tue" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_tue_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/work_tue"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tue"-->
+<!--            android:focusable="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_tue"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin_time"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/work_tue" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_tue_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/begin_tue"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/begin_tue"-->
+<!--            android:focusable="true" />-->
+
+<!--        &lt;!&ndash;        wednesday&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/wed"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/wednesday"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView10"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/begin_tue" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView10"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_calendar_today_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/wed" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_wed"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/work_day"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/wed" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_wed_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/work_wed"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/wed"-->
+<!--            android:focusable="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_wed"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin_time"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/work_wed" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_wed_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/begin_wed"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/begin_wed"-->
+<!--            android:focusable="true" />-->
+
+<!--        &lt;!&ndash;        thursday&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/thur"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/thursday"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView9"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/begin_wed" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView9"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_calendar_today_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/thur" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_thur"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/work_day"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/thur" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_thur_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/work_thur"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/thur"-->
+<!--            android:focusable="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_thur"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin_time"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/work_thur" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_thur_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/begin_thur"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/begin_thur"-->
+<!--            android:focusable="true" />-->
+
+<!--        &lt;!&ndash;        friday&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/fri"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/friday"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView11"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/begin_thur" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView11"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_calendar_today_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/fri" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_fri"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/work_day"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/fri" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_fri_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/work_fri"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/fri"-->
+<!--            android:focusable="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_fri"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin_time"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/work_fri" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_fri_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/begin_fri"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/begin_fri"-->
+<!--            android:focusable="true" />-->
+
+<!--        &lt;!&ndash;        saturday&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/sat"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/saturday"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView12"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/begin_fri" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView12"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_calendar_today_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/sat" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_sat"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/work_day"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/sat" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_sat_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/work_sat"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/sat"-->
+<!--            android:focusable="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_sat"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin_time"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/work_sat" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_sat_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/begin_sat"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/begin_sat"-->
+<!--            android:focusable="true" />-->
+
+<!--        &lt;!&ndash;        sunday&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/sun"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/sunday"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView13"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/begin_sat" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView13"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_baseline_calendar_today_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/sun" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_sun"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/work_day"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/sun" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/work_sun_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/work_sun"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/sun"-->
+<!--            android:focusable="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_sun"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/begin_time"-->
+<!--            android:textSize="@dimen/h3_text"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/work_sun" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/begin_sun_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/_00_00"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/begin_sun"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/begin_sun"-->
+<!--            android:focusable="true" />-->
+
+<!--        <View-->
+<!--            android:id="@+id/view5"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@color/gray"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/begin_sun_time" />-->
+
+<!--&lt;!&ndash;        pomodoro time&ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/pomodoro_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="@string/work_pom_time"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/imageView14"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view5" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView14"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/alarm"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/pomodoro_time" />-->
+
+<!--        <RadioGroup-->
+<!--            android:id="@+id/radioGroup"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/pomodoro_time">-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/pom_25"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:checked="true"-->
+<!--                android:text="@string/_25"-->
+<!--                android:textSize="@dimen/settings" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/pom_30"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/_30"-->
+<!--                android:textSize="@dimen/settings" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/pom_40"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/_40"-->
+<!--                android:textSize="@dimen/settings" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/pom_50"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/_50"-->
+<!--                android:textSize="@dimen/settings" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/pom_60"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/_60"-->
+<!--                android:textSize="@dimen/settings" />-->
+<!--        </RadioGroup>-->
+
+<!--        <View-->
+<!--            android:id="@+id/view6"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@color/gray"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />-->
+
+<!--        <ToggleButton-->
+<!--            android:id="@+id/miniBreak"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:checked="true"-->
+<!--            android:textOff="@string/off"-->
+<!--            android:textOn="@string/on"-->
+<!--            android:backgroundTint="@color/dark_orange"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view6" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/miniBreakText"-->
+<!--            android:layout_width="200dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/miniBreak"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/miniBreak"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/miniBreak" />-->
+
+<!--        <View-->
+<!--            android:id="@+id/view7"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/view_height"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@color/gray"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/miniBreakText" />-->
+
+<!--        <ToggleButton-->
+<!--            android:id="@+id/bigBreak"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:checked="true"-->
+<!--            android:textOff="@string/off"-->
+<!--            android:textOn="@string/on"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:backgroundTint="@color/dark_orange"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/view7" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/bigBreakText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/bigBreak"-->
+<!--            android:textSize="@dimen/settings"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/bigBreak"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/bigBreak" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </ScrollView>

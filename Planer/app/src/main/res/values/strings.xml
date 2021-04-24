@@ -64,4 +64,9 @@
     <string name="all_tasks">Все задачи</string>
     <string name="group_tasks">Составные задачи</string>
     <string name="files">Файлы</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="auto_plan">Автоматическое распределение задач</string>
+    <string name="miniBreak">Перерыв после каждого помидора</string>
+    <string name="bigBreak">Большой перерыв</string>
 </resources>

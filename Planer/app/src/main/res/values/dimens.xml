@@ -9,4 +9,5 @@
     <dimen name="h4_text">20sp</dimen>
     <dimen name="days_margin">45dp</dimen>
     <dimen name="days_margin_2">40dp</dimen>
+    <dimen name="view_height">0.5dp</dimen>
 </resources>

@@ -87,7 +87,7 @@ class WorkDays : Fragment()
     {
         return when (item.itemId) {
             R.id.info_item -> {
-                this.context?.let { InfoDialog.onCreateDialog(it, "Подсказка", "Введите время начало работы и длительность рабочего дня для кажого дня недели. Если в какой-то из дней работа не планируется, оставьте значения \"00:00\".", R.drawable.blue_info) }
+                this.context?.let { InfoDialog.onCreateDialog(it, "Подсказка", "Введите время начала работы и длительность рабочего дня для каждого дня недели. Если в какой-то из дней работа не планируется, оставьте значения \"00:00\".", R.drawable.blue_info) }
                 true
             }
             else -> super.onOptionsItemSelected(item)

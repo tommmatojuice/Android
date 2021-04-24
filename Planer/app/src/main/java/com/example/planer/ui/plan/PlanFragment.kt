@@ -56,6 +56,8 @@ class PlanFragment : Fragment()
                 ?.replace(R.id.plan_frag, AutoPlan(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString()))
                 ?.commit()
 
+
+
 //        taskViewModel.fixedTasksByDate(days[ initToday(view)].toString()).observe(
 //                viewLifecycleOwner, { fixedTasks ->
 //            if (fixedTasks != null) {
@@ -127,136 +129,36 @@ class PlanFragment : Fragment()
             Calendar.MONDAY -> {
                 view.text_mon.setTextColor(resources.getColor(R.color.dark_blue))
                 view.day_mon.setTextColor(resources.getColor(R.color.dark_blue))
-//                taskViewModel.routineMon.observe(
-//                        viewLifecycleOwner, { routineTasks ->
-//                    if (routineTasks != null) {
-//                        this.routineTasks = routineTasks
-//                    }
-//                }
-//                )
-//
-//                taskViewModel.oneTimeMon("work").observe(
-//                        viewLifecycleOwner, { oneTimeTasks ->
-//                    if (oneTimeTasks != null) {
-//                        this.oneTimeTasks = oneTimeTasks
-//                    }
-//                })
-//                view.day_mon.isPressed = true
             }
             Calendar.TUESDAY -> {
                 view.text_tue.setTextColor(resources.getColor(R.color.dark_blue))
                 view.day_tue.setTextColor(resources.getColor(R.color.dark_blue))
                 day = 1
-//                taskViewModel.routineTue.observe(
-//                        viewLifecycleOwner, { routineTasks ->
-//                    if (routineTasks != null) {
-//                        this.routineTasks = routineTasks
-//                    }
-//                }
-//                )
-//
-//                taskViewModel.oneTimeTue("work").observe(
-//                        viewLifecycleOwner, { oneTimeTasks ->
-//                    if (oneTimeTasks != null) {
-//                        this.oneTimeTasks = oneTimeTasks
-//                    }
-//                })
             }
             Calendar.WEDNESDAY -> {
                 view.text_wen.setTextColor(resources.getColor(R.color.dark_blue))
                 view.day_wen.setTextColor(resources.getColor(R.color.dark_blue))
                 day = 2
-//                taskViewModel.routineWen.observe(
-//                        viewLifecycleOwner, { routineTasks ->
-//                    if (routineTasks != null) {
-//                        this.routineTasks = routineTasks
-//                    }
-//                }
-//                )
-//
-//                taskViewModel.oneTimeWen("work").observe(
-//                        viewLifecycleOwner, { oneTimeTasks ->
-//                    if (oneTimeTasks != null) {
-//                        this.oneTimeTasks = oneTimeTasks
-//                    }
-//                })
             }
             Calendar.THURSDAY -> {
                 view.text_thu.setTextColor(resources.getColor(R.color.dark_blue))
                 view.day_thu.setTextColor(resources.getColor(R.color.dark_blue))
                 day = 3
-//                taskViewModel.routineThu.observe(
-//                        viewLifecycleOwner, { routineTasks ->
-//                    if (routineTasks != null) {
-//                        this.routineTasks = routineTasks
-//                    }
-//                }
-//                )
-//
-//                taskViewModel.oneTimeThu("work").observe(
-//                        viewLifecycleOwner, { oneTimeTasks ->
-//                    if (oneTimeTasks != null) {
-//                        this.oneTimeTasks = oneTimeTasks
-//                    }
-//                })
             }
             Calendar.FRIDAY -> {
                 view.text_fri.setTextColor(resources.getColor(R.color.dark_blue))
                 view.day_fri.setTextColor(resources.getColor(R.color.dark_blue))
                 day = 4
-//                taskViewModel.routineFri.observe(
-//                        viewLifecycleOwner, { routineTasks ->
-//                    if (routineTasks != null) {
-//                        this.routineTasks = routineTasks
-//                    }
-//                }
-//                )
-//
-//                taskViewModel.oneTimeFri("work").observe(
-//                        viewLifecycleOwner, { oneTimeTasks ->
-//                    if (oneTimeTasks != null) {
-//                        this.oneTimeTasks = oneTimeTasks
-//                    }
-//                })
             }
             Calendar.SATURDAY -> {
                 view.text_sat.setTextColor(resources.getColor(R.color.dark_blue))
                 view.day_sat.setTextColor(resources.getColor(R.color.dark_blue))
                 day = 5
-//                taskViewModel.routineSat.observe(
-//                        viewLifecycleOwner, { routineTasks ->
-//                    if (routineTasks != null) {
-//                        this.routineTasks = routineTasks
-//                    }
-//                }
-//                )
-//
-//                taskViewModel.oneTimeSat("work").observe(
-//                        viewLifecycleOwner, { oneTimeTasks ->
-//                    if (oneTimeTasks != null) {
-//                        this.oneTimeTasks = oneTimeTasks
-//                    }
-//                })
-
             }
             Calendar.SUNDAY -> {
                 view.text_sun.setTextColor(resources.getColor(R.color.dark_blue))
                 view.day_sun.setTextColor(resources.getColor(R.color.dark_blue))
                 day = 6
-//                taskViewModel.routineSun.observe(
-//                        viewLifecycleOwner, { routineTasks ->
-//                    if (routineTasks != null) {
-//                        this.routineTasks = routineTasks
-//                    }
-//                }
-//                )
-//
-//                taskViewModel.oneTimeSun("work").observe(
-//                        viewLifecycleOwner, { oneTimeTasks ->
-//                    if (oneTimeTasks != null) {
-//                        this.oneTimeTasks = oneTimeTasks
-//                    }
-//                })
             }
         }
         return day
@@ -287,14 +189,6 @@ class PlanFragment : Fragment()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initEachButton(dayNumber: Int, text: TextView, day: TextView, view: View){
-//        taskViewModel.fixedTasksByDate(days[dayNumber].toString()).observe(
-//                viewLifecycleOwner, { fixedTasks ->
-//            if (fixedTasks != null) {
-//                this.fixedTasks = fixedTasks
-//            }
-//        }
-//        )
-
         Handler().postDelayed({ }, 150)
 
         deactivateAll(view)
@@ -309,7 +203,6 @@ class PlanFragment : Fragment()
                     ?.commit()
         } else {
             this.context?.let {
-                ToastMessages.showMessage(it, LocalDate.now().toString() + LocalDate.now().dayOfWeek.toString())
                 activity?.supportFragmentManager
                         ?.beginTransaction()
                         ?.replace(R.id.plan_frag, AutoPlan(days[dayNumber].toString(), LocalDate.parse(days[dayNumber], DateTimeFormatter.ofPattern("yyyy-MM-dd")).dayOfWeek.toString()))
@@ -317,15 +210,4 @@ class PlanFragment : Fragment()
             }
         }
     }
-
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    private fun Fun(dayNumber: Int = 6, view: View){
-//        Log.d("fixedTasksPlan2", fixedTasks?.size.toString())
-//        Log.d("routineTasksPlan2", routineTasks?.size.toString())
-//        Log.d("oneTasksPlan2", oneTimeTasks?.size.toString())
-//        this.context?.let { ToastMessages.showMessage(it, LocalDate.now().toString() + LocalDate.now().dayOfWeek.toString()) }
-//        view.day_sun.performClick()
-//        view.day_sat.performClick()
-//
-//    }
 }

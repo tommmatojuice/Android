@@ -25,7 +25,7 @@ class PutName : Fragment()
 
         mySharePreferences = context?.let { MySharePreferences(it) }!!
 
-        this.context?.let { ToastMessages.showMessage(it, "Все настройки можно будет изменить позже в разделе \"Профиль\"") }
+        this.context?.let { ToastMessages.showMessage(it, "Все настройки можно будет изменить позже в разделе \"Профиль\".") }
 
         if (savedInstanceState != null) {
             nameView.text = savedInstanceState.getString("name").toString()

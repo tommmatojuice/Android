@@ -34,6 +34,6 @@ class MyAlarmReceiver: BroadcastReceiver()
         i.putExtra("maxCountValue", 10)
         MyIntentService.enqueueWork(context, i)
 
-//        scheduleNotification()
+        scheduleNotification()
     }
 }

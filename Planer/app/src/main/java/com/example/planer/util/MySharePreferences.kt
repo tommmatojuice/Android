@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.planer.database.entity.Task
+import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.plan.TaskForPlanTimeString
 import com.example.planer.ui.plan.TasksForPlan
 import com.google.gson.Gson

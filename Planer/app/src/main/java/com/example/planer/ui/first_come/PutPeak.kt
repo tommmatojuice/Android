@@ -97,7 +97,7 @@ class PutPeak : Fragment()
     {
         return when (item.itemId) {
             R.id.info_item -> {
-                this.context?.let { InfoDialog.onCreateDialog(it, "Подсказка", "Введите промежуток вермени, когда вам легче всего концентрироваться на работе. Еси такого промежутка нет, оставьте значение \"00:00\".", R.drawable.blue_info) }
+                this.context?.let { InfoDialog.onCreateDialog(it, "Подсказка", "Введите промежуток времени, когда вам легче всего концентрироваться на работе. Если такого промежутка нет, оставьте значение \"00:00\".", R.drawable.blue_info) }
                 true
             }
             else -> super.onOptionsItemSelected(item)
