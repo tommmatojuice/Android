@@ -7,9 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_food"
-        android:name="com.example.planer.ui.food.FoodFragment"
+        android:name="com.example.planer.ui.products.FoodFragment"
         android:label="@string/title_food"
-        tools:layout="@layout/fragment_food"/>
+        tools:layout="@layout/fragment_food">
+        <action
+            android:id="@+id/action_navigation_food_to_products_list"
+            app:destination="@id/products_list" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -102,5 +106,11 @@
         android:name="com.example.planer.ui.tasks.AddOneTimeOtherTask"
         android:label="Задача"
         tools:layout="@layout/fragment_add_one_time_other_task"/>
+
+    <fragment
+        android:id="@+id/products_list"
+        android:name="com.example.planer.ui.products.ProductsRecyclerFragment"
+        android:label="Список покупок"
+        tools:layout="@layout/fragment_products_recycler"/>
 
 </navigation>

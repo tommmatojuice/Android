@@ -10,7 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/product_list_view"
+        android:id="@+id/task_recycler_view"
         tools:listitem="@layout/fragment_product_list"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

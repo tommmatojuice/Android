@@ -69,4 +69,7 @@
     <string name="auto_plan">Автоматическое распределение задач</string>
     <string name="miniBreak">Перерыв после каждого помидора</string>
     <string name="bigBreak">Большой перерыв</string>
+    <string name="_200">200 руб.</string>
+    <string name="cost">Стоимость</string>
+    <string name="count">Количество</string>
 </resources>

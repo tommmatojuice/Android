@@ -5,22 +5,20 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.planer.database.dao.GroupTaskDao
-import com.example.planer.database.dao.PathToFileDao
-import com.example.planer.database.dao.TaskDao
-import com.example.planer.database.entity.GroupTask
-import com.example.planer.database.entity.PathToFile
-import com.example.planer.database.entity.Task
+import com.example.planer.database.dao.*
+import com.example.planer.database.entity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Task::class, GroupTask::class, PathToFile::class], version = 2)
+@Database(entities = [Task::class, GroupTask::class, PathToFile::class, Product::class, ProductList::class], version = 3)
 abstract class MyDataBase() : RoomDatabase()
 {
     abstract fun taskDao(): TaskDao
     abstract fun groupTaskDao(): GroupTaskDao
     abstract fun pathToFileDao(): PathToFileDao
+    abstract fun productDao(): ProductDao
+    abstract fun productListDao(): ProductListDao
 
     companion object
     {
@@ -43,7 +41,7 @@ abstract class MyDataBase() : RoomDatabase()
             }
         }
 
-        fun populateDatabase(taskDao: TaskDao, groupTaskDao: GroupTaskDao, pathToFileDao: PathToFileDao){
+        fun populateDatabase(taskDao: TaskDao, groupTaskDao: GroupTaskDao, pathToFileDao: PathToFileDao, productDao: ProductDao, productListDao: ProductListDao){
 //            groupTaskDao.insert(GroupTask("groupTitle1"))
 //            groupTaskDao.insert(GroupTask("groupTitle2"))
 //            taskDao.insert(Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
@@ -85,7 +83,7 @@ abstract class MyDataBase() : RoomDatabase()
                 super.onCreate(db)
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO){
-                        populateDatabase(database.taskDao(), database.groupTaskDao(), database.pathToFileDao())
+                        populateDatabase(database.taskDao(), database.groupTaskDao(), database.pathToFileDao(), database.productDao(), database.productListDao())
                     }
                 }
             }

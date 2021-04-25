@@ -165,7 +165,7 @@ class GroupTasksRecyclerFragment : Fragment(), TaskRecyclerAdapter.OnItemClickLi
 
     private fun showDialog(){
         val builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
-        builder.setTitle("Новая составная задача")
+        builder.setTitle("Изменить список")
 
         val input = EditText(this.context)
 
