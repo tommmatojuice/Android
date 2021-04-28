@@ -1,11 +1,17 @@
 package com.example.planer.ui.plan
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.Notification
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,20 +19,26 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.notifications.MyNotificationPublisher
+import com.example.planer.notifications.NotificationsUtil
+import com.example.planer.util.MySharePreferences
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_plan.view.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -34,37 +46,32 @@ class PlanFragment : Fragment()
 {
     private var days: Array<String?> = arrayOfNulls<String>(7)
     private val format: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+    private lateinit var mySharePreferences: MySharePreferences
 
     private val taskViewModel: TaskViewModel by viewModels()
     private var fixedTasks: List<Task>? = null
     private var routineTasks: List<Task>? = null
     private var oneTimeTasks: List<Task>? = null
 
+    @SuppressLint("UseRequireInsteadOfGet")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_plan, container, false)
+        mySharePreferences = this.context?.let { MySharePreferences(it) }!!
+//        val notificationsUtil = NotificationsUtil(this.context!!)
 
         initUI()
         initWeek(view)
         initDays(view)
         initTitle(days[initToday(view)].toString(), view)
 
-//        Handler().postDelayed({}, 150)
+//        notificationsUtil.showNotification(0)
+
         activity?.supportFragmentManager
                 ?.beginTransaction()
                 ?.replace(R.id.plan_frag, AutoPlan(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString()))
                 ?.commit()
-
-
-
-//        taskViewModel.fixedTasksByDate(days[ initToday(view)].toString()).observe(
-//                viewLifecycleOwner, { fixedTasks ->
-//            if (fixedTasks != null) {
-//                this.fixedTasks = fixedTasks
-//            }
-//        }
-//        )
 
         return view
     }

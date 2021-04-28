@@ -1,5 +1,6 @@
 package com.example.planer.ui.tasks
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -11,13 +12,18 @@ import androidx.viewpager.widget.ViewPager
 import com.example.planer.R
 import com.example.planer.adapters.TabsAllAdapter
 import com.example.planer.adapters.TabsGroupAdapter
+import com.example.planer.util.MySharePreferences
 import com.google.android.material.tabs.TabLayout
 
 class AllTasksFragment : Fragment()
 {
+    private lateinit var mySharePreferences: MySharePreferences
+
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_all_tasks, container, false)
+        mySharePreferences = this.context?.let { MySharePreferences(it) }!!
         val type: String? = arguments?.getString("type")
 
         val viewPagerAdapterAll = type?.let { TabsAllAdapter(childFragmentManager, it) }
@@ -45,13 +51,25 @@ class AllTasksFragment : Fragment()
         if(arguments?.getString("choice") == "all"){
             when(arguments?.getString("type")){
                 "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Все разовые задачи")
-                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Все фиксированные задачи")
+                "fixed" -> {
+                    if(mySharePreferences.getAutoPlan()){
+                        (activity as AppCompatActivity).supportActionBar?.setTitle("Все фиксированные задачи")
+                    } else {
+                        (activity as AppCompatActivity).supportActionBar?.setTitle("Все разовые задачи")
+                    }
+                }
                 "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Все регулярные задачи")
             }
         } else {
             when(arguments?.getString("type")){
                 "one_time" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Составные разовые задачи")
-                "fixed" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Составные фиксированные задачи")
+                "fixed" -> {
+                        if(mySharePreferences.getAutoPlan()){
+                            (activity as AppCompatActivity).supportActionBar?.setTitle("Составные фиксированные задачи")
+                        } else {
+                            (activity as AppCompatActivity).supportActionBar?.setTitle("Составные разовые задачи")
+                        }
+                    }
                 "routine" -> (activity as AppCompatActivity).supportActionBar?.setTitle("Составные регулярные задачи")
             }
         }

@@ -1,5 +1,6 @@
 package com.example.planer.ui.tasks
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -10,14 +11,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.example.planer.MainActivity
 import com.example.planer.R
+import com.example.planer.util.MySharePreferences
 import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_tasks_types.view.*
 
 class TasksTypesFragment : Fragment()
 {
+    private lateinit var mySharePreferences: MySharePreferences
+
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_tasks_types, container, false)
+        mySharePreferences = this.context?.let { MySharePreferences(it) }!!
 
         initButtons(view)
         initUi()
@@ -42,7 +48,13 @@ class TasksTypesFragment : Fragment()
         (activity as AppCompatActivity).supportActionBar?.title = "Разовые задачи"
         when(arguments?.getString("type")){
             "one_time" -> (activity as AppCompatActivity).supportActionBar?.title = "Разовые задачи"
-            "fixed" -> (activity as AppCompatActivity).supportActionBar?.title = "Фиксированные задачи"
+            "fixed" -> {
+                if(mySharePreferences.getAutoPlan()){
+                    (activity as AppCompatActivity).supportActionBar?.title = "Фиксированные задачи"
+                } else {
+                    (activity as AppCompatActivity).supportActionBar?.title = "Разовые задачи"
+                }
+            }
             "routine" -> (activity as AppCompatActivity).supportActionBar?.title = "Регулярные задачи"
         }
     }

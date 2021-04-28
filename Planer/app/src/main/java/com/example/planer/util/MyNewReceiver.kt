@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.example.planer.MainActivity.Companion.scheduleNotification
+import com.example.planer.MainActivity.Companion.scheduleNotification1
 
 class MyNewReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {

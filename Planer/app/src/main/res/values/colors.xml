@@ -11,6 +11,7 @@
     <color name="text">#22313F</color>
     <color name="blue">#1E8BC3</color>
     <color name="gray">#CECBCB</color>
+    <color name="light_gray">#E9E9E9</color>
     <color name="red">#D91E18</color>
     <color name="dark_green">#13A678</color>
     <color name="green">#26C281</color>

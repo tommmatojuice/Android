@@ -16,7 +16,7 @@ import androidx.work.ListenableWorker.Result.success
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.planer.MainActivity
-import com.example.planer.MainActivity.Companion.scheduleNotification
+import com.example.planer.MainActivity.Companion.scheduleNotification1
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.plan.TasksForPlan
 import java.time.LocalDate
@@ -40,7 +40,7 @@ class NotifyWork(private val context: Context, private val workerParams: WorkerP
         Log.d("mvm", "NotifyWork running")
         mySharePreferences = MySharePreferences(applicationContext)
 
-        scheduleNotification()
+//        scheduleNotification()
 
 //        taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
         minusTime()
