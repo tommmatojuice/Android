@@ -56,14 +56,9 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
     private lateinit var mySharePreferences: MySharePreferences
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         MyView = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
-//        val task = arguments?.getSerializable("task") as Task?
         task = arguments?.getSerializable("task") as Task?
 
         mySharePreferences = activity?.applicationContext?.let { MySharePreferences(it) }!!
@@ -329,6 +324,9 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
             view.begin_work_time.text = task.begin
             view.end_work_time.text = task.end
             view.date.text = task.date
+        }
+        if(arguments?.getString("date") != null){
+            view.date?.text = arguments?.getString("date")
         }
     }
 

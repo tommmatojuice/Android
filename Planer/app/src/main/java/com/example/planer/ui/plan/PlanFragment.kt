@@ -68,10 +68,17 @@ class PlanFragment : Fragment()
 
 //        notificationsUtil.showNotification(0)
 
-        activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.plan_frag, AutoPlan(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString()))
-                ?.commit()
+        if(mySharePreferences.getAutoPlan()){
+            activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.plan_frag, AutoPlan(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString()))
+                    ?.commit()
+        } else {
+            activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.plan_frag, UserPlan(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString()))
+                    ?.commit()
+        }
 
         return view
     }
@@ -203,18 +210,25 @@ class PlanFragment : Fragment()
         day.setTextColor(resources.getColor(R.color.red))
         initTitle(days[dayNumber].toString(), view)
         initToday(view)
-        if(initToday(view) > dayNumber){
-            activity?.supportFragmentManager
-                    ?.beginTransaction()
-                    ?.replace(R.id.plan_frag, PastDaysFragment())
-                    ?.commit()
-        } else {
-            this.context?.let {
+        if(mySharePreferences.getAutoPlan()){
+            if(initToday(view) > dayNumber){
                 activity?.supportFragmentManager
                         ?.beginTransaction()
-                        ?.replace(R.id.plan_frag, AutoPlan(days[dayNumber].toString(), LocalDate.parse(days[dayNumber], DateTimeFormatter.ofPattern("yyyy-MM-dd")).dayOfWeek.toString()))
+                        ?.replace(R.id.plan_frag, PastDaysFragment())
                         ?.commit()
+            } else {
+                this.context?.let {
+                    activity?.supportFragmentManager
+                            ?.beginTransaction()
+                            ?.replace(R.id.plan_frag, AutoPlan(days[dayNumber].toString(), LocalDate.parse(days[dayNumber], DateTimeFormatter.ofPattern("yyyy-MM-dd")).dayOfWeek.toString()))
+                            ?.commit()
+                }
             }
+        } else {
+            activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.replace(R.id.plan_frag, UserPlan(days[dayNumber].toString(), LocalDate.parse(days[dayNumber], DateTimeFormatter.ofPattern("yyyy-MM-dd")).dayOfWeek.toString()))
+                    ?.commit()
         }
     }
 }

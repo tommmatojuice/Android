@@ -27,6 +27,19 @@ class MyNotificationPublisher: BroadcastReceiver()
     {
         var NOTIFICATION_ID = "notification_id"
         var NOTIFICATION = "notification"
+
+        fun createNotificationChannel(context: Context, importance: Int, showBadge: Boolean, name: String, description: String) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                val channelId = "${context.packageName}-$name"
+                val channel = NotificationChannel(channelId, name, importance)
+                channel.description = description
+                channel.setShowBadge(showBadge)
+
+                val notificationManager = context.getSystemService(NotificationManager::class.java)
+                notificationManager.createNotificationChannel(channel)
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -85,4 +98,7 @@ class MyNotificationPublisher: BroadcastReceiver()
 
         notificationManager.notify(id, notification.build())
     }
+
+
+
 }

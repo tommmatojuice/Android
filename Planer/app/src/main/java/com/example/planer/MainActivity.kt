@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -105,6 +106,10 @@ class MainActivity : AppCompatActivity()
         Log.d("MyTestService1", "Service running")
 
         initFragments(savedInstanceState)
+
+        MyNotificationPublisher.createNotificationChannel(this,
+                NotificationManagerCompat.IMPORTANCE_LOW, false,
+                getString(R.string.app_name), "App notification channel.")
 
 //        scheduleNotification()
 
