@@ -3,8 +3,8 @@ package com.example.planer.ui.tasks
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
-import android.app.DownloadManager
-import android.content.Context.DOWNLOAD_SERVICE
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -15,7 +15,6 @@ import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
@@ -34,14 +33,13 @@ import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
-import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.properties.Delegates
 
-class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecyclerAdapter.OnItemClickListener
+class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecyclerAdapter.OnItemClickListener
 {
     private val taskViewModel: TaskViewModel by viewModels()
     private val pathViewModel: PathViewModel by viewModels()
@@ -70,8 +68,8 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.HORIZONTAL)
         decoration.setDrawable(activity?.applicationContext?.let {
             ContextCompat.getDrawable(
-                it,
-                R.color.white
+                    it,
+                    R.color.white
             )
         }!!)
         list.addItemDecoration(decoration)
@@ -82,69 +80,53 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
 
         task?.task_id?.let {
             pathViewModel.pathsById(it).observe(
-                viewLifecycleOwner, {
-                    if (it != null) {
-                        this.files = it as MutableList<PathToFile>
-                        count = files.size
-                        adapter?.setTasks(files)
-                        list.adapter = adapter
-                    }
+                    viewLifecycleOwner, {
+                if (it != null) {
+                    this.files = it as MutableList<PathToFile>
+                    count = files.size
+                    adapter?.setFiles(files)
+                    list.adapter = adapter
                 }
+            }
             )
         }
 
         taskViewModel.lastTask.observe(
-            viewLifecycleOwner, { _ ->
-            }
+                viewLifecycleOwner, { _ ->
+        }
         )
 
         taskViewModel.allTasks.observe(
                 viewLifecycleOwner, {
             if (it != null) {
                 this.checkTasks = it as MutableList<Task>?
-//                checkTasks?.removeIf { it.date != view.date.text.toString()
-//                        && !((view.begin_work_time.text.toString() >= it.begin.toString()
-//                        && view.begin_work_time.text.toString() < it.end.toString())
-//                        || (view.end_work_time.text.toString() > it.begin.toString()
-//                        && view.end_work_time.text.toString() <= it.end.toString()))
-//                        && it.type != "fixed"
-//                }
-                Log.d("checkTasks5", it?.size.toString())
-                Log.d("checkTasks5", checkTasks?.size.toString())
             }
         }
         )
 
-
-        Log.d("checkTasks5", checkTasks?.size.toString())
-
-//        taskViewModel.checkTimeFixed(view.begin_work_time.text.toString(), view.end_work_time.text.toString(), view.date.text.toString()).observe(
-//                viewLifecycleOwner, {
-//            if (it != null) {
-//                this.checkTasks = it
-//                Log.d("checkTasks5", view.begin_work_time.text.toString())
-//                Log.d("checkTasks5", view.end_work_time.text.toString())
-//                Log.d("checkTasks5", view.date.text.toString())
-//                Log.d("checkTasks5", it!!.size.toString())
-//            }
-//        }
-//        )
-
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                viewHolder2: RecyclerView.ViewHolder
-            ): Boolean {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
-                val file = files.find { file -> file.path_id == files.get(viewHolder.adapterPosition).path_id }
-                file?.let { pathViewModel.delete(it) }
+                val file = files.find { file -> file.path_id == files[viewHolder.adapterPosition].path_id }
+
+                val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
+                    when (which) {
+                        Dialog.BUTTON_POSITIVE -> {
+                            if (task != null) {
+                                file?.let { pathViewModel.delete(it) }
+                            }
+                        }
+                        Dialog.BUTTON_NEGATIVE -> {
+                            files.let { adapter?.setFiles(it) }
+                            list.adapter = adapter
+                        }
+                    }
+                }
+                context?.let { InfoDialog.onCreateConfirmDialog(it, "Удаление", "Удалить прикрепленный файл?", R.drawable.delete_blue, myClickListener)}
             }
         }
 
@@ -154,7 +136,6 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         return MyView
     }
 
-    //Сохрание
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
     {
         inflater.inflate(R.menu.save_menu, menu)
@@ -181,7 +162,6 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
     }
 
     private fun addFiles(task_id: Int){
-        val task = taskViewModel.lastTask.value?.task_id
         files.forEach {
             if(count <= 0){
                 if(task != null)
@@ -197,125 +177,29 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
                 if (resultCode == RESULT_OK) {
                     val pathFile = data?.data
 //                    pathFile?.let { openFile(it) }
-                    files.add(PathToFile(pathFile.toString(), -1))
-                    adapter?.setTasks(files)
-                    list.adapter = adapter
-                    this.context?.let { it1 ->
-                        ToastMessages.showMessage(
-                            it1,
-                            files.size.toString()
-                        )
+                    if(files.find{it.path == pathFile.toString()} != null){
+                        this.context?.let { InfoDialog.onCreateDialog(it, "Внимание", "Вы уже прикрепили этот файл!", R.drawable.blue_info) }
+                    } else {
+                        files.add(PathToFile(pathFile.toString(), -1))
+                        adapter?.setFiles(files)
+                        list.adapter = adapter
                     }
-//                    view?.text_file?.text = pathFile?.toString()
-//                    pathFile?.let { openFile(it) }
                 }
             }
         }
     }
 
-//    fun openFile(path: Uri) {
-////        val intent = Intent(Intent.ACTION_VIEW)
-////        intent.data = path
-////        startActivity(intent)
-//
-//        val data = this.context?.let { FileProvider.getUriForFile(it, "com.example.myapp.fileprovider", File(path.path)) };
+    fun openFile(uri: Uri) {
+        Log.d("openFIle2", uri.toString())
+//        val data = this.context?.let { FileProvider.getUriForFile(it, "com.android.providers", File(uri.path)) }
+
+//        val data = this.context?.let { FileProvider.getUriForFile(it, "com.example.myapp.fileprovider", File(uri.path)) }
 //        context?.grantUriPermission(this.context?.packageName, data, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        val intent = Intent(Intent.ACTION_VIEW)
-//                .setDataAndType(data, "*/*")
-//                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        context?.startActivity(intent);
-//
-////        val uri = Uri.parse(path)
-////        val intent = Intent(Intent.ACTION_VIEW)
-////        intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-////        intent.setDataAndType(path, "*/*") // "video/mp4"
-////
-////        startActivity(intent)
-//
-////        val DIR_IMAGE = "/data/data/it.android.myprogram/images/"
-////        val filePath = DIR_IMAGE + "fileName"
-////        val fileInputStream = FileInputStream(File(filePath))
-////        val fileOutputStream: FileOutputStream = openFileOutput("fileName", Activity.MODE_WORLD_READABLE)
-////        ByteStreams.copy(fileInputStream, fileOutputStream)
-////        val intent = Intent(Intent.ACTION_VIEW)
-////        intent.setDataAndType(path, "*/*")
-//    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun openFile(uri: Uri)
-    {
-        val src_uri = Uri.parse(uri.path)
-        val dst_uri = Uri.parse("file:///mnt/sdcard/download/testing.pdf")
-        val req = DownloadManager.Request(src_uri)
-        req.setDestinationUri(dst_uri)
-        val dm = this.context?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        dm.enqueue(req)
-
-        val intent = Intent()
-        intent.action = Intent.ACTION_VIEW
-        if (uri.toString().contains(".doc") || uri.toString().contains(".docx")) {
-            // Word document
-            intent.setDataAndType(uri, "application/msword")
-        } else if (uri.toString().contains(".pdf")) {
-            // PDF file
-            intent.setDataAndType(uri, "application/pdf")
-        } else if (uri.toString().contains(".ppt") || uri.toString().contains(".pptx")) {
-            // Powerpoint file
-            intent.setDataAndType(uri, "application/vnd.ms-powerpoint")
-        } else if (uri.toString().contains(".xls") || uri.toString().contains(".xlsx")) {
-            // Excel file
-            intent.setDataAndType(uri, "application/vnd.ms-excel")
-        } else if (uri.toString().contains(".zip") || uri.toString().contains(".rar")) {
-            // WAV audio file
-            intent.setDataAndType(uri, "application/x-wav")
-        } else if (uri.toString().contains(".rtf")) {
-            // RTF file
-            intent.setDataAndType(uri, "application/rtf")
-        } else if (uri.toString().contains(".wav") || uri.toString().contains(".mp3")) {
-            // WAV audio file
-            intent.setDataAndType(uri, "audio/x-wav")
-        } else if (uri.toString().contains(".gif")) {
-            // GIF file
-            intent.setDataAndType(uri, "image/gif")
-        } else if (uri.toString().contains(".jpg") || uri.toString()
-                .contains(".jpeg") || uri.toString().contains(".png")
-        ) {
-            // JPG file
-            intent.setDataAndType(uri, "image/jpeg")
-        } else if (uri.toString().contains(".txt")) {
-            // Text file
-            intent.setDataAndType(uri, "text/plain")
-        } else if (uri.toString().contains(".3gp") || uri.toString()
-                .contains(".mpg") || uri.toString().contains(".mpeg") || uri.toString()
-                .contains(".mpe") || uri.toString().contains(".mp4") || uri.toString()
-                .contains(".avi")
-        ) {
-            // Video files
-            intent.setDataAndType(uri, "video/*")
-        } else {
-            // Other files
-            intent.setDataAndType(uri, "*/*")
-        }
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+        val intent = Intent(Intent.ACTION_VIEW)
+                .setDataAndType(uri, "application/*")
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        context?.startActivity(intent)
     }
-
-//    fun openFile() {
-//        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-//            type = "*/*"
-//            addCategory(Intent.CATEGORY_OPENABLE)
-//        }
-//        // Only the system receives the ACTION_OPEN_DOCUMENT, so no need to test.
-//        startActivityForResult(intent, 1)
-//    }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-//        if (requestCode == REQUEST_IMAGE_OPEN && resultCode == Activity.RESULT_OK) {
-//            val fullPhotoUri: Uri = data.data
-//            // Do work with full size photo saved at fullPhotoUri
-//            ...
-//        }
-//    }
 
     private fun initTask(view: View, task: Task?){
         if(task != null) {
@@ -345,17 +229,12 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         color?.let { view.begin_work_button.setBackgroundColor(it) }
         color?.let { view.end_work_button.setBackgroundColor(it) }
         color?.let { view.deadline_button.setBackgroundColor(it) }
-//        color?.let { view.save_button.setBackgroundColor(it) }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initButtons(view: View, task: Task?)
     {
-//        view.save_button.setOnClickListener {
-//            saveTask(view, task)
-//        }
-
         view.begin_work_button.setOnClickListener {
             this.context?.let { it1 -> TimeDialog.getTime(view.begin_work_time, it1) }
         }
@@ -367,11 +246,11 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         view.deadline_button.setOnClickListener {
             val datePicker = this.context?.let { it1 ->
                 DatePickerDialog(
-                    it1,
-                    this,
-                    Calendar.getInstance().get(Calendar.YEAR),
-                    Calendar.getInstance().get(Calendar.MONTH),
-                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+                        it1,
+                        this,
+                        Calendar.getInstance().get(Calendar.YEAR),
+                        Calendar.getInstance().get(Calendar.MONTH),
+                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
                 )
             }
             datePicker?.show()
@@ -399,23 +278,6 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
         }
     }
 
-//    fun checkTask(view: View){
-//        Log.d("checkTasks3", view.begin_work_time.text.toString())
-//        Log.d("checkTasks3", view.end_work_time.text.toString())
-//        Log.d("checkTasks3", view.date.text.toString())
-//        taskViewModel.checkTimeFixed(view.begin_work_time.text.toString(), view.end_work_time.text.toString(), view.date.text.toString()).observe(
-//                viewLifecycleOwner, {
-//            if (it != null) {
-//                this.checkTasks = it
-////                Log.d("checkTasks3", view.begin_work_time.text.toString())
-////                Log.d("checkTasks3", view.end_work_time.text.toString())
-////                Log.d("checkTasks3", view.date.text.toString())
-//                Log.d("checkTasks3", it.size.toString())
-//            }
-//        }
-//        )
-//    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveTask(view: View, task: Task?)
     {
@@ -427,21 +289,21 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
 
         if (view.begin_work_time.text.isNotEmpty() && view.end_work_time.text.isNotEmpty()){
             val date1 = LocalTime.parse(
-                view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(
+                    view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(
                     FormatStyle.SHORT
-                )
+            )
             )
             val date2 = LocalTime.parse(
-                view.end_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(
+                    view.end_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(
                     FormatStyle.SHORT
-                )
+            )
             )
 
             if (view.task_title.text.isNotEmpty()){
                 if(date1 > date2 || date1 == date2){
                     this.context?.let { ToastMessages.showMessage(
-                        it,
-                        "Неверно введено время начала или окончания"
+                            it,
+                            "Неверно введено время начала или окончания"
                     ) }
                 } else {
                     if (view.date.text.isNotEmpty())
@@ -522,20 +384,20 @@ class AddFixedTask() : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecy
                             this.context?.let { InfoDialog.onCreateDialog(it, "Совпадение задач", "Вы уже добавили задачу на это время.", R.drawable.info_green) }
                         }
                     } else this.context?.let { ToastMessages.showMessage(
-                        it,
-                        "Необходимо ввести дату события"
+                            it,
+                            "Необходимо ввести дату события"
                     ) }
                 }
             } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести название") }
         } else this.context?.let { ToastMessages.showMessage(
-            it,
-            "Необходимо ввести время начала и окончания"
+                it,
+                "Необходимо ввести время начала и окончания"
         ) }
     }
 
     override fun onItemClick(position: Int) {
-        val file = files.find { file -> file.path_id == files[position].path_id }
-//        openFile(Uri.parse(file?.path))
+        val file = files[position]
+        openFile(Uri.parse(file.path))
     }
 
     fun checkEat(view: View, beginTime: String, endTime: String): Boolean{

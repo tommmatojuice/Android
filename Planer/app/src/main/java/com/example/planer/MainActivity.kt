@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity()
         mySharePreferences = MySharePreferences(this)
 //        mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
 
-//        mySharePreferences.setAllInfo(false)
+        mySharePreferences.setAllInfo(true)
 //        mySharePreferences.setPlan(null)
 //        mySharePreferences.setWorkTimePast(0)
 

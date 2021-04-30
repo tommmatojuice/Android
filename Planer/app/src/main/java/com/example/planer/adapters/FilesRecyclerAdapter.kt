@@ -33,7 +33,7 @@ class FilesRecyclerAdapter(context: Context,
 
     private fun getTask(position: Int): PathToFile? = taskList?.get(position)
 
-    fun setTasks(taskList: List<PathToFile>){
+    fun setFiles(taskList: List<PathToFile>){
         this.taskList = taskList
     }
 
