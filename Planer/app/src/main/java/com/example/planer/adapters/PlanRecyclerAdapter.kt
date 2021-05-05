@@ -13,15 +13,13 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
-import com.example.planer.database.entity.TaskAndGroup
 import com.example.planer.ui.plan.TasksForPlan
 import kotlinx.android.synthetic.main.fragment_task.view.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
-class PlanRecyclerAdapter (context: Context,
-                           private var taskList: MutableList<TasksForPlan>?,
-                           private val listener: OnItemClickListener
+class PlanRecyclerAdapter(context: Context,
+                          private var taskList: MutableList<TasksForPlan>?,
+                          private val listener: OnItemClickListener,
+                          private val longListener: OnItemLongClickListener
 ): RecyclerView.Adapter<PlanRecyclerAdapter.ViewHolder>()
 {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -43,7 +41,7 @@ class PlanRecyclerAdapter (context: Context,
         this.taskList = taskList
     }
 
-    inner class ViewHolder(taskView: View) : RecyclerView.ViewHolder(taskView), View.OnClickListener{
+    inner class ViewHolder(taskView: View) : RecyclerView.ViewHolder(taskView), View.OnClickListener, View.OnLongClickListener {
         private val date: TextView = taskView.task_date
         private val title: TextView = taskView.task_title
         private val group: TextView = taskView.group_title
@@ -80,6 +78,7 @@ class PlanRecyclerAdapter (context: Context,
 
         init {
             card.setOnClickListener(this)
+            card.setOnLongClickListener(this)
         }
 
         override fun onClick(p0: View?) {
@@ -88,9 +87,21 @@ class PlanRecyclerAdapter (context: Context,
                 listener.onItemClick(position)
             }
         }
+
+        override fun onLongClick(p0: View?): Boolean {
+            val position:Int = adapterPosition
+            if(position != RecyclerView.NO_POSITION){
+                longListener.onItemLongClicked(position)
+            }
+            return true
+        }
     }
 
     interface OnItemClickListener{
         fun onItemClick(position: Int)
+    }
+
+    interface OnItemLongClickListener {
+        fun onItemLongClicked(position: Int): Boolean
     }
 }

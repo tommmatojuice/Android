@@ -1,5 +1,7 @@
  package com.example.planer.ui.plan
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -7,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -29,8 +32,7 @@ import java.time.temporal.ChronoUnit
 
 class AutoPlan(private val date: String,
                private val weekDay: String
-): Fragment(), PlanRecyclerAdapter.OnItemClickListener
-{
+): Fragment(), PlanRecyclerAdapter.OnItemClickListener, PlanRecyclerAdapter.OnItemLongClickListener {
     private lateinit var mySharePreferences: MySharePreferences
     private val taskViewModel: TaskViewModel by viewModels()
     private var fixedTasks: List<Task>? = null
@@ -63,7 +65,7 @@ class AutoPlan(private val date: String,
 //        mySharePreferences.setWorkEnd(null)
 //        mySharePreferences.setPlan(null)
 
-        adapter = this.context?.let { PlanRecyclerAdapter(it, pomodoros, this) }
+        adapter = this.context?.let { PlanRecyclerAdapter(it, pomodoros, this, this) }
         list = view.task_recycler_view
         list.adapter = adapter
 
@@ -155,6 +157,7 @@ class AutoPlan(private val date: String,
         pomodoros = mySharePreferences.getPlan()
 
         if(LocalDate.now().toString() != mySharePreferences.getToday()){
+            mySharePreferences.setTaskTransfer(0)
             mySharePreferences.setWorkTimePast(0)
             mySharePreferences.getFirstTasksNext()?.let { mySharePreferences.setFirstTasksToday(it) }
             mySharePreferences.setWorkEnd(null)
@@ -360,6 +363,10 @@ class AutoPlan(private val date: String,
                 })
             }
         }
+        Log.d("TaskTransfer", mySharePreferences.getTaskTransfer().toString())
+        if(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now()){
+            beginTime = beginTime.plusMinutes(mySharePreferences.getTaskTransfer().toLong())
+        }
         beginTimeReserve = beginTime
         Log.d("WorkTime", mySharePreferences.getWorkTimePast().toString())
         Log.d("workTime", workTime.toString())
@@ -405,6 +412,7 @@ class AutoPlan(private val date: String,
 //        beginTime = beginTimeReserve
 
         if(LocalTime.now() > beginTimeReserve && date == LocalDate.now().toString()){
+            Log.d("minutesBegin", mySharePreferences.getPlan()?.size.toString())
             if(mySharePreferences.getPlan().isNullOrEmpty() || (mySharePreferences.getPlan()?.last()?.task?.type == "one_time" && mySharePreferences.getPlan()?.last()?.task?.category != "work")){
                 beginTime = LocalTime.of(LocalTime.now().hour, LocalTime.now().minute).plusMinutes(10)
                 val pastTime = beginTimeReserve?.hour?.toLong()?.let { beginTimeReserve?.minute?.toLong()?.let { it1 -> LocalTime.now().minusHours(it).minusMinutes(it1) } }
@@ -1136,5 +1144,63 @@ class AutoPlan(private val date: String,
                 Navigation.findNavController(view).navigate(R.id.add_routine_task, bundle)
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onItemLongClicked(position: Int): Boolean {
+//        if(LocalTime.now() < mySharePreferences.getPlan()?.get(0)?.begin){
+            if(position == 0){
+                showMinutesDialog()
+            }
+//        }
+        return true
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showMinutesDialog(){
+        val builderSingle: AlertDialog.Builder = AlertDialog.Builder(this.context)
+        builderSingle.setIcon(R.drawable.plan_color)
+        builderSingle.setTitle("Перенос задачи (мин.)")
+
+        val arrayAdapter = this.context?.let {
+            ArrayAdapter<String>(
+                    it,
+                    android.R.layout.select_dialog_singlechoice)
+        }
+
+        arrayAdapter?.add("5")
+        arrayAdapter?.add("10")
+        arrayAdapter?.add("30")
+
+        builderSingle.setNegativeButton("Отмена",
+                DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+
+        builderSingle.setAdapter(arrayAdapter,
+                DialogInterface.OnClickListener { dialog, which ->
+                    val pomodoros = mySharePreferences.getPlan()
+                    if(pomodoros?.get(0)?.task?.type == "one_time" && pomodoros[0].begin == beginTimeReserve){
+                        mySharePreferences.setTaskTransfer(mySharePreferences.getTaskTransfer()+(arrayAdapter?.getItem(which)?.toInt() ?: 0))
+                    } else {
+                        mySharePreferences.setTaskTransfer(0)
+                        if(pomodoros?.get(0)?.task?.type == "one_time"){
+                            Log.d("minutesBegin", pomodoros[0].begin.toString())
+                            pomodoros[0].begin = arrayAdapter?.getItem(which)?.toLong()?.let { pomodoros[0].begin.plusMinutes(it) }!!
+                            Log.d("minutesBegin", pomodoros[0].begin.toString())
+                            mySharePreferences.setPlan(pomodoros)
+                            Log.d("minutesBegin", mySharePreferences.getPlan()?.get(0)?.begin.toString())
+                        } else {
+                            val task = pomodoros?.get(0)?.task
+                            task?.begin = arrayAdapter?.getItem(which)?.toLong()?.let { LocalTime.parse(task?.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)).plusMinutes(it).toString() }
+                            task?.let { taskViewModel.update(it) }
+                        }
+                    }
+                    activity?.supportFragmentManager
+                            ?.beginTransaction()
+                            ?.replace(R.id.plan_frag, AutoPlan(this.date, this.weekDay))
+                            ?.commit()
+                    Log.i("Selected Item ", arrayAdapter?.getItem(which)!!)
+                    dialog.dismiss()
+                })
+        builderSingle.show()
     }
 }

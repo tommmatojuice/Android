@@ -48,7 +48,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
     private var adapter: FilesRecyclerAdapter? = null
     private var count by Delegates.notNull<Int>()
     private var task: Task? = null
-    private lateinit var MyView: View
+    private lateinit var myView: View
     private lateinit var list: RecyclerView
     private val PICKFILE_RESULT_CODE = 1
     private lateinit var mySharePreferences: MySharePreferences
@@ -56,13 +56,13 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        MyView = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
+        myView = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
         task = arguments?.getSerializable("task") as Task?
 
         mySharePreferences = activity?.applicationContext?.let { MySharePreferences(it) }!!
 
         adapter = this.context?.let { FilesRecyclerAdapter(it, files, this) }
-        list = MyView.files_recycler_view
+        list = myView.files_recycler_view
         list.adapter = adapter
 
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.HORIZONTAL)
@@ -74,9 +74,9 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         }!!)
         list.addItemDecoration(decoration)
 
-        initUI(MyView)
-        initButtons(MyView, task)
-        initTask(MyView, task)
+        initUI(myView)
+        initButtons(myView)
+        initTask(myView, task)
 
         task?.task_id?.let {
             pathViewModel.pathsById(it).observe(
@@ -92,7 +92,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         }
 
         taskViewModel.lastTask.observe(
-                viewLifecycleOwner, { _ ->
+                viewLifecycleOwner, {
         }
         )
 
@@ -133,7 +133,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(list)
 
-        return MyView
+        return myView
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
@@ -154,7 +154,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         return when (item.itemId) {
             R.id.save_item -> {
                 Log.d("click", "click")
-                MyView?.let { saveTask(it, task) }
+                saveTask(myView, task)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -163,11 +163,14 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
 
     private fun addFiles(task_id: Int){
         files.forEach {
-            if(count <= 0){
-                if(task != null)
+            if(task != null){
+                if(count <= 0){
                     pathViewModel.insert(PathToFile(it.path, task_id))
+                }
+                count--
+            } else {
+                pathViewModel.insert(PathToFile(it.path, task_id))
             }
-            count--
         }
     }
 
@@ -189,7 +192,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         }
     }
 
-    fun openFile(uri: Uri) {
+    private fun openFile(uri: Uri) {
         Log.d("openFIle2", uri.toString())
 //        val data = this.context?.let { FileProvider.getUriForFile(it, "com.android.providers", File(uri.path)) }
 
@@ -233,7 +236,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun initButtons(view: View, task: Task?)
+    private fun initButtons(view: View)
     {
         view.begin_work_button.setOnClickListener {
             this.context?.let { it1 -> TimeDialog.getTime(view.begin_work_time, it1) }
@@ -310,15 +313,23 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                     {
                         checkTasks?.removeIf { it.type != "fixed" }
                         checkTasks?.removeIf { it.date != view.date.text.toString() }
+//                        checkTasks?.removeIf {
+//                                !((view.begin_work_time.text.toString() >= it.begin.toString()
+//                                && view.begin_work_time.text.toString() < it.end.toString())
+//                                || (view.end_work_time.text.toString() > it.begin.toString()
+//                                && view.end_work_time.text.toString() <= it.end.toString()))
+//                        }
                         checkTasks?.removeIf {
-                                !((view.begin_work_time.text.toString() >= it.begin.toString()
-                                && view.begin_work_time.text.toString() < it.end.toString())
-                                || (view.end_work_time.text.toString() > it.begin.toString()
-                                && view.end_work_time.text.toString() <= it.end.toString()))
+                            val newTaskBegin = LocalTime.parse(view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                            val newTaskEnd = LocalTime.parse(view.end_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                            val taskBegin = LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                            val taskEnd = LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                            !((newTaskBegin >= taskBegin && newTaskBegin < taskEnd) || (newTaskEnd > taskBegin && newTaskEnd <= taskEnd))
                         }
+
                         Log.d("checkTasks2", checkTasks?.size.toString())
                         checkTasks?.forEach {
-                            Log.d("checkTasks2", it?.title.toString())
+                            Log.d("checkTasks2", it.title)
                         }
 
                         if(task != null){
@@ -400,7 +411,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         openFile(Uri.parse(file.path))
     }
 
-    fun checkEat(view: View, beginTime: String, endTime: String): Boolean{
+    private fun checkEat(view: View, beginTime: String, endTime: String): Boolean{
         return !((view.begin_work_time.text.toString() >= beginTime
                 && view.begin_work_time.text.toString() < endTime)
                 || (view.end_work_time.text.toString() > beginTime

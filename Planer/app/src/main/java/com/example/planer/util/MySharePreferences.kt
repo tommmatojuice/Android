@@ -61,6 +61,7 @@ class MySharePreferences(context: Context) {
         const val TODAY: String = "TODAY"
         const val WORK_TIME_PAST: String = "WORKTIMEPAST"
         const val WORK_END: String = "WORK_END"
+        const val TASK_TRANSFER: String = "TASK_TRANSFER"
     }
 
     private val mySharedPreferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, AppCompatActivity.MODE_PRIVATE)
@@ -196,6 +197,15 @@ class MySharePreferences(context: Context) {
                 LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), it.time, it.task))
         }
         return list
+    }
+
+    fun setTaskTransfer(minutes: Int){
+        myEditor.putInt(TASK_TRANSFER, minutes)
+        myEditor.apply()
+    }
+
+    fun getTaskTransfer(): Int {
+        return mySharedPreferences.getInt(TASK_TRANSFER, 0)
     }
 
     fun setPlanForDay(flag: Boolean){

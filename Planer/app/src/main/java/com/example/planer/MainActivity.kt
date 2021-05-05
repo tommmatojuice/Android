@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity()
         mySharePreferences = MySharePreferences(this)
 //        mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
 
-        mySharePreferences.setAllInfo(true)
+//        mySharePreferences.setAllInfo(true)
 //        mySharePreferences.setPlan(null)
 //        mySharePreferences.setWorkTimePast(0)
 
@@ -230,6 +230,7 @@ class MainActivity : AppCompatActivity()
         pomodoros = mySharePreferences.getPlan()
 
         if(LocalDate.now().toString() != mySharePreferences.getToday()){
+            mySharePreferences.setTaskTransfer(0)
             mySharePreferences.setWorkTimePast(0)
             mySharePreferences.getFirstTasksNext()?.let { mySharePreferences.setFirstTasksToday(it) }
             mySharePreferences.setWorkEnd(null)

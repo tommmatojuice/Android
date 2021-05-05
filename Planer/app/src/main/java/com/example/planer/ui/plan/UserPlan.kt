@@ -1,6 +1,7 @@
 package com.example.planer.ui.plan
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -15,11 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
 import com.example.planer.adapters.PlanRecyclerAdapter
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_food.view.*
@@ -30,8 +33,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 
-class UserPlan(private val date: String, private val weekDay: String): Fragment(), PlanRecyclerAdapter.OnItemClickListener
-{
+class UserPlan(private val date: String, private val weekDay: String): Fragment(), PlanRecyclerAdapter.OnItemClickListener, PlanRecyclerAdapter.OnItemLongClickListener {
     private lateinit var mySharePreferences: MySharePreferences
     private val taskViewModel: TaskViewModel by viewModels()
     private var fixedTasks: List<Task>? = listOf()
@@ -46,7 +48,7 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
         mySharePreferences = context?.let { MySharePreferences(it) }!!
 
-        adapter = this.context?.let { PlanRecyclerAdapter(it, tasks, this) }
+        adapter = this.context?.let { PlanRecyclerAdapter(it, tasks, this, this) }
         list = view.task_recycler_view
         list.adapter = adapter
 
@@ -68,6 +70,36 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
             }
         }
         )
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
+                val task = tasks[viewHolder.adapterPosition].task
+
+                val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
+                    when (which) {
+                        Dialog.BUTTON_POSITIVE -> {
+                            if (task != null) {
+                                taskViewModel.delete(task)
+                            }
+                        }
+                        Dialog.BUTTON_NEGATIVE -> {
+                            tasks.let { adapter?.setTasks(it) }
+                            list.adapter = adapter
+                        }
+                    }
+                }
+
+                context?.let { InfoDialog.onCreateConfirmDialog(it, "Удаление", "Удалить задачу \"${task?.title}\"?", R.drawable.delete, myClickListener)}
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(list)
+
         return view
     }
 
@@ -152,21 +184,28 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initTasks(){
-        this.tasks?.clear()
+        this.tasks.clear()
         Log.d("fixedTasks1", this.fixedTasks?.size.toString())
         Log.d("routineTasks1", this.routineTasks?.size.toString())
         fixedTasks?.forEach {
-            this.tasks?.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+            this.tasks.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
                     LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), null, it))
         }
         routineTasks?.forEach {
-            this.tasks?.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+            this.tasks.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
                     LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), null, it))
         }
-        Log.d("tasksTasks", this.tasks?.size.toString())
-        this.tasks?.sortBy { it.begin }
+        Log.d("tasksTasks", this.tasks.size.toString())
+        this.tasks.sortBy { it.begin }
+        if(tasks.isNullOrEmpty()){
+            view?.textView?.visibility = View.VISIBLE
+            view?.imageView?.visibility = View.VISIBLE
+        } else {
+            view?.textView?.visibility = View.INVISIBLE
+            view?.imageView?.visibility = View.INVISIBLE
+        }
         adapter?.setTasks(tasks)
-        list?.adapter = adapter
+        list.adapter = adapter
     }
 
     private fun addTask(category: String?)
@@ -180,7 +219,7 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemClick(position: Int) {
-        view?.let { openTask(it, tasks?.get(position)?.task) }
+        view?.let { openTask(it, tasks[position].task) }
     }
 
     private fun openTask(view: View, task: Task?)
@@ -235,5 +274,9 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                     dialog.dismiss()
                 })
         builderSingle.show()
+    }
+
+    override fun onItemLongClicked(position: Int): Boolean {
+        return true
     }
 }

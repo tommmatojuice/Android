@@ -206,19 +206,41 @@
             android:text="@string/sunday"
             android:textSize="@dimen/h4_text"
             android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkBoxSat" />
 
-<!--        <Button-->
-<!--            android:id="@+id/save_button"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/save"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />-->
+        <TextView
+            android:id="@+id/files"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/files"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/h2_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />
+
+        <ImageButton
+            android:id="@+id/add_file_work_one_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/back_white"
+            android:src="@drawable/file"
+            app:layout_constraintBottom_toTopOf="@+id/files_recycler_view_work_one_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/files_recycler_view_work_one_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="40dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/files" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
