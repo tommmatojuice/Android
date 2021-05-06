@@ -31,14 +31,6 @@
         android:layout_marginStart="16dp"
         android:src="@drawable/self_improvement"/>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/skateboarding"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center|left"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:src="@drawable/skateboarding"/>-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -50,7 +42,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/_20_01"
-            android:paddingStart="16dp"
+            android:textAlignment="center"
             android:textSize="20sp" />
 
         <LinearLayout

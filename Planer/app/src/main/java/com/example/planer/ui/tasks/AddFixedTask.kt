@@ -6,6 +6,8 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -32,11 +34,13 @@ import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecyclerAdapter.OnItemClickListener
@@ -59,6 +63,10 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         myView = inflater.inflate(R.layout.fragment_add_fixed_task, container, false)
         task = arguments?.getSerializable("task") as Task?
 
+        if (savedInstanceState != null) {
+            this.files = savedInstanceState.getSerializable("files") as MutableList<PathToFile>
+        }
+
         mySharePreferences = activity?.applicationContext?.let { MySharePreferences(it) }!!
 
         adapter = this.context?.let { FilesRecyclerAdapter(it, files, this) }
@@ -76,7 +84,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
 
         initUI(myView)
         initButtons(myView)
-        initTask(myView, task)
+        initTask(myView, task, savedInstanceState)
 
         task?.task_id?.let {
             pathViewModel.pathsById(it).observe(
@@ -134,6 +142,14 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         itemTouchHelper.attachToRecyclerView(list)
 
         return myView
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("files", ArrayList(this.files))
+        outState.putString("begin_work_time", view?.begin_work_time?.text.toString())
+        outState.putString("end_work_time", view?.end_work_time?.text.toString())
+        outState.putString("date", view?.date?.text.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
@@ -204,7 +220,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         context?.startActivity(intent)
     }
 
-    private fun initTask(view: View, task: Task?){
+    private fun initTask(view: View, task: Task?, savedInstanceState: Bundle?){
         if(task != null) {
             view.task_title.setText(task.title)
             view.task_description.setText(task.description)
@@ -215,11 +231,20 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
         if(arguments?.getString("date") != null){
             view.date?.text = arguments?.getString("date")
         }
+        if (savedInstanceState != null) {
+            view.begin_work_time?.text = savedInstanceState.getString("begin_work_time")
+            view.end_work_time?.text = savedInstanceState.getString("end_work_time")
+            view.date?.text = savedInstanceState.getString("date")
+        }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI(view: View)
     {
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
+        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
+
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }
         when(arguments?.getString("category")){
             "rest" -> {
@@ -313,12 +338,6 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                     {
                         checkTasks?.removeIf { it.type != "fixed" }
                         checkTasks?.removeIf { it.date != view.date.text.toString() }
-//                        checkTasks?.removeIf {
-//                                !((view.begin_work_time.text.toString() >= it.begin.toString()
-//                                && view.begin_work_time.text.toString() < it.end.toString())
-//                                || (view.end_work_time.text.toString() > it.begin.toString()
-//                                && view.end_work_time.text.toString() <= it.end.toString()))
-//                        }
                         checkTasks?.removeIf {
                             val newTaskBegin = LocalTime.parse(view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                             val newTaskEnd = LocalTime.parse(view.end_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))

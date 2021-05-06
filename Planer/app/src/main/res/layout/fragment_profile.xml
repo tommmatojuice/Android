@@ -946,54 +946,22 @@
             app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
         <ToggleButton
-            android:id="@+id/miniBreak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:textOff="@string/off"
-            android:textOn="@string/on"
-            android:backgroundTint="@color/dark_orange"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view6" />
-
-        <TextView
-            android:id="@+id/miniBreakText"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="@string/miniBreak"
-            android:textSize="@dimen/settings"
-            app:layout_constraintBottom_toBottomOf="@+id/miniBreak"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/miniBreak" />
-
-        <View
-            android:id="@+id/view7"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/view_height"
-            android:layout_marginTop="16dp"
-            android:background="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/miniBreakText" />
-
-        <ToggleButton
             android:id="@+id/bigBreak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="36dp"
             android:backgroundTint="@color/dark_orange"
             android:checked="true"
             android:textOff="@string/off"
             android:textOn="@string/on"
-            android:layout_marginBottom="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view7" />
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <TextView
             android:id="@+id/bigBreakText"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/bigBreak"
             android:textSize="@dimen/settings"

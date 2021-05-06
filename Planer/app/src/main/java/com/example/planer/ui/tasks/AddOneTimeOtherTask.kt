@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -28,7 +30,11 @@ import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.ToastMessages
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.*
+import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.task_description
+import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.task_title
 import kotlin.properties.Delegates
 
 class AddOneTimeOtherTask  : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
@@ -45,6 +51,10 @@ class AddOneTimeOtherTask  : Fragment(), FilesRecyclerAdapter.OnItemClickListene
     {
         val view = inflater.inflate(R.layout.fragment_add_one_time_other_task, container, false)
         task = arguments?.getSerializable("task") as Task?
+
+        if (savedInstanceState != null) {
+            this.files = savedInstanceState.getSerializable("files") as MutableList<PathToFile>
+        }
 
         adapter = this.context?.let { FilesRecyclerAdapter(it, files, this) }
         list = view.files_recycler_view_other_one_time
@@ -111,6 +121,11 @@ class AddOneTimeOtherTask  : Fragment(), FilesRecyclerAdapter.OnItemClickListene
         }
 
         return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("files", ArrayList(this.files))
     }
 
     private fun addFiles(task_id: Int){
@@ -193,6 +208,10 @@ class AddOneTimeOtherTask  : Fragment(), FilesRecyclerAdapter.OnItemClickListene
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI()
     {
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
+        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
+
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 

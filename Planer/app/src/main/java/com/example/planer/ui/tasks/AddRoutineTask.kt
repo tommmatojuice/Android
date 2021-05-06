@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -30,6 +32,7 @@ import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_button
@@ -61,6 +64,10 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
         val view = inflater.inflate(R.layout.fragment_add_routine_task, container, false)
         task = arguments?.getSerializable("task") as Task?
 
+        if (savedInstanceState != null) {
+            this.files = savedInstanceState.getSerializable("files") as MutableList<PathToFile>
+        }
+
         adapter = this.context?.let { FilesRecyclerAdapter(it, files, this) }
         list = view.files_recycler_view_routine
         list.adapter = adapter
@@ -78,7 +85,7 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
 
         initUI(view)
         initButtons(view)
-        initTask(view, task)
+        initTask(view, task, savedInstanceState)
 
         taskViewModel.allTasks.observe(
                 viewLifecycleOwner, {
@@ -136,6 +143,13 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
         }
 
         return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("files", ArrayList(this.files))
+        outState.putString("begin_work_time", view?.begin_work_time?.text.toString())
+        outState.putString("end_work_time", view?.end_work_time?.text.toString())
     }
 
     private fun addFiles(task_id: Int){
@@ -201,7 +215,7 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     }
 
     @SuppressLint("NewApi")
-    private fun initTask(view: View, task: Task?){
+    private fun initTask(view: View, task: Task?, savedInstanceState: Bundle?){
         if(task != null) {
             view.task_title.setText(task.title)
             view.task_description.setText(task.description)
@@ -215,11 +229,19 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
             view.checkBoxSat.isChecked = task.saturday!!
             view.checkBoxSun.isChecked = task.sunday!!
         }
+        if (savedInstanceState != null) {
+            view.begin_work_time?.text = savedInstanceState.getString("begin_work_time")
+            view.end_work_time?.text = savedInstanceState.getString("end_work_time")
+        }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI(view: View)
     {
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
+        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
+
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }
         when(arguments?.getString("category")){
             "rest" ->{

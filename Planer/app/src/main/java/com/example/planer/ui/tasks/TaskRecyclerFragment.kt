@@ -2,11 +2,16 @@ package com.example.planer.ui.tasks
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,9 +24,14 @@ import com.example.planer.adapters.TaskRecyclerAdapter
 import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.ui.plan.AutoPlan
 import com.example.planer.util.InfoDialog
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.fragment_put_peak.*
+import kotlinx.android.synthetic.main.fragment_put_peak.view.*
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
+import java.time.LocalDate
 
 
 class TaskRecyclerFragment(private var type: String, private var category: String) : Fragment(), TaskRecyclerAdapter.OnItemClickListener
@@ -33,6 +43,11 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
+
+        if (savedInstanceState != null) {
+            this.type = savedInstanceState.getString("type").toString()
+            this.category = savedInstanceState.getString("category").toString()
+        }
 
         val adapter = this.context?.let { TaskRecyclerAdapter(it, tasks, this, category) }
         val list = view.task_recycler_view
@@ -46,6 +61,8 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
         buttonAddItem.setOnClickListener{
             addTask(view, null)
         }
+
+        initUI()
 
         taskViewModel.taskAndGroup(category, type).observe(
                 viewLifecycleOwner, { tasks ->
@@ -100,6 +117,21 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
         itemTouchHelper.attachToRecyclerView(list)
 
         return view
+    }
+
+    private fun initUI(){
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
+        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    constructor(): this("", "")
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("type", this.type)
+        outState.putString("category", this.category)
     }
 
     override fun onItemClick(position: Int) {

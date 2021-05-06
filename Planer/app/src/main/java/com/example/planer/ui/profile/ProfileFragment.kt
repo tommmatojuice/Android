@@ -17,11 +17,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.planer.R
+import com.example.planer.database.entity.PathToFile
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_25
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_30
@@ -31,8 +33,8 @@ import kotlinx.android.synthetic.main.fragment_profile.view.pom_60
 import kotlinx.android.synthetic.main.fragment_profile.view.radioGroup
 import kotlinx.android.synthetic.main.fragment_put_pomodoro.view.*
 
-class ProfileFragment : Fragment() {
-
+class ProfileFragment : Fragment()
+{
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var mySharePreferences: MySharePreferences
     private var pomodoroWork = 0
@@ -45,14 +47,9 @@ class ProfileFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-//        val textView: TextView = root.findViewById(R.id.profile_text)
-//        profileViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
         initUI()
         initButtons(view)
-        initElements(view)
+        initElements(view, savedInstanceState)
 
         return view
     }
@@ -79,6 +76,34 @@ class ProfileFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("wake_up_time", view?.wake_up_time?.text.toString())
+        outState.putString("sleep_time", view?.sleep_time?.text.toString())
+        outState.putString("breakfast_begin_time", view?.breakfast_begin_time?.text.toString())
+        outState.putString("breakfast_end_time", view?.breakfast_end_time?.text.toString())
+        outState.putString("lunch_begin_time", view?.lunch_begin_time?.text.toString())
+        outState.putString("lunch_end_time", view?.lunch_end_time?.text.toString())
+        outState.putString("diner_begin_time", view?.diner_begin_time?.text.toString())
+        outState.putString("diner_end_time", view?.diner_end_time?.text.toString())
+        outState.putString("peak_begin_time", view?.peak_begin_time?.text.toString())
+        outState.putString("peak_end_time", view?.peak_end_time?.text.toString())
+        outState.putString("work_mon_time", view?.work_mon_time?.text.toString())
+        outState.putString("begin_mon_time", view?.begin_mon_time?.text.toString())
+        outState.putString("work_tue_time", view?.work_tue_time?.text.toString())
+        outState.putString("begin_tue_time", view?.begin_tue_time?.text.toString())
+        outState.putString("work_wed_time", view?.work_wed_time?.text.toString())
+        outState.putString("begin_wed_time", view?.begin_wed_time?.text.toString())
+        outState.putString("work_thur_time", view?.work_thur_time?.text.toString())
+        outState.putString("begin_thur_time", view?.begin_thur_time?.text.toString())
+        outState.putString("work_fri_time", view?.work_fri_time?.text.toString())
+        outState.putString("begin_fri_time", view?.begin_fri_time?.text.toString())
+        outState.putString("work_sat_time", view?.work_sat_time?.text.toString())
+        outState.putString("begin_sat_time", view?.begin_sat_time?.text.toString())
+        outState.putString("work_sun_time", view?.work_sun_time?.text.toString())
+        outState.putString("begin_sun_time", view?.begin_sun_time?.text.toString())
     }
 
     private fun saveSettings()
@@ -345,7 +370,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun initElements(view: View)
+    private fun initElements(view: View, savedInstanceState: Bundle?)
     {
         view.editText.setText(mySharePreferences.getName())
         view.autoPlan.isChecked = mySharePreferences.getAutoPlan()
@@ -381,6 +406,33 @@ class ProfileFragment : Fragment() {
             40 -> view.pom_40.isChecked = true
             50 -> view.pom_50.isChecked = true
             60 -> view.pom_60.isChecked = true
+        }
+
+        if (savedInstanceState != null) {
+            view.wake_up_time.text = savedInstanceState.getString("wake_up_time")
+            view.sleep_time.text = savedInstanceState.getString("sleep_time")
+            view.breakfast_begin_time.text = savedInstanceState.getString("breakfast_begin_time")
+            view.breakfast_end_time.text = savedInstanceState.getString("breakfast_end_time")
+            view.lunch_begin_time.text = savedInstanceState.getString("lunch_begin_time")
+            view.lunch_end_time.text = savedInstanceState.getString("lunch_end_time")
+            view.diner_begin_time.text = savedInstanceState.getString("diner_begin_time")
+            view.diner_end_time.text = savedInstanceState.getString("diner_end_time")
+            view.peak_begin_time.text = savedInstanceState.getString("peak_begin_time")
+            view.peak_end_time.text = savedInstanceState.getString("peak_end_time")
+            view.work_mon_time.text = savedInstanceState.getString("work_mon_time")
+            view.begin_mon_time.text = savedInstanceState.getString("begin_mon_time")
+            view.work_tue_time.text = savedInstanceState.getString("work_tue_time")
+            view.begin_tue_time.text = savedInstanceState.getString("begin_tue_time")
+            view.work_wed_time.text = savedInstanceState.getString("work_wed_time")
+            view.begin_wed_time.text = savedInstanceState.getString("begin_wed_time")
+            view.work_thur_time.text = savedInstanceState.getString("work_thur_time")
+            view.begin_thur_time.text = savedInstanceState.getString("begin_thur_time")
+            view.work_fri_time.text = savedInstanceState.getString("work_fri_time")
+            view.begin_fri_time.text = savedInstanceState.getString("begin_fri_time")
+            view.work_sat_time.text = savedInstanceState.getString("work_sat_time")
+            view.begin_sat_time.text = savedInstanceState.getString("begin_sat_time")
+            view.work_sun_time.text = savedInstanceState.getString("work_sun_time")
+            view.begin_sun_time.text = savedInstanceState.getString("begin_sun_time")
         }
     }
 }

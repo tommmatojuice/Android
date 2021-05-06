@@ -6,6 +6,8 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -32,7 +34,12 @@ import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.*
+import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.deadline_button
+import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.task_description
+import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.task_title
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -55,6 +62,10 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
         val view = inflater.inflate(R.layout.fragment_add_one_time_work_task, container, false)
         task = arguments?.getSerializable("task") as Task?
 
+        if (savedInstanceState != null) {
+            this.files = savedInstanceState.getSerializable("files") as MutableList<PathToFile>
+        }
+
         adapter = this.context?.let { FilesRecyclerAdapter(it, files, this) }
         list = view.files_recycler_view_work_one_time
         list.adapter = adapter
@@ -70,7 +81,7 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
 
         initUI(view)
         initButtons(view)
-        initTask(view, task)
+        initTask(view, task, savedInstanceState)
 
         task?.task_id?.let {
             pathViewModel.pathsById(it).observe(
@@ -120,6 +131,13 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
         itemTouchHelper.attachToRecyclerView(list)
 
         return view
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("files", ArrayList(this.files))
+        outState.putString("work_time", view?.work_time?.text.toString())
+        outState.putString("deadline", view?.deadline?.text.toString())
     }
 
     private fun addFiles(task_id: Int){
@@ -185,7 +203,7 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
     }
 
     @SuppressLint("NewApi", "SetTextI18n")
-    private fun initTask(view: View, task: Task?){
+    private fun initTask(view: View, task: Task?, savedInstanceState: Bundle?){
         if(task != null) {
             val hours: String = if(task.duration?.div(60)!! < 10)
                 "0" + task.duration?.div(60)
@@ -208,11 +226,19 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
             view.checkBoxSat.isChecked = task.saturday!!
             view.checkBoxSun.isChecked = task.sunday!!
         }
+        if (savedInstanceState != null) {
+            view.work_time?.text = savedInstanceState.getString("work_time")
+            view.deadline?.text = savedInstanceState.getString("deadline")
+        }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI(view: View)
     {
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
+        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
+
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }
         when(arguments?.getString("category")){
             "rest" ->{

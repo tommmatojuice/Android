@@ -3,6 +3,8 @@ package com.example.planer.ui.products
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -23,6 +25,7 @@ import com.example.planer.database.viewModel.ProductListViewModel
 import com.example.planer.database.viewModel.ProductViewModel
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.ToastMessages
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.add_product.view.*
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.*
@@ -62,6 +65,8 @@ class ProductsRecyclerFragment : Fragment(), ProductsAdapter.OnItemClickListener
         buttonAddItem.setOnClickListener{
             addProduct(null)
         }
+
+        initUi()
 
         listAndAllProducts?.list?.product_list_id?.let {
             productViewModel.productsByList(it).observe(
@@ -106,6 +111,12 @@ class ProductsRecyclerFragment : Fragment(), ProductsAdapter.OnItemClickListener
         itemTouchHelper.attachToRecyclerView(list)
 
         return view
+    }
+
+    private fun initUi(){
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.red) }
+        (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#D91E18")))
     }
 
     private fun addProduct(product: Product?)

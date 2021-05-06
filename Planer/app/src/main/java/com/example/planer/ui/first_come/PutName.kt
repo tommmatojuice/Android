@@ -41,7 +41,6 @@ class PutName : Fragment()
         outState.putString("name", nameView.text.toString())
     }
 
-
     private fun initButtons(view: View)
     {
         view.findViewById<Button>(R.id.next1_button).setOnClickListener {

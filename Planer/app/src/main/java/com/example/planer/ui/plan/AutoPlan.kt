@@ -1,4 +1,4 @@
- package com.example.planer.ui.plan
+package com.example.planer.ui.plan
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
 import com.example.planer.adapters.PlanRecyclerAdapter
+import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.MySharePreferences
@@ -62,6 +63,7 @@ class AutoPlan(private val date: String,
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
         mySharePreferences = context?.let { MySharePreferences(it) }!!
         view.button_add_item.visibility = View.INVISIBLE
+
 //        mySharePreferences.setWorkEnd(null)
 //        mySharePreferences.setPlan(null)
 
@@ -126,28 +128,16 @@ class AutoPlan(private val date: String,
         Log.d("dateeee", date)
         Log.d("weekday", weekDay)
 
-        //удаление из списка
-//        if(date == LocalDate.now().toString())
-//        {
-//            val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-//                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
-//                    return false
-//                }
-//
-//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
-//                    Log.d("onSwiped", viewHolder.adapterPosition.toString())
-//                    pomodorosSmall?.removeAt(viewHolder.adapterPosition)
-//                    mySharePreferences.setPlan(pomodorosSmall)
-//                    pomodorosSmall?.let { adapter?.setTasks(it) }
-//                    list.adapter = adapter
-//                }
-//            }
-//
-//            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-//            itemTouchHelper.attachToRecyclerView(list)
-//        }
-
         return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    constructor(): this(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString())
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("plan", ArrayList(mySharePreferences.getPlan()))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -412,7 +402,7 @@ class AutoPlan(private val date: String,
 //        beginTime = beginTimeReserve
 
         if(LocalTime.now() > beginTimeReserve && date == LocalDate.now().toString()){
-            Log.d("minutesBegin", mySharePreferences.getPlan()?.size.toString())
+            Log.d("APGetPlan", mySharePreferences.getPlan()?.size.toString())
             if(mySharePreferences.getPlan().isNullOrEmpty() || (mySharePreferences.getPlan()?.last()?.task?.type == "one_time" && mySharePreferences.getPlan()?.last()?.task?.category != "work")){
                 beginTime = LocalTime.of(LocalTime.now().hour, LocalTime.now().minute).plusMinutes(10)
                 val pastTime = beginTimeReserve?.hour?.toLong()?.let { beginTimeReserve?.minute?.toLong()?.let { it1 -> LocalTime.now().minusHours(it).minusMinutes(it1) } }
