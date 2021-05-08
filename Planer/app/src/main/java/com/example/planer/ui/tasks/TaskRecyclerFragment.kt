@@ -24,15 +24,10 @@ import com.example.planer.adapters.TaskRecyclerAdapter
 import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
 import com.example.planer.database.viewModel.TaskViewModel
-import com.example.planer.ui.plan.AutoPlan
 import com.example.planer.util.InfoDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_put_peak.*
-import kotlinx.android.synthetic.main.fragment_put_peak.view.*
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
-import java.time.LocalDate
-
 
 class TaskRecyclerFragment(private var type: String, private var category: String) : Fragment(), TaskRecyclerAdapter.OnItemClickListener
 {

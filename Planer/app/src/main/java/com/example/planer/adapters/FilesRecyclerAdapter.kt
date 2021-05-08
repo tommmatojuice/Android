@@ -12,7 +12,6 @@ import com.example.planer.R
 import com.example.planer.database.entity.PathToFile
 import kotlinx.android.synthetic.main.fragment_task.view.*
 import java.io.File
-import java.io.FileOutputStream
 
 class FilesRecyclerAdapter(context: Context,
                            private var taskList: List<PathToFile>?,

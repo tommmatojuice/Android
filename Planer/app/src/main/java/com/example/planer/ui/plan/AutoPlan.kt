@@ -135,12 +135,6 @@ class AutoPlan(private val date: String,
     constructor(): this(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString())
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putSerializable("plan", ArrayList(mySharePreferences.getPlan()))
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun minusTime()
     {
         var pomodoros: MutableList<TasksForPlan>? = mutableListOf()
@@ -519,7 +513,16 @@ class AutoPlan(private val date: String,
 
         for(i in 0 until tasks.size){
             Log.d("tasks!", tasks[i].begin.toString())
-            if(beginTime < tasks[i].begin && i > 0){
+            if(i == 0 && tasks[i].end < beginTime){
+                time = tasks[i+1].begin.minus(beginTime.hour.toLong(), ChronoUnit.HOURS).minus(beginTime.minute.toLong(), ChronoUnit.MINUTES)
+                intervals?.add(TasksForPlan(beginTime, tasks[i+1].begin, (time.hour * 60 + time.minute), null))
+                work += time.hour*60 + time.minute
+            } else if(i == 0 && tasks[i].end > beginTime){
+                time = tasks[i+1].begin.minus(tasks[i].end.hour.toLong(), ChronoUnit.HOURS).minus(tasks[i].end.minute.toLong(), ChronoUnit.MINUTES)
+                intervals?.add(TasksForPlan(tasks[i].end, tasks[i+1].begin, (time.hour * 60 + time.minute), null))
+                work += time.hour*60 + time.minute
+            }
+            if(beginTime < tasks[i].begin && i > 1){
                 Log.d("beginTime ${tasks[i]}", tasks[i].begin.toString())
                 Log.d("workTime1!", work.toString())
                 Log.d("workTime2!", workTime.toString())
@@ -554,7 +557,7 @@ class AutoPlan(private val date: String,
         if(intervals != null && work > workTime){
             if(intervals!!.isNotEmpty()){
                 if(intervals?.last()?.time!! > work-workTime){
-                    intervals!!.last().end = intervals!!.last().begin.minusMinutes((work-workTime).toLong())
+                    intervals!!.last().end = intervals!!.last().end.minusMinutes((work-workTime).toLong())
                     intervals!!.last().time = intervals!!.last().time!! - (work-workTime)
                 } else {
                     while (work > workTime){
@@ -938,8 +941,8 @@ class AutoPlan(private val date: String,
                     if(workTimeFirst <= this.workTimePast
                             || pomodorosSmall!!.isEmpty()
                             || (oneTimeTasks?.isEmpty() != false && routineTasks?.isEmpty() != false && fixedTasks?.isEmpty() != false)
-                            || LocalTime.now() >= sleepTime.minusHours(1) && sleepTime > LocalTime.of(12, 0)
-                            || LocalTime.now() <= sleepTime.minusHours(1) && sleepTime < LocalTime.of(12, 0))
+                            || LocalTime.now() >= sleepTime.minusHours(1) && (sleepTime > LocalTime.of(12, 0) || sleepTime == LocalTime.of(0, 0))
+                            || LocalTime.now() <= sleepTime.minusHours(1) && sleepTime < LocalTime.of(12, 0) && sleepTime != LocalTime.of(0, 0))
                     {
                         Log.d("rest", "rest")
                         pomodorosSmall!!.clear()

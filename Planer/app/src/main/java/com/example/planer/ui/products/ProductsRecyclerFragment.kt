@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -28,11 +27,7 @@ import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.add_product.view.*
-import kotlinx.android.synthetic.main.fragment_add_fixed_task.*
-import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.*
 import kotlinx.android.synthetic.main.fragment_products_recycler.view.*
-import kotlin.math.cos
-
 
 class ProductsRecyclerFragment : Fragment(), ProductsAdapter.OnItemClickListener
 {
@@ -126,10 +121,8 @@ class ProductsRecyclerFragment : Fragment(), ProductsAdapter.OnItemClickListener
 
         val mDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
 
-        //Настраиваем prompt.xml для нашего AlertDialog:
         mDialogBuilder.setView(addProductView)
 
-        //Настраиваем отображение поля для ввода текста в открытом диалоге:
         val titleInput = addProductView.input_title
         val countInput = addProductView.input_count
         val costInput = addProductView.input_cost
@@ -140,11 +133,10 @@ class ProductsRecyclerFragment : Fragment(), ProductsAdapter.OnItemClickListener
             countInput.setText(product.count.toString())
         }
 
-        //Настраиваем сообщение в диалоговом окне:
         mDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("Сохранить")
-                { dialog, _ -> //Вводим текст и отображаем в строке ввода на основном экране:
+                { _, _ ->
                     if(titleInput.text.isNullOrEmpty() || countInput.text.isNullOrEmpty()){
                         this.context?.let { ToastMessages.showMessage(it, "Поля \"Название\" и \"Количетво\" являются обазательными!") }
                     } else {

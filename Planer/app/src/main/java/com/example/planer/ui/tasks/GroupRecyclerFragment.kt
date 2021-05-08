@@ -30,7 +30,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_group_recycler.view.*
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.button_add_item
 
-
 class GroupRecyclerFragment(private var type: String, private var category: String) : Fragment(), GroupRecyclerAdapter.OnItemClickListener
 {
     private val groupViewModel: GroupViewModel by viewModels()

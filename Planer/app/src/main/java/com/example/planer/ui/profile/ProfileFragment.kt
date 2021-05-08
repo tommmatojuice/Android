@@ -6,24 +6,17 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.*
 import android.widget.RadioButton
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.planer.R
-import com.example.planer.database.entity.PathToFile
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
-import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_25
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_30
@@ -31,18 +24,18 @@ import kotlinx.android.synthetic.main.fragment_profile.view.pom_40
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_50
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_60
 import kotlinx.android.synthetic.main.fragment_profile.view.radioGroup
-import kotlinx.android.synthetic.main.fragment_put_pomodoro.view.*
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class ProfileFragment : Fragment()
 {
-    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var mySharePreferences: MySharePreferences
     private var pomodoroWork = 0
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         mySharePreferences = this.context?.let { MySharePreferences(it) }!!
 
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
@@ -106,57 +99,68 @@ class ProfileFragment : Fragment()
         outState.putString("begin_sun_time", view?.begin_sun_time?.text.toString())
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun saveSettings()
     {
-        mySharePreferences.setName(view?.editText?.text.toString())
-        view?.autoPlan?.isChecked?.let { mySharePreferences.setAutoPlan(it) }
-        mySharePreferences.setWakeup(view?.wake_up_time?.text.toString())
-        mySharePreferences.setSleep(view?.sleep_time?.text.toString())
-        mySharePreferences.setBreakfast(view?.breakfast_begin_time?.text.toString())
-        mySharePreferences.setBreakfastEnd(view?.breakfast_end_time?.text.toString())
-        mySharePreferences.setLunch(view?.lunch_begin_time?.text.toString())
-        mySharePreferences.setLunchEnd(view?.lunch_end_time?.text.toString())
-        mySharePreferences.setDiner(view?.diner_begin_time?.text.toString())
-        mySharePreferences.setDinerEnd(view?.diner_end_time?.text.toString())
-        mySharePreferences.setPeakBegin(view?.peak_begin_time?.text.toString())
-        mySharePreferences.setPeakEnd(view?.peak_end_time?.text.toString())
-        mySharePreferences.setMondayWork(view?.work_mon_time?.text.toString())
-        mySharePreferences.setMondayBegin(view?.begin_mon_time?.text.toString())
-        mySharePreferences.setTuesdayWork(view?.work_tue_time?.text.toString())
-        mySharePreferences.setTuesdayBegin(view?.begin_tue_time?.text.toString())
-        mySharePreferences.setWednesdayWork(view?.work_wed_time?.text.toString())
-        mySharePreferences.setWednesdayBegin(view?.begin_wed_time?.text.toString())
-        mySharePreferences.setThursdayWork(view?.work_thur_time?.text.toString())
-        mySharePreferences.setThursdayBegin(view?.begin_thur_time?.text.toString())
-        mySharePreferences.setFridayWork(view?.work_fri_time?.text.toString())
-        mySharePreferences.setFridayBegin(view?.begin_fri_time?.text.toString())
-        mySharePreferences.setSaturdayWork(view?.work_sat_time?.text.toString())
-        mySharePreferences.setSaturdayBegin(view?.begin_sat_time?.text.toString())
-        mySharePreferences.setSundayWork(view?.work_sun_time?.text.toString())
-        mySharePreferences.setSundayBegin(view?.begin_sun_time?.text.toString())
-        view?.bigBreak?.isChecked?.let { mySharePreferences.setPomodoroBigBreakF(it) }
+        if(getTime(view?.wake_up_time?.text.toString()) > getTime(view?.begin_mon_time?.text.toString())
+                || getTime(view?.wake_up_time?.text.toString()) > getTime(view?.begin_tue_time?.text.toString())
+                || getTime(view?.wake_up_time?.text.toString()) > getTime(view?.begin_wed_time?.text.toString())
+                || getTime(view?.wake_up_time?.text.toString()) > getTime(view?.begin_thur_time?.text.toString())
+                || getTime(view?.wake_up_time?.text.toString()) > getTime(view?.begin_fri_time?.text.toString())
+                || getTime(view?.wake_up_time?.text.toString()) > getTime(view?.begin_sat_time?.text.toString())
+                || getTime(view?.wake_up_time?.text.toString()) > getTime(view?.begin_sun_time?.text.toString())) {
+            this.context?.let { InfoDialog.onCreateDialog(it, "Ошибка", "Время начала рабочего дня должно быть больше времени подъема!", R.drawable.info_orange) }
+        } else {
+            mySharePreferences.setName(view?.editText?.text.toString())
+            view?.autoPlan?.isChecked?.let { mySharePreferences.setAutoPlan(it) }
+            mySharePreferences.setWakeup(view?.wake_up_time?.text.toString())
+            mySharePreferences.setSleep(view?.sleep_time?.text.toString())
+            mySharePreferences.setBreakfast(view?.breakfast_begin_time?.text.toString())
+            mySharePreferences.setBreakfastEnd(view?.breakfast_end_time?.text.toString())
+            mySharePreferences.setLunch(view?.lunch_begin_time?.text.toString())
+            mySharePreferences.setLunchEnd(view?.lunch_end_time?.text.toString())
+            mySharePreferences.setDiner(view?.diner_begin_time?.text.toString())
+            mySharePreferences.setDinerEnd(view?.diner_end_time?.text.toString())
+            mySharePreferences.setPeakBegin(view?.peak_begin_time?.text.toString())
+            mySharePreferences.setPeakEnd(view?.peak_end_time?.text.toString())
+            mySharePreferences.setMondayWork(view?.work_mon_time?.text.toString())
+            mySharePreferences.setMondayBegin(view?.begin_mon_time?.text.toString())
+            mySharePreferences.setTuesdayWork(view?.work_tue_time?.text.toString())
+            mySharePreferences.setTuesdayBegin(view?.begin_tue_time?.text.toString())
+            mySharePreferences.setWednesdayWork(view?.work_wed_time?.text.toString())
+            mySharePreferences.setWednesdayBegin(view?.begin_wed_time?.text.toString())
+            mySharePreferences.setThursdayWork(view?.work_thur_time?.text.toString())
+            mySharePreferences.setThursdayBegin(view?.begin_thur_time?.text.toString())
+            mySharePreferences.setFridayWork(view?.work_fri_time?.text.toString())
+            mySharePreferences.setFridayBegin(view?.begin_fri_time?.text.toString())
+            mySharePreferences.setSaturdayWork(view?.work_sat_time?.text.toString())
+            mySharePreferences.setSaturdayBegin(view?.begin_sat_time?.text.toString())
+            mySharePreferences.setSundayWork(view?.work_sun_time?.text.toString())
+            mySharePreferences.setSundayBegin(view?.begin_sun_time?.text.toString())
+            view?.bigBreak?.isChecked?.let { mySharePreferences.setPomodoroBigBreakF(it) }
 
-        mySharePreferences.setPomodoroWork(pomodoroWork)
-        when(pomodoroWork){
-            25 -> {
-                mySharePreferences.setPomodoroBreak(5)
-                mySharePreferences.setPomodoroBigBreak(10)
-            }
-            30 -> {
-                mySharePreferences.setPomodoroBreak(5)
-                mySharePreferences.setPomodoroBigBreak(10)
-            }
-            40 -> {
-                mySharePreferences.setPomodoroBreak(10)
-                mySharePreferences.setPomodoroBigBreak(20)
-            }
-            50 -> {
-                mySharePreferences.setPomodoroBreak(10)
-                mySharePreferences.setPomodoroBigBreak(30)
-            }
-            60 -> {
-                mySharePreferences.setPomodoroBreak(10)
-                mySharePreferences.setPomodoroBigBreak(30)
+            mySharePreferences.setPomodoroWork(pomodoroWork)
+            when(pomodoroWork){
+                25 -> {
+                    mySharePreferences.setPomodoroBreak(5)
+                    mySharePreferences.setPomodoroBigBreak(10)
+                }
+                30 -> {
+                    mySharePreferences.setPomodoroBreak(5)
+                    mySharePreferences.setPomodoroBigBreak(10)
+                }
+                40 -> {
+                    mySharePreferences.setPomodoroBreak(10)
+                    mySharePreferences.setPomodoroBigBreak(20)
+                }
+                50 -> {
+                    mySharePreferences.setPomodoroBreak(10)
+                    mySharePreferences.setPomodoroBigBreak(30)
+                }
+                60 -> {
+                    mySharePreferences.setPomodoroBreak(10)
+                    mySharePreferences.setPomodoroBigBreak(30)
+                }
             }
         }
     }
@@ -434,5 +438,10 @@ class ProfileFragment : Fragment()
             view.work_sun_time.text = savedInstanceState.getString("work_sun_time")
             view.begin_sun_time.text = savedInstanceState.getString("begin_sun_time")
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getTime(time: String) : LocalTime {
+        return LocalTime.parse(time, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
     }
 }

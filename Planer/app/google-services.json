@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "849525493270",
+    "project_id": "autoplaner-1212",
+    "storage_bucket": "autoplaner-1212.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849525493270:android:9ecdc2de23b13d51f1ef37",
+        "android_client_info": {
+          "package_name": "com.example.planer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849525493270-o134uqs2mb7lnffpsp2t641dvciu1329.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPc5dh_y_piqwE5bCmxaMWxq45Dt-Sbow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849525493270-o134uqs2mb7lnffpsp2t641dvciu1329.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

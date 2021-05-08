@@ -33,7 +33,6 @@ import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_button
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_time
@@ -41,6 +40,7 @@ import kotlinx.android.synthetic.main.fragment_add_routine_task.view.end_work_bu
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.end_work_time
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_description
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_title
+import java.lang.Exception
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -170,6 +170,7 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
             PICKFILE_RESULT_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val pathFile = data?.data
+                    pathFile?.let { context?.contentResolver?.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
                     if(files.find{it.path == pathFile.toString()} != null){
                         this.context?.let { InfoDialog.onCreateDialog(it, "Внимание", "Вы уже прикрепили этот файл!", R.drawable.blue_info) }
                     } else {
@@ -183,10 +184,15 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     }
 
     private fun openFile(uri: Uri) {
-        val intent = Intent(Intent.ACTION_VIEW)
-                .setDataAndType(uri, "application/*")
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        context?.startActivity(intent)
+        try {
+            context?.contentResolver?.openInputStream(uri)
+            val intent = Intent(Intent.ACTION_VIEW)
+                    .setDataAndType(uri, "application/*")
+                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            context?.startActivity(intent)
+        } catch (e: Exception){
+            this.context?.let { InfoDialog.onCreateDialog(it, "Ошибка", "Невозможно открыть файл! Возможно, файл был удален с устройства.", R.drawable.blue_info) }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
@@ -260,9 +266,13 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     private fun initButtons(view: View)
     {
         view.add_file_routine.setOnClickListener{
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "*/*"
-            startActivityForResult(intent, PICKFILE_RESULT_CODE)
+            val openDocumentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            openDocumentIntent.addCategory(Intent.CATEGORY_OPENABLE)
+            openDocumentIntent.type = "*/*"
+            openDocumentIntent.flags = (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            startActivityForResult(openDocumentIntent, 1)
         }
 
         view.begin_work_button.setOnClickListener {

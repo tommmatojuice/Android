@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.text.Html
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
-import kotlinx.android.synthetic.main.fragment_put_time.*
 import kotlinx.android.synthetic.main.fragment_work_days.*
 import kotlinx.android.synthetic.main.fragment_work_days.view.*
 
@@ -98,19 +95,19 @@ class WorkDays : Fragment()
     private fun initButtons(view: View)
     {
         view.mon_button.setOnClickListener {
-                this.context?.let { it1 -> TimeDialog.getTime(view.findViewById<TextView>(R.id.mon_begin_time), it1)
+                this.context?.let { it1 -> TimeDialog.getTime(view.findViewById(R.id.mon_begin_time), it1)
             }
         }
 
         view.mon_work_button.setOnClickListener {
-                this.context?.let { it1 -> TimeDialog.getTime(view.findViewById<TextView>(R.id.mon_work_time), it1)
+                this.context?.let { it1 -> TimeDialog.getTime(view.findViewById(R.id.mon_work_time), it1)
             }
         }
 
         view.tue_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.tue_begin_time),
+                    view.findViewById(R.id.tue_begin_time),
                     it1
                 )
             }
@@ -119,7 +116,7 @@ class WorkDays : Fragment()
         view.tue_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.tue_work_time),
+                    view.findViewById(R.id.tue_work_time),
                     it1
                 )
             }
@@ -128,7 +125,7 @@ class WorkDays : Fragment()
         view.wen_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.wen_begin_time),
+                    view.findViewById(R.id.wen_begin_time),
                     it1
                 )
             }
@@ -137,7 +134,7 @@ class WorkDays : Fragment()
         view.wen_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.wen_work_time),
+                    view.findViewById(R.id.wen_work_time),
                     it1
                 )
             }
@@ -146,7 +143,7 @@ class WorkDays : Fragment()
         view.thu_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.thu_begin_time),
+                    view.findViewById(R.id.thu_begin_time),
                     it1
                 )
             }
@@ -155,7 +152,7 @@ class WorkDays : Fragment()
         view.thu_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.thu_work_time),
+                    view.findViewById(R.id.thu_work_time),
                     it1
                 )
             }
@@ -164,7 +161,7 @@ class WorkDays : Fragment()
         view.fri_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.fri_begin_time),
+                    view.findViewById(R.id.fri_begin_time),
                     it1
                 )
             }
@@ -173,7 +170,7 @@ class WorkDays : Fragment()
         view.fri_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.fri_work_time),
+                    view.findViewById(R.id.fri_work_time),
                     it1
                 )
             }
@@ -182,7 +179,7 @@ class WorkDays : Fragment()
         view.sat_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.sat_begin_time),
+                    view.findViewById(R.id.sat_begin_time),
                     it1
                 )
             }
@@ -191,7 +188,7 @@ class WorkDays : Fragment()
         view.sat_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.sat_work_time),
+                    view.findViewById(R.id.sat_work_time),
                     it1
                 )
             }
@@ -200,7 +197,7 @@ class WorkDays : Fragment()
         view.sun_begin_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.sun_begin_time),
+                    view.findViewById(R.id.sun_begin_time),
                     it1
                 )
             }
@@ -209,7 +206,7 @@ class WorkDays : Fragment()
         view.sun_work_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.sun_work_time),
+                    view.findViewById(R.id.sun_work_time),
                     it1
                 )
             }

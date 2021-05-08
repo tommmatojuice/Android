@@ -35,11 +35,8 @@ import com.example.planer.util.InfoDialog
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.*
-import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.deadline_button
-import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.task_description
-import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.task_title
+import java.lang.Exception
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -158,7 +155,8 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
             PICKFILE_RESULT_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val pathFile = data?.data
-                    if(files.find{it.path == pathFile.toString()} != null){
+                    pathFile?.let { context?.contentResolver?.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+                    if (files.find { it.path == pathFile.toString() } != null) {
                         this.context?.let { InfoDialog.onCreateDialog(it, "Внимание", "Вы уже прикрепили этот файл!", R.drawable.blue_info) }
                     } else {
                         files.add(PathToFile(pathFile.toString(), -1))
@@ -171,10 +169,15 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
     }
 
     private fun openFile(uri: Uri) {
-        val intent = Intent(Intent.ACTION_VIEW)
-                .setDataAndType(uri, "application/*")
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        context?.startActivity(intent)
+        try {
+            context?.contentResolver?.openInputStream(uri)
+            val intent = Intent(Intent.ACTION_VIEW)
+                    .setDataAndType(uri, "application/*")
+                    .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            context?.startActivity(intent)
+        } catch (e: Exception){
+            this.context?.let { InfoDialog.onCreateDialog(it, "Ошибка", "Невозможно открыть файл! Возможно, файл был удален с устройства.", R.drawable.blue_info) }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
@@ -241,10 +244,10 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
 
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }
         when(arguments?.getString("category")){
-            "rest" ->{
+            "rest" -> {
                 color = this.context?.let { ContextCompat.getColor(it, R.color.dark_green) }!!
             }
-            "other" ->{
+            "other" -> {
                 color = this.context?.let { ContextCompat.getColor(it, R.color.dark_orange) }!!
             }
         }
@@ -257,9 +260,13 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
     private fun initButtons(view: View)
     {
         view.add_file_work_one_time.setOnClickListener{
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "*/*"
-            startActivityForResult(intent, PICKFILE_RESULT_CODE)
+            val openDocumentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            openDocumentIntent.addCategory(Intent.CATEGORY_OPENABLE)
+            openDocumentIntent.type = "*/*"
+            openDocumentIntent.flags = (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            startActivityForResult(openDocumentIntent, 1)
         }
 
         view.work_button.setOnClickListener {
@@ -332,15 +339,15 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
                                         view.task_description.text.toString(),
                                         arguments?.getString("category").toString(),
                                         view.deadline.text.toString(),
-                                        time.hour*60 + time.minute,
+                                        time.hour * 60 + time.minute,
                                         view.count.text.toString().toInt(),
-                                        view.checkBoxMon.isChecked ,
-                                        view.checkBoxTue.isChecked ,
-                                        view.checkBoxWed.isChecked ,
-                                        view.checkBoxThu.isChecked ,
-                                        view.checkBoxFri.isChecked ,
-                                        view.checkBoxSat.isChecked ,
-                                        view.checkBoxSun.isChecked ,
+                                        view.checkBoxMon.isChecked,
+                                        view.checkBoxTue.isChecked,
+                                        view.checkBoxWed.isChecked,
+                                        view.checkBoxThu.isChecked,
+                                        view.checkBoxFri.isChecked,
+                                        view.checkBoxSat.isChecked,
+                                        view.checkBoxSun.isChecked,
                                         false,
                                         null,
                                         null,

@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
-import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
 import kotlinx.android.synthetic.main.fragment_task.view.*
 import java.time.LocalDate
@@ -53,7 +52,6 @@ class TaskRecyclerAdapter(private val context: Context,
         private val rec: ImageView? = taskView.rectangle
         private val rec2: ImageView? = taskView.rectangle2
         private val selfImprovement: ImageView? = taskView.self_improvement
-//        private val skateboarding: ImageView? = taskView.skateboarding
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(version: TaskAndGroup)
@@ -74,7 +72,6 @@ class TaskRecyclerAdapter(private val context: Context,
             title.text = version.title
             group.text = version.groupTitle
             selfImprovement?.visibility = View.INVISIBLE
-//            skateboarding?.visibility = View.INVISIBLE
 
             when {
                 version.deadline != null -> {

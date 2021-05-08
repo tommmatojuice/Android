@@ -1,6 +1,6 @@
 package com.example.planer
 
-import android.R.attr.key
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.Notification
 import android.app.PendingIntent
@@ -9,13 +9,13 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -27,22 +27,22 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
+import com.example.planer.background_job.MyJobService
 import com.example.planer.database.viewModel.GroupViewModel
 import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.notifications.MyNotificationPublisher
+import com.example.planer.notifications.NotifyWork
 import com.example.planer.ui.first_come.PutName
 import com.example.planer.ui.plan.TasksForPlan
 import com.example.planer.util.*
-import com.example.planer.util.NotifyWork.Companion.NOTIFICATION_WORK
+import com.example.planer.notifications.NotifyWork.Companion.NOTIFICATION_WORK
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.nio.charset.CodingErrorAction.REPLACE
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.time.ExperimentalTime
-import kotlin.time.milliseconds
 
 class MainActivity : AppCompatActivity()
 {
@@ -52,9 +52,7 @@ class MainActivity : AppCompatActivity()
     private var myFragment: Fragment? = null
     val CHANNEL_ID = "ForegroundServiceChannel"
 
-    private val groupViewModel: GroupViewModel by viewModels()
     private val taskViewModel: TaskViewModel by viewModels()
-    private val pathViewModel: PathViewModel by viewModels()
 
     companion object {
         @RequiresApi(Build.VERSION_CODES.O)
@@ -103,8 +101,6 @@ class MainActivity : AppCompatActivity()
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        Log.d("MyTestService1", "Service running")
-
         initFragments(savedInstanceState)
 
         MyNotificationPublisher.createNotificationChannel(this,
@@ -128,25 +124,7 @@ class MainActivity : AppCompatActivity()
 //            }
 //        }
 
-        scheduleNotification2(this, 5000, 0)
-
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, MyAlarmReceiver::class.java)
-        val sender = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 14)
-            set(Calendar.MINUTE, 35)
-            set(Calendar.SECOND, 0)
-        }
-
-        alarmManager.setInexactRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                1000*15,
-                sender
-        )
+//        scheduleNotification2(this, 5000, 0)
     }
 
     private fun scheduleNotification2(context: Context, delay: Long, notificationId: Int) {//delay is after how much time(in millis) from current time you want to schedule the notification
@@ -193,28 +171,6 @@ class MainActivity : AppCompatActivity()
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
         myFragment?.let { supportFragmentManager.putFragment(outState, SIMPLE_FRAGMENT_TAG, it) }
-    }
-
-    private fun scheduleJob()
-    {
-        val componentName = ComponentName(this, MyService::class.java)
-        val info = JobInfo.Builder(123, componentName)
-            .setRequiresCharging(true)
-            .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-            .setPersisted(true)
-            .setPeriodic(15 * 60 * 1000.toLong())
-            .build()
-        val scheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
-        val resultCode = scheduler.schedule(info)
-        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-            Log.d(TAG, "Job scheduled")
-        } else {
-            Log.d(TAG, "Job scheduling failed")
-        }
-    }
-
-    fun setActionBarTitle(title: String?) {
-        supportActionBar!!.title = title
     }
 
     override fun onBackPressed() {

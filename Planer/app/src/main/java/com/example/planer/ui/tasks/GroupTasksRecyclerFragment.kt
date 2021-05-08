@@ -4,13 +4,10 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
-import android.text.Html
 import android.text.InputType
 import android.util.Log
 import android.view.*
 import android.widget.EditText
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,7 +18,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
 import com.example.planer.adapters.TaskRecyclerAdapter
-import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.Task
 import com.example.planer.database.entity.TaskAndGroup
@@ -47,9 +43,6 @@ class GroupTasksRecyclerFragment : Fragment(), TaskRecyclerAdapter.OnItemClickLi
         val id = group.group_task_id
 
         arguments?.putInt("group", id)
-
-//        val tasks = taskViewModel.taskByGroup(id).value
-//        this.tasks = tasks
 
         (activity as AppCompatActivity).supportActionBar?.title = group.title
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)

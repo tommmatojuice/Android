@@ -7,11 +7,6 @@
         android:icon="@drawable/food_selected"
         android:title="@string/title_food"/>
 
-<!--    <item-->
-<!--        android:id="@+id/navigation_notifications"-->
-<!--        android:icon="@drawable/notification_selected"-->
-<!--        android:title="@string/title_notifications" />-->
-
     <item
         android:id="@+id/navigation_plan"
         android:icon="@drawable/plan_selected"

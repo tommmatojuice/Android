@@ -14,7 +14,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
 import com.example.planer.database.entity.Task
-import com.example.planer.database.entity.TaskAndGroup
 import kotlinx.android.synthetic.main.fragment_task.view.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

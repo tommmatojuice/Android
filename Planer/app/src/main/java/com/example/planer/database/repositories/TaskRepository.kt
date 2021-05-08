@@ -59,10 +59,6 @@ class TaskRepository(context: Context, scope: CoroutineScope)
         return taskDao.tasksSun(type)
     }
 
-//    fun oneTimeTasks(category: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>> {
-//        return taskDao.oneTimeTasks(category, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
-//    }
-
     fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>> {
         return taskDao.getByCategoryAndType(category, type)
     }

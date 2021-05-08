@@ -2,7 +2,6 @@ package com.example.planer.ui.tasks
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View

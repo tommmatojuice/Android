@@ -17,7 +17,6 @@ class GroupViewModel(application: Application) : AndroidViewModel(application)
     private val repository = GroupTaskRepository(application.applicationContext, viewModelScope)
 
     val allGroups = repository.allGroupe
-//    val tasksWithGroup = repository.tasksWithGroup
     val lastGroup = repository.lastGroup
 
     fun tasksWithGroup(category: String, type: String): LiveData<List<GroupAndAllTasks>> {

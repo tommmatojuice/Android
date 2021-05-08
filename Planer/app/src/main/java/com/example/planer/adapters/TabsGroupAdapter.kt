@@ -1,11 +1,9 @@
 package com.example.planer.adapters
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.planer.ui.tasks.GroupRecyclerFragment
-import com.example.planer.ui.tasks.TaskRecyclerFragment
 
 class TabsGroupAdapter(fm: FragmentManager, private val type: String) : FragmentPagerAdapter(fm)
 {

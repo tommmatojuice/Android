@@ -13,8 +13,6 @@ import com.example.planer.R
 import com.example.planer.database.entity.Product
 import com.example.planer.database.viewModel.ProductViewModel
 import kotlinx.android.synthetic.main.fragment_product.view.*
-import kotlinx.android.synthetic.main.fragment_product_list.view.*
-
 
 class ProductsAdapter(context: Context,
                       private var productsList: List<Product>?,

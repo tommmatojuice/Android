@@ -6,51 +6,37 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.text.Html
 import android.text.InputType
 import android.util.Log
 import android.view.*
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
-import com.example.planer.adapters.GroupRecyclerAdapter
 import com.example.planer.adapters.ProductsListAdapter
-import com.example.planer.database.entity.GroupAndAllTasks
-import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.ListAndAllProducts
 import com.example.planer.database.entity.ProductList
-import com.example.planer.database.viewModel.GroupViewModel
 import com.example.planer.database.viewModel.ProductListViewModel
 import com.example.planer.util.InfoDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_food.view.*
-import kotlinx.android.synthetic.main.fragment_group_recycler.view.*
 import kotlinx.android.synthetic.main.fragment_group_recycler.view.button_add_item
-import kotlinx.android.synthetic.main.fragment_group_recycler.view.group_recycler_view
-import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
-
 
 class FoodFragment : Fragment(), ProductsListAdapter.OnItemClickListener
 {
     private val productListViewModel: ProductListViewModel by viewModels()
-    private lateinit var foodViewModel: FoodViewModel
     private var lists: List<ListAndAllProducts>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        foodViewModel = ViewModelProvider(this).get(FoodViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_food, container, false)
 
         val adapter = this.context?.let { ProductsListAdapter(it, lists, this) }

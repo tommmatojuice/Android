@@ -5,6 +5,9 @@ plugins {
     id 'kotlin-kapt'
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
@@ -73,33 +76,16 @@ dependencies {
 
     implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
 
-//    def work_version = "2.5.0"
-//
-//    // (Java only)
-////    implementation "androidx.work:work-runtime:$work_version"
-//
-//    // Kotlin + coroutines
-//    implementation "androidx.work:work-runtime-ktx:$work_version"
-//
-//    // optional - RxJava2 support
-//    implementation "androidx.work:work-rxjava2:$work_version"
-//
-//    // optional - GCMNetworkManager support
-//    implementation "androidx.work:work-gcm:$work_version"
-//
-//    // optional - Test helpers
-//    androidTestImplementation "androidx.work:work-testing:$work_version"
-//
-//    // optional - Multiprocess support
-//    implementation "androidx.work:work-multiprocess:$work_version"
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
 }
 configurations {
     testImplementation {
-        // Globally exclude JUnit, will not be on the testCompileClasspath thus
         exclude group: 'junit', module: 'junit'
     }
 }
 dependencies {
-    // Make sure JUnit is on the testRuntimeClasspath
     testRuntimeOnly("junit:junit:4.12")
 }

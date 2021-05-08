@@ -36,12 +36,6 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE category = :category AND type = :type AND task_table.title != '' ORDER BY complexity, deadline DESC")
     fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>>
 
-    @Query("SELECT task_id, title, description, category, date, `begin`, `end` FROM task_table WHERE type = 'fixed' AND category = :category ORDER BY deadline DESC")
-    fun getFixedTasks(category: String): LiveData<List<FixedTask>>
-
-    @Query("SELECT task_id, title, description, category, monday, tuesday, wednesday, thursday, friday, saturday, sunday, `begin`, `end` FROM task_table WHERE type = 'routine' AND category = :category ORDER BY deadline DESC")
-    fun getRoutineTasks(category: String): LiveData<List<RoutineTask>>
-
     @Query("SELECT * FROM task_table WHERE date = :d AND type='fixed' ORDER BY `begin` DESC")
     fun fixedTasksByDate(d: String): LiveData<List<Task>>
 

@@ -14,7 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
 import com.example.planer.MainActivity
-import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.notifications.NotifyWork
 
 class MyIntentService: JobIntentService()
 {

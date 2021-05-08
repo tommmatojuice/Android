@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Planer</string>
+    <string name="app_name">AutoPlaner</string>
     <string name="title_food">Покупки</string>
     <string name="title_notifications">Уведомления</string>
     <string name="title_plan">План</string>

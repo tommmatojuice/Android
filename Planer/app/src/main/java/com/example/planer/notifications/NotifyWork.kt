@@ -1,4 +1,4 @@
- package com.example.planer.util
+ package com.example.planer.notifications
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,19 +6,14 @@ import android.content.Intent
 import android.os.Build
 import android.os.Build.VERSION_CODES.O
 import android.util.Log
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.work.ListenableWorker.Result.success
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.planer.MainActivity
-import com.example.planer.MainActivity.Companion.scheduleNotification1
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.plan.TasksForPlan
+import com.example.planer.util.MyIntentService
+import com.example.planer.util.MySharePreferences
 import java.time.LocalDate
 import java.time.LocalTime
 

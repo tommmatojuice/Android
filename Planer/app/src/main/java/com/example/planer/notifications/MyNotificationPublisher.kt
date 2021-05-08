@@ -1,7 +1,5 @@
 package com.example.planer.notifications
 
-import android.R
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -16,10 +14,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.example.planer.MainActivity
 import com.example.planer.util.MySharePreferences
-import com.example.planer.util.NotifyWork
 
 class MyNotificationPublisher: BroadcastReceiver()
 {
