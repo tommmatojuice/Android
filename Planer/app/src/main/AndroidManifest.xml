@@ -22,15 +22,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".notifications.MyNotificationPublisher" />
-
-        <receiver android:name=".util.MyAlarmReceiver"
-            android:enabled="true"
-            android:exported="true">
+        <service android:name="com.example.planer.notifications.BootAlarmService" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.example.planer.notifications.BootAlarmService" >
+                </action>
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.example.planer.notifications.BootReceiver" >
+            <intent-filter>
+                <action android:name="com.example.planer.notifications.BootReceiver" >
+                </action>
             </intent-filter>
         </receiver>
+
+        <service android:name=".notifications.NotificationAlarmService" >
+        </service>
 
         <activity
             android:name=".MainActivity"
@@ -41,26 +48,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name=".background_job.MyJobService"
-            android:label="Test"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-
-        <service
-            android:name=".notifications.MyInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".notifications.FCMMessageHandler"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

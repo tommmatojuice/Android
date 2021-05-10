@@ -938,6 +938,10 @@ class AutoPlan(private val date: String,
 //                pomodorosSmall?.removeIf { pom -> pom.end < LocalTime.now()}
 
                 if(pomodorosSmall != null){
+                    Log.d("workTimeFirst", date)
+                    Log.d("workTimeFirst", LocalDate.now().toString())
+                    Log.d("workTimeFirst", workTimeFirst.toString())
+                    Log.d("workTimeFirstP", workTimePast.toString())
                     if(workTimeFirst <= this.workTimePast
                             || pomodorosSmall!!.isEmpty()
                             || (oneTimeTasks?.isEmpty() != false && routineTasks?.isEmpty() != false && fixedTasks?.isEmpty() != false)
@@ -976,12 +980,8 @@ class AutoPlan(private val date: String,
 
                 //добавлено
                 if(pomodorosSmall != null){
-                    if(workTimeFirst <= this.workTimePast
-                            || pomodorosSmall!!.isEmpty()
-                            || (oneTimeTasks?.isEmpty() != false && routineTasks?.isEmpty() != false && fixedTasks?.isEmpty() != false)
-                            || LocalTime.now() >= sleepTime.minusHours(1) && sleepTime > LocalTime.of(12, 0)
-                            || LocalTime.now() <= sleepTime.minusHours(1) && sleepTime < LocalTime.of(12, 0))
-                    {
+                    if(pomodorosSmall!!.isEmpty()
+                            || (oneTimeTasks?.isEmpty() != false && routineTasks?.isEmpty() != false && fixedTasks?.isEmpty() != false)) {
                         Log.d("rest", "rest")
                         pomodorosSmall!!.clear()
                         rest?.forEach {

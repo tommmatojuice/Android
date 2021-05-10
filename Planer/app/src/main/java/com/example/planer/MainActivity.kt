@@ -1,46 +1,32 @@
 package com.example.planer
 
-import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.Notification
-import android.app.PendingIntent
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
-import com.example.planer.background_job.MyJobService
-import com.example.planer.database.viewModel.GroupViewModel
-import com.example.planer.database.viewModel.PathViewModel
+import androidx.work.Constraints
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.planer.database.viewModel.TaskViewModel
-import com.example.planer.notifications.MyNotificationPublisher
-import com.example.planer.notifications.NotifyWork
+import com.example.planer.notifications.BootAlarmService
+import com.example.planer.notifications.NotificationAlarmService
 import com.example.planer.ui.first_come.PutName
 import com.example.planer.ui.plan.TasksForPlan
-import com.example.planer.util.*
-import com.example.planer.notifications.NotifyWork.Companion.NOTIFICATION_WORK
+import com.example.planer.util.MySharePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.time.ExperimentalTime
 
@@ -53,20 +39,6 @@ class MainActivity : AppCompatActivity()
     val CHANNEL_ID = "ForegroundServiceChannel"
 
     private val taskViewModel: TaskViewModel by viewModels()
-
-    companion object {
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun scheduleNotification1() {
-            Log.d("mvm", "scheduleNotification running")
-
-            val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
-                .setInitialDelay(30, TimeUnit.SECONDS)
-                .build()
-
-            val instanceWorkManager = WorkManager.getInstance()
-            instanceWorkManager.beginUniqueWork(NOTIFICATION_WORK, ExistingWorkPolicy.REPLACE, notificationWork).enqueue()
-        }
-    }
 
     @ExperimentalTime
     @RequiresApi(Build.VERSION_CODES.O)
@@ -103,52 +75,7 @@ class MainActivity : AppCompatActivity()
 
         initFragments(savedInstanceState)
 
-        MyNotificationPublisher.createNotificationChannel(this,
-                NotificationManagerCompat.IMPORTANCE_LOW, false,
-                getString(R.string.app_name), "App notification channel.")
-
-//        scheduleNotification()
-
-//        if(!mySharePreferences.getPlan().isNullOrEmpty()){
-//            val firstTaskBegin = mySharePreferences.getPlan()?.get(0)?.begin?.minusMinutes(5)
-//            val timeNow = LocalTime.now()
-//            Log.d("MyNotificationPublisher", firstTaskBegin.toString())
-//            Log.d("MyNotificationPublisher", timeNow.toString())
-//            if (firstTaskBegin != null) {
-//                if(firstTaskBegin > timeNow){
-//                    val difference = firstTaskBegin.minusHours(timeNow.hour.toLong())?.minusMinutes(timeNow.minute.toLong())
-//                    val delay = ((difference?.hour?.times(60) ?: 0) + (difference?.minute ?: 0)) * 60000
-//                    Log.d("MyNotificationPublisher", delay.toString())
-//                    scheduleNotification2(this, delay.toLong(), 0)
-//                }
-//            }
-//        }
-
-//        scheduleNotification2(this, 5000, 0)
-    }
-
-    private fun scheduleNotification2(context: Context, delay: Long, notificationId: Int) {//delay is after how much time(in millis) from current time you want to schedule the notification
-        Log.d("MyNotificationPublisher", "schedule")
-        val builder = context?.let {
-            NotificationCompat.Builder(it, CHANNEL_ID)
-                    .setSmallIcon(android.R.drawable.ic_menu_today)
-                    .setContentTitle("Новая задача")
-                    .setContentText("Через 5 минут начинается задача \"$title\"")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText("Через 5 минут начинается задача \"$title\". При необходимости перенесите задача ну 5, 10 или 30 минут."))
-                    .setAutoCancel(true)
-        }
-        val intent = Intent(context, MainActivity::class.java)
-        val activity = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        builder?.setContentIntent(activity)
-        val notification: Notification? = builder?.build()
-        val notificationIntent = Intent(context, MyNotificationPublisher::class.java)
-        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_ID, notificationId)
-        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION, notification)
-        val pendingIntent = PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT)
-        val futureInMillis = SystemClock.elapsedRealtime() + delay
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager[AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis] = pendingIntent
+        startService(Intent(this, BootAlarmService::class.java))
     }
 
     private fun initFragments(savedInstanceState: Bundle?)
@@ -203,7 +130,7 @@ class MainActivity : AppCompatActivity()
                         Log.d("pomodorosFromMainMT", "${it.begin}-${it.end}: ${it.task?.title}")
                         val task = it.task
                         task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
-                        mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
+                        mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast() + mySharePreferences.getPomodoroWork())
                         task?.let { it1 -> taskViewModel.update(it1) }
                     }
                 }

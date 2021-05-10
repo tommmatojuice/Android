@@ -10,7 +10,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.JobIntentService.enqueueWork
 import androidx.core.content.ContextCompat.getSystemService
-import com.example.planer.MainActivity.Companion.scheduleNotification1
 import java.util.*
 import java.util.concurrent.TimeUnit
 
