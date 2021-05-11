@@ -15,7 +15,7 @@ class PathToFileRepository(context: Context, scope: CoroutineScope)
     val allPaths: LiveData<List<PathToFile>>
 
     init {
-        val database: MyDataBase = MyDataBase.getDatabase(context, scope)
+        val database: MyDataBase = MyDataBase.getDatabase(context, scope)!!
         pathDao = database.pathToFileDao()
         allPaths = pathDao.allPaths()
     }

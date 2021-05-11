@@ -131,8 +131,6 @@ class AutoPlan(private val date: String,
         Log.d("dateeee", date)
         Log.d("weekday", weekDay)
 
-        requireContext().startService(Intent(context, BootAlarmService::class.java).putExtra("index", 0))
-
         return view
     }
 
@@ -1196,6 +1194,9 @@ class AutoPlan(private val date: String,
                             ?.beginTransaction()
                             ?.replace(R.id.plan_frag, AutoPlan(this.date, this.weekDay))
                             ?.commit()
+
+                    view?.let { Navigation.findNavController(it).navigate(R.id.navigation_plan) }
+
                     Log.i("Selected Item ", arrayAdapter?.getItem(which)!!)
                     dialog.dismiss()
                 })

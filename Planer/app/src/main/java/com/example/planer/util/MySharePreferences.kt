@@ -67,24 +67,6 @@ class MySharePreferences(context: Context) {
     private val mySharedPreferences: SharedPreferences = context.getSharedPreferences(FILE_NAME, AppCompatActivity.MODE_PRIVATE)
     private val myEditor: SharedPreferences.Editor = mySharedPreferences.edit()
 
-//    fun <T> setPlan(list: List<T>?) {
-//        val gson = Gson()
-//        val json = gson.toJson(list)
-//        myEditor.putString(PLAN, json)
-//        myEditor.commit()
-//    }
-//
-//    fun getPlan():List<TasksForPlan>? {
-//        var arrayItems: List<TasksForPlan>? = listOf()
-//        val serializedObject: String? = mySharedPreferences.getString(PLAN, null)
-//        if (serializedObject != null) {
-//            val gson = Gson()
-//            val type: Type = object : TypeToken<List<TasksForPlan?>?>() {}.type
-//            arrayItems = gson.fromJson<List<TasksForPlan>>(serializedObject, type)
-//        }
-//        return arrayItems
-//    }
-
     fun setWorkEnd(time: String?){
         myEditor.putString(WORK_END, time)
         myEditor.apply()

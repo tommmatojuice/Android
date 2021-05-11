@@ -16,7 +16,7 @@ class ProductRepository(context: Context, scope: CoroutineScope)
     val allProducts: LiveData<List<Product>>
 
     init {
-        val database: MyDataBase = MyDataBase.getDatabase(context, scope)
+        val database: MyDataBase = MyDataBase.getDatabase(context, scope)!!
         productDao = database.productDao()
         allProducts = productDao.allProduct()
     }

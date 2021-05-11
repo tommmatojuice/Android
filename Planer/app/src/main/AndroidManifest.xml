@@ -39,6 +39,9 @@
         <service android:name=".notifications.NotificationAlarmService" >
         </service>
 
+        <service android:name=".notifications.AutoPlanService" >
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

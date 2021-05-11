@@ -19,9 +19,9 @@ class BootAlarmService: Service()
     private lateinit var mySharePreferences: MySharePreferences
 
     override fun onCreate() {
+        super.onCreate()
         Log.d(TAG, "oncreate()")
         mySharePreferences = MySharePreferences(this)
-        super.onCreate()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -37,40 +37,59 @@ class BootAlarmService: Service()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationOnBoot(index: Int) {
-        val inotify = Intent(this, NotificationAlarmService::class.java)
+        if(!mySharePreferences.getPlan().isNullOrEmpty()){
+            if (mySharePreferences.getPlan()?.first()?.task?.type == "one_time" && mySharePreferences.getPlan()!!.first().task?.category != "work"){
+                autoPlan()
+            } else {
+                val inotify = Intent(this, NotificationAlarmService::class.java)
+                inotify.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+                val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+                val pendingIntent = PendingIntent.getService(this, 0, inotify, 0)
+
+                val time = if(index == 0){
+                    mySharePreferences.getPlan()?.get(0)?.end
+                } else {
+                    mySharePreferences.getPlan()?.get(0)?.begin
+                }
+
+                val time2 = time?.minusHours(LocalTime.now().hour.toLong())?.minusMinutes(LocalTime.now().minute.toLong())
+                val calendar = Calendar.getInstance()
+                calendar[Calendar.SECOND] = 0
+                if(index == 0){
+                    calendar[Calendar.MINUTE] = calendar[Calendar.MINUTE] + ((time2?.hour ?: 0) *60 + (time2?.minute ?: 0))
+                } else {
+                    calendar[Calendar.MINUTE] = calendar[Calendar.MINUTE] + ((time2?.hour ?: 0) *60 + (time2?.minute?.minus(2) ?: 0))
+                }
+                if (Build.VERSION.SDK_INT >= 23) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
+                }
+                Log.d(TAG, "alarm set for " + calendar.getTime().toString())
+            }
+        } else {
+            autoPlan()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun autoPlan(){
+        val inotify = Intent(this, AutoPlanService::class.java)
         inotify.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val pendingIntent = PendingIntent.getService(this, 0, inotify, 0)
 
-        if(!mySharePreferences.getPlan().isNullOrEmpty()){
-            var time = mySharePreferences.getPlan()?.get(index)?.begin
-            if (time != null) {
-                if(time < LocalTime.now() && mySharePreferences.getPlan()?.size ?: 0 > index){
-                    time = mySharePreferences.getPlan()?.get(index+1)?.begin
-                }
-            }
-            val time2 = time?.minusHours(LocalTime.now().hour.toLong())?.minusMinutes(LocalTime.now().minute.toLong())
-            val calendar = Calendar.getInstance()
-            calendar[Calendar.SECOND] = 0
-            calendar[Calendar.MINUTE] = calendar[Calendar.MINUTE] + ((time2?.hour ?: 0) *60 + (time2?.minute?.minus(5) ?: 0))
-            if (Build.VERSION.SDK_INT >= 23) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
-            } else {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
-            }
-            Log.d(TAG, "alarm set for " + calendar.getTime().toString())
+        val time = LocalTime.of(0, 10)
+        val time2 = time?.minusHours(LocalTime.now().hour.toLong())?.minusMinutes(LocalTime.now().minute.toLong())
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MINUTE] = calendar[Calendar.MINUTE] + ((time2?.hour ?: 0) *60 + (time2?.minute ?: 0))
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
         }
-
-//        val notificationIntent = Intent(this, BootReceiver::class.java)
-//        notificationIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
-//        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val pendingIntent = PendingIntent.getBroadcast(this, 1001, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT)
-//
-//        val calendar: Calendar = Calendar.getInstance()
-//        calendar.set(Calendar.SECOND, 0)
-//        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 1)
-//        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
-//        Log.d(TAG, "alarm set for " + calendar.getTime().toString())
+        Log.d(TAG, "alarm set for " + calendar.getTime().toString())
     }
 
 

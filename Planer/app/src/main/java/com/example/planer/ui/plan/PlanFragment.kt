@@ -29,6 +29,7 @@ import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.notifications.BootAlarmService
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -77,6 +78,8 @@ class PlanFragment : Fragment()
                     ?.replace(R.id.plan_frag, UserPlan(LocalDate.now().toString(), LocalDate.now().dayOfWeek.toString()))
                     ?.commit()
         }
+
+        requireContext().startService(Intent(context, BootAlarmService::class.java).putExtra("index", 1))
 
         return view
     }
