@@ -2,6 +2,7 @@ package com.example.planer.ui.plan
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -23,6 +24,7 @@ import com.example.planer.adapters.PlanRecyclerAdapter
 import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
+import com.example.planer.notifications.BootAlarmService
 import com.example.planer.util.MySharePreferences
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
 import java.time.LocalDate
@@ -60,6 +62,7 @@ class AutoPlan(private val date: String,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
+        Log.d("AutoPlan", "onCreate")
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
         mySharePreferences = context?.let { MySharePreferences(it) }!!
         view.button_add_item.visibility = View.INVISIBLE
@@ -127,6 +130,8 @@ class AutoPlan(private val date: String,
         Log.d("first_work_time", workTime.toString())
         Log.d("dateeee", date)
         Log.d("weekday", weekDay)
+
+        requireContext().startService(Intent(context, BootAlarmService::class.java).putExtra("index", 0))
 
         return view
     }
@@ -555,7 +560,7 @@ class AutoPlan(private val date: String,
         }
 
         if(intervals != null && work > workTime){
-            if(intervals!!.isNotEmpty()){
+            if(intervals!!.size > 0){
                 if(intervals?.last()?.time!! > work-workTime){
                     intervals!!.last().end = intervals!!.last().end.minusMinutes((work-workTime).toLong())
                     intervals!!.last().time = intervals!!.last().time!! - (work-workTime)

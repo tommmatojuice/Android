@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity()
 
         initFragments(savedInstanceState)
 
-        startService(Intent(this, BootAlarmService::class.java))
+//        startService(Intent(this, BootAlarmService::class.java).putExtra("index", 0))
     }
 
     private fun initFragments(savedInstanceState: Bundle?)

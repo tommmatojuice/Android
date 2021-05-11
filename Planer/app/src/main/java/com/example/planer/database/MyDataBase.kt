@@ -27,14 +27,16 @@ abstract class MyDataBase() : RoomDatabase()
 
         fun getDatabase(
             context: Context,
-            scope: CoroutineScope
-        ):MyDataBase{
+            scope: CoroutineScope?
+        ): MyDataBase? {
             return INSTANCE ?: synchronized(this){
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    MyDataBase::class.java,
-                    "planer_database"
-                ).fallbackToDestructiveMigration().addCallback(MyDatabaseCallBack(scope)).build()
+                val instance = scope?.let { MyDatabaseCallBack(it) }?.let {
+                    Room.databaseBuilder(
+                            context.applicationContext,
+                            MyDataBase::class.java,
+                            "planer_database"
+                    ).fallbackToDestructiveMigration().addCallback(it).build()
+                }
 
                 INSTANCE = instance
                 instance
