@@ -39,6 +39,9 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE date = :d AND type='fixed' ORDER BY `begin` DESC")
     fun fixedTasksByDate(d: String): LiveData<List<Task>>
 
+    @Query("SELECT * FROM task_table WHERE date = :d AND type='fixed' ORDER BY `begin` DESC")
+    fun fixedTasksByDateSimple(d: String): List<Task>
+
     @Query("SELECT * FROM task_table WHERE type= :type AND monday = 1 ORDER BY complexity DESC, deadline, `begin` DESC")
     fun tasksMon(type: String): LiveData<List<Task>>
 

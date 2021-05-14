@@ -67,6 +67,10 @@ class TaskRepository(context: Context, scope: CoroutineScope)
         return taskDao.fixedTasksByDate(date)
     }
 
+    fun fixedTasksByDateSimple(date: String): List<Task> {
+        return taskDao.fixedTasksByDateSimple(date)
+    }
+
     fun taskById(id: Int): LiveData<Task> {
         return taskDao.taskById(id)
     }

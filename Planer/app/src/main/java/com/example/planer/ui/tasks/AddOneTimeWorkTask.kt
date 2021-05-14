@@ -217,7 +217,9 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
 
             view.task_title.setText(task.title)
             view.task_description.setText(task.description)
-            view.work_time.text = "$hours:$minutes"
+            if(task.duration!! < 0){
+                view.work_time.text = "00:00"
+            } else view.work_time.text = "$hours:$minutes"
             view.count.text = task.complexity.toString()
             view.deadline.text = task.deadline
             task.complexity?.let { view.difficulty.setProgress(it, false) }

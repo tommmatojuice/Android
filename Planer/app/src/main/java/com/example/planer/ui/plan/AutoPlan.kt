@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.planer.R
 import com.example.planer.adapters.PlanRecyclerAdapter
+import com.example.planer.database.MyDataBase
 import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
@@ -42,6 +43,12 @@ class AutoPlan(private val date: String,
     private var routineTasks: List<Task>? = null
     private var oneTimeTasks: MutableList<Task>? = mutableListOf()
     private var rest: MutableList<Task>? = mutableListOf()
+
+    private var fixedTasksTest: MutableList<Task>? = null
+    private var routineTasksTest: MutableList<Task>? = null
+    private var allTasksTest: List<Task>? = null
+    private var oneTimeTasksTest: MutableList<Task>? = mutableListOf()
+    private var restTest: MutableList<Task>? = mutableListOf()
 
     private var workTime: Int = 0
     private var workTimeFirst: Int = 0
@@ -99,6 +106,15 @@ class AutoPlan(private val date: String,
         }
         )
 
+        taskViewModel.allTasks.observe(
+                viewLifecycleOwner, { allTasks ->
+            if (allTasks != null) {
+                this.allTasksTest = allTasks
+                initWeekDay()
+            }
+        }
+        )
+
         Log.d("AllInfo", mySharePreferences.getAllInfo().toString())
 
         if(mySharePreferences.getAllInfo()){
@@ -118,9 +134,11 @@ class AutoPlan(private val date: String,
                 initWeekDay()
 
                 view.progressBar.visibility = View.VISIBLE
-                Handler().postDelayed({ getAllWorkTime()
-                    getPomodoros()
-                    view.progressBar.visibility = View.INVISIBLE}, 200)
+                Handler().postDelayed(
+                        { getAllWorkTime()
+                          getPomodoros()
+                          view.progressBar.visibility = View.INVISIBLE},
+                        200)
 //            }
         } else {
             view?.textView?.visibility = View.VISIBLE
@@ -304,6 +322,15 @@ class AutoPlan(private val date: String,
                         this.rest?.removeIf { it.category == "work" }
                     }
                 })
+
+                allTasksTest?.let { fixedTasksTest?.addAll(it) }
+                fixedTasksTest?.removeIf { it.date != date }
+
+                allTasksTest?.let { routineTasksTest?.addAll(it) }
+                routineTasksTest?.removeIf { it.friday == false || it.type != "routine" }
+
+                allTasksTest?.let { oneTimeTasksTest?.addAll(it) }
+                oneTimeTasksTest?.removeIf { it.friday == false || it.type != "one_time" }
             }
             "SATURDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getSaturdayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -563,7 +590,7 @@ class AutoPlan(private val date: String,
                     intervals!!.last().end = intervals!!.last().end.minusMinutes((work-workTime).toLong())
                     intervals!!.last().time = intervals!!.last().time!! - (work-workTime)
                 } else {
-                    while (work > workTime){
+                    while (work > workTime && intervals!!.size > 0){
                         work -= intervals!!.last().time!!
                         intervals!!.removeLast()
                     }

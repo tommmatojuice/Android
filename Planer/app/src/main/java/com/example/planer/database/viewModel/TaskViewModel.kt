@@ -61,6 +61,10 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
         return repository.fixedTasksByDate(date)
     }
 
+    fun fixedTasksByDateSimple(date: String): List<Task> {
+        return repository.fixedTasksByDateSimple(date)
+    }
+
     fun taskById(id: Int): LiveData<Task> {
         return repository.taskById(id)
     }
