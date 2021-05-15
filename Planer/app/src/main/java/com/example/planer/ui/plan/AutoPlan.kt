@@ -39,16 +39,12 @@ class AutoPlan(private val date: String,
 ): Fragment(), PlanRecyclerAdapter.OnItemClickListener, PlanRecyclerAdapter.OnItemLongClickListener {
     private lateinit var mySharePreferences: MySharePreferences
     private val taskViewModel: TaskViewModel by viewModels()
-    private var fixedTasks: List<Task>? = null
-    private var routineTasks: List<Task>? = null
+
+    private var fixedTasks: MutableList<Task>? = mutableListOf()
+    private var routineTasks: MutableList<Task>? = mutableListOf()
+    private var allTasksTest: List<Task>? = listOf()
     private var oneTimeTasks: MutableList<Task>? = mutableListOf()
     private var rest: MutableList<Task>? = mutableListOf()
-
-    private var fixedTasksTest: MutableList<Task>? = null
-    private var routineTasksTest: MutableList<Task>? = null
-    private var allTasksTest: List<Task>? = null
-    private var oneTimeTasksTest: MutableList<Task>? = mutableListOf()
-    private var restTest: MutableList<Task>? = mutableListOf()
 
     private var workTime: Int = 0
     private var workTimeFirst: Int = 0
@@ -87,7 +83,6 @@ class AutoPlan(private val date: String,
 
 //        mySharePreferences.setWorkTimePast(120)
 
-        //вычитаем время пройденных задач
         minusTime()
 
         if(date != LocalDate.now().toString()){
@@ -98,48 +93,19 @@ class AutoPlan(private val date: String,
 
         Log.d("workTimePast", workTimePast.toString())
 
-        taskViewModel.fixedTasksByDate(date).observe(
-                viewLifecycleOwner, { fixedTasks ->
-            if (fixedTasks != null) {
-                this.fixedTasks = fixedTasks
-            }
-        }
-        )
-
-        taskViewModel.allTasks.observe(
-                viewLifecycleOwner, { allTasks ->
-            if (allTasks != null) {
-                this.allTasksTest = allTasks
-                initWeekDay()
-            }
-        }
-        )
-
         Log.d("AllInfo", mySharePreferences.getAllInfo().toString())
 
         if(mySharePreferences.getAllInfo()){
-//            if(pomodorosSmall != null && mySharePreferences.getSleep() == mySharePreferences.getWorkEnd() && date == LocalDate.now().toString()){
-//                initWeekDay()
-//                view.progressBar.visibility = View.VISIBLE
-//                Handler().postDelayed({
-//                    pomodorosSmall!!.clear()
-//                    rest?.forEach {
-//                        Log.d("rest", it.title)
-//                        pomodorosSmall!!.add(TasksForPlan(LocalTime.now(), LocalTime.now(), null, it))
-//                    }
-//                    pomodorosSmall!!.removeIf { it.task?.category == "work" }
-//                    showTasks(pomodorosSmall)
-//                    view.progressBar.visibility = View.INVISIBLE}, 200)
-//            } else {
-                initWeekDay()
+            taskViewModel.allTasks.observe(
+                    viewLifecycleOwner, { allTasks ->
+                if (allTasks != null) {
+                    this.allTasksTest = allTasks
+                    initWeekDay()
+                }
+            }
+            )
 
-                view.progressBar.visibility = View.VISIBLE
-                Handler().postDelayed(
-                        { getAllWorkTime()
-                          getPomodoros()
-                          view.progressBar.visibility = View.INVISIBLE},
-                        200)
-//            }
+            view.progressBar.visibility = View.VISIBLE
         } else {
             view?.textView?.visibility = View.VISIBLE
             view?.imageView?.visibility = View.VISIBLE
@@ -211,170 +177,122 @@ class AutoPlan(private val date: String,
     private fun initWeekDay(){
         oneTimeTasks?.clear()
         rest?.clear()
+        fixedTasks?.clear()
+        routineTasks?.clear()
+
+        allTasksTest?.let { fixedTasks?.addAll(it) }
+        fixedTasks?.removeIf { it.date != date }
+
         when(weekDay){
             "MONDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getMondayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 beginTime = LocalTime.parse(mySharePreferences.getMondayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.tasksMon("routine").observe(
-                        viewLifecycleOwner, { routineTasks ->
-                    if (routineTasks != null) {
-                        this.routineTasks = routineTasks
-                    }
-                })
 
-                taskViewModel.tasksMon("one_time").observe(
-                        viewLifecycleOwner, { oneTimeTasks ->
-                    if (oneTimeTasks != null) {
-                        this.oneTimeTasks?.addAll(oneTimeTasks)
-                        this.rest?.addAll(oneTimeTasks)
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-                        this.rest?.removeIf { it.category == "work" }
-                    }
-                })
+                allTasksTest?.let { routineTasks?.addAll(it) }
+                routineTasks?.removeIf { it.monday == false || it.type != "routine" || it.title == ""}
+
+                allTasksTest?.let { oneTimeTasks?.addAll(it) }
+                oneTimeTasks?.removeIf { it.monday == false || it.type != "one_time" || it.category != "work" || it.title == ""}
+
+                allTasksTest?.let { rest?.addAll(it) }
+                rest?.removeIf { it.monday == false || it.type != "one_time" || it.category == "work" || it.title == ""}
             }
             "TUESDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getTuesdayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 1
                 beginTime = LocalTime.parse(mySharePreferences.getTuesdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.tasksTue("routine").observe(
-                        viewLifecycleOwner, { routineTasks ->
-                    if (routineTasks != null) {
-                        this.routineTasks = routineTasks
-                    }
-                }
-                )
 
-                taskViewModel.tasksTue("one_time").observe(
-                        viewLifecycleOwner, { oneTimeTasks ->
-                    if (oneTimeTasks != null) {
-                        this.oneTimeTasks?.addAll(oneTimeTasks)
-                        this.rest?.addAll(oneTimeTasks)
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-                        this.rest?.removeIf { it.category == "work" }
-                    }
-                })
+                allTasksTest?.let { routineTasks?.addAll(it) }
+                routineTasks?.removeIf { it.tuesday == false || it.type != "routine" || it.title == ""}
+
+                allTasksTest?.let { oneTimeTasks?.addAll(it) }
+                oneTimeTasks?.removeIf { it.tuesday == false || it.type != "one_time" || it.category != "work" || it.title == ""}
+
+                allTasksTest?.let { rest?.addAll(it) }
+                rest?.removeIf { it.tuesday == false || it.type != "one_time" || it.category == "work" || it.title == ""}
             }
             "WEDNESDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getWednesdayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 2
                 beginTime = LocalTime.parse(mySharePreferences.getWednesdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.tasksWen("routine").observe(
-                        viewLifecycleOwner, { routineTasks ->
-                    if (routineTasks != null) {
-                        this.routineTasks = routineTasks
-                    }
-                }
-                )
 
-                taskViewModel.tasksWen("one_time").observe(
-                        viewLifecycleOwner, { oneTimeTasks ->
-                    if (oneTimeTasks != null) {
-                        this.oneTimeTasks?.addAll(oneTimeTasks)
-                        this.rest?.addAll(oneTimeTasks)
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-                        this.rest?.removeIf { it.category == "work" }
-                    }
-                })
+                allTasksTest?.let { routineTasks?.addAll(it) }
+                routineTasks?.removeIf { it.wednesday == false || it.type != "routine" || it.title == "" }
+
+                allTasksTest?.let { oneTimeTasks?.addAll(it) }
+                oneTimeTasks?.removeIf { it.wednesday == false || it.type != "one_time" || it.category != "work" || it.title == ""}
+
+                allTasksTest?.let { rest?.addAll(it) }
+                rest?.removeIf { it.wednesday == false || it.type != "one_time" || it.category == "work" || it.title == ""}
             }
             "THURSDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getThursdayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 3
                 beginTime = LocalTime.parse(mySharePreferences.getThursdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.tasksThu("routine").observe(
-                        viewLifecycleOwner, { routineTasks ->
-                    if (routineTasks != null) {
-                        this.routineTasks = routineTasks
-                    }
-                })
 
-                taskViewModel.tasksThu("one_time").observe(
-                        viewLifecycleOwner, { oneTimeTasks ->
-                    if (oneTimeTasks != null) {
-                        this.oneTimeTasks?.addAll(oneTimeTasks)
-                        this.rest?.addAll(oneTimeTasks)
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-                        this.rest?.removeIf { it.category == "work" }
-                    }
-                })
+                allTasksTest?.let { routineTasks?.addAll(it) }
+                routineTasks?.removeIf { it.thursday == false || it.type != "routine" || it.title == "" }
+
+                allTasksTest?.let { oneTimeTasks?.addAll(it) }
+                oneTimeTasks?.removeIf { it.thursday == false || it.type != "one_time" || it.category != "work" || it.title == ""}
+
+                allTasksTest?.let { rest?.addAll(it) }
+                rest?.removeIf { it.thursday == false || it.type != "one_time" || it.category == "work" || it.title == ""}
             }
             "FRIDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getFridayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 4
                 beginTime = LocalTime.parse(mySharePreferences.getFridayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.tasksFri("routine").observe(
-                        viewLifecycleOwner, { routineTasks ->
-                    if (routineTasks != null) {
-                        this.routineTasks = routineTasks
-                    }
-                })
 
-                taskViewModel.tasksFri("one_time").observe(
-                        viewLifecycleOwner, { oneTimeTasks ->
-                    if (oneTimeTasks != null) {
-                        this.oneTimeTasks?.addAll(oneTimeTasks)
-                        this.rest?.addAll(oneTimeTasks)
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-                        this.rest?.removeIf { it.category == "work" }
-                    }
-                })
+                allTasksTest?.let { routineTasks?.addAll(it) }
+                routineTasks?.removeIf { it.friday == false || it.type != "routine"  || it.title == ""}
 
-                allTasksTest?.let { fixedTasksTest?.addAll(it) }
-                fixedTasksTest?.removeIf { it.date != date }
+                allTasksTest?.let { oneTimeTasks?.addAll(it) }
+                oneTimeTasks?.removeIf { it.friday == false || it.type != "one_time" || it.category != "work" || it.title == ""}
 
-                allTasksTest?.let { routineTasksTest?.addAll(it) }
-                routineTasksTest?.removeIf { it.friday == false || it.type != "routine" }
+                allTasksTest?.let { rest?.addAll(it) }
+                rest?.removeIf { it.friday == false || it.type != "one_time" || it.category == "work" || it.title == ""}
 
-                allTasksTest?.let { oneTimeTasksTest?.addAll(it) }
-                oneTimeTasksTest?.removeIf { it.friday == false || it.type != "one_time" }
+                Log.d("Test1", allTasksTest?.size.toString())
+                Log.d("Test2", fixedTasks?.size.toString())
+                Log.d("Test3", routineTasks?.size.toString())
+                Log.d("Test4", oneTimeTasks?.size.toString())
+                Log.d("Test5", rest?.size.toString())
             }
             "SATURDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getSaturdayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 5
                 beginTime = LocalTime.parse(mySharePreferences.getSaturdayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.tasksSat("routine").observe(
-                        viewLifecycleOwner, { routineTasks ->
-                    if (routineTasks != null) {
-                        this.routineTasks = routineTasks
-                    }
-                })
 
-                taskViewModel.tasksSat("one_time").observe(
-                        viewLifecycleOwner, { oneTimeTasks ->
-                    if (oneTimeTasks != null) {
-                        this.oneTimeTasks?.addAll(oneTimeTasks)
-                        this.rest?.addAll(oneTimeTasks)
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-                        this.rest?.removeIf { it.category == "work" }
-                    }
-                })
+                allTasksTest?.let { routineTasks?.addAll(it) }
+                routineTasks?.removeIf { it.saturday == false || it.type != "routine"  || it.title == ""}
+
+                allTasksTest?.let { oneTimeTasks?.addAll(it) }
+                oneTimeTasks?.removeIf { it.saturday == false || it.type != "one_time" || it.category != "work" || it.title == ""}
+
+                allTasksTest?.let { rest?.addAll(it) }
+                rest?.removeIf { it.saturday == false || it.type != "one_time" || it.category == "work" || it.title == ""}
             }
             "SUNDAY" -> {
                 val time = LocalTime.parse(mySharePreferences.getSundayWork(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                 workTime = time.hour * 60 + time.minute
                 dayNumber = 6
                 beginTime = LocalTime.parse(mySharePreferences.getSundayBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                taskViewModel.tasksSun("routine").observe(
-                        viewLifecycleOwner, { routineTasks ->
-                    if (routineTasks != null) {
-                        this.routineTasks = routineTasks
-                    }
-                })
 
-                taskViewModel.tasksSun("one_time").observe(
-                        viewLifecycleOwner, { oneTimeTasks ->
-                    if (oneTimeTasks != null) {
-                        this.oneTimeTasks?.addAll(oneTimeTasks)
-                        this.rest?.addAll(oneTimeTasks)
-                        this.oneTimeTasks?.removeIf { it.category != "work" }
-                        this.rest?.removeIf { it.category == "work" }
-                    }
-                })
+                allTasksTest?.let { routineTasks?.addAll(it) }
+                routineTasks?.removeIf { it.sunday == false || it.type != "routine" || it.title == ""}
+
+                allTasksTest?.let { oneTimeTasks?.addAll(it) }
+                oneTimeTasks?.removeIf { it.sunday == false || it.type != "one_time" || it.category != "work" || it.title == ""}
+
+                allTasksTest?.let { rest?.addAll(it) }
+                rest?.removeIf { it.sunday == false || it.type != "one_time" || it.category == "work" || it.title == ""}
             }
         }
         Log.d("TaskTransfer", mySharePreferences.getTaskTransfer().toString())
@@ -386,6 +304,10 @@ class AutoPlan(private val date: String,
         Log.d("workTime", workTime.toString())
         workTimeFirst = workTime
         workTime -= this.workTimePast
+
+        getAllWorkTime()
+        getPomodoros()
+        view?.progressBar?.visibility = View.INVISIBLE
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -531,6 +453,8 @@ class AutoPlan(private val date: String,
             i++
         }
 
+        tasks.removeIf { it.end < beginTime }
+
         tasks.forEach {
             Log.d("tasks", "${it.begin}/${it.end}")
         }
@@ -541,28 +465,42 @@ class AutoPlan(private val date: String,
         Log.d("beginTime", beginTime.toString())
         Log.d("workTime", workTime.toString())
 
+        var flag: Boolean = true
         for(i in 0 until tasks.size){
             Log.d("tasks!", tasks[i].begin.toString())
-            if(i == 0 && tasks[i].end < beginTime){
-                time = tasks[i+1].begin.minus(beginTime.hour.toLong(), ChronoUnit.HOURS).minus(beginTime.minute.toLong(), ChronoUnit.MINUTES)
-                intervals?.add(TasksForPlan(beginTime, tasks[i+1].begin, (time.hour * 60 + time.minute), null))
-                work += time.hour*60 + time.minute
-            } else if(i == 0 && tasks[i].end > beginTime){
-                time = tasks[i+1].begin.minus(tasks[i].end.hour.toLong(), ChronoUnit.HOURS).minus(tasks[i].end.minute.toLong(), ChronoUnit.MINUTES)
-                intervals?.add(TasksForPlan(tasks[i].end, tasks[i+1].begin, (time.hour * 60 + time.minute), null))
-                work += time.hour*60 + time.minute
-            }
-            if(beginTime < tasks[i].begin && i > 1){
-                Log.d("beginTime ${tasks[i]}", tasks[i].begin.toString())
-                Log.d("workTime1!", work.toString())
-                Log.d("workTime2!", workTime.toString())
-                if(work < workTime){
-                    time = tasks[i].begin.minus(tasks[i - 1].end.hour.toLong(), ChronoUnit.HOURS).minus(tasks[i - 1].end.minute.toLong(), ChronoUnit.MINUTES)
-                    intervals?.add(TasksForPlan(tasks[i - 1].end, tasks[i].begin, (time.hour * 60 + time.minute), null))
+//            if(tasks[i].end < beginTime){
+//                tasks.removeFirst()
+//            } else {
+                if(i == 0 && tasks[i].begin > beginTime){
+                    time = tasks[i].begin.minus(beginTime.hour.toLong(), ChronoUnit.HOURS).minus(beginTime.minute.toLong(), ChronoUnit.MINUTES)
+                    intervals?.add(TasksForPlan(beginTime, tasks[i].begin, (time.hour * 60 + time.minute), null))
                     work += time.hour*60 + time.minute
-                    Log.d("work3", (time.hour*60 + time.minute).toString())
-                } else break
-            }
+                    flag = true
+                } else if(i == 0 && tasks[i].end > beginTime && tasks.size > 1){
+                    time = tasks[i+1].begin.minus(tasks[i].end.hour.toLong(), ChronoUnit.HOURS).minus(tasks[i].end.minute.toLong(), ChronoUnit.MINUTES)
+                    intervals?.add(TasksForPlan(tasks[i].end, tasks[i+1].begin, (time.hour * 60 + time.minute), null))
+                    work += time.hour*60 + time.minute
+                    flag = false
+                }
+                if(beginTime < tasks[i].begin && i > 1 && !flag){
+                    if(work < workTime){
+                        time = tasks[i].begin.minus(tasks[i - 1].end.hour.toLong(), ChronoUnit.HOURS).minus(tasks[i - 1].end.minute.toLong(), ChronoUnit.MINUTES)
+                        intervals?.add(TasksForPlan(tasks[i - 1].end, tasks[i].begin, (time.hour * 60 + time.minute), null))
+                        work += time.hour*60 + time.minute
+                        Log.d("work3", (time.hour*60 + time.minute).toString())
+                    } else break
+                }
+                if(beginTime < tasks[i].begin && i > 0 && flag){
+                    if(work < workTime){
+                        time = tasks[i].begin.minus(tasks[i - 1].end.hour.toLong(), ChronoUnit.HOURS).minus(tasks[i - 1].end.minute.toLong(), ChronoUnit.MINUTES)
+                        intervals?.add(TasksForPlan(tasks[i - 1].end, tasks[i].begin, (time.hour * 60 + time.minute), null))
+                        work += time.hour*60 + time.minute
+                        Log.d("work3", (time.hour*60 + time.minute).toString())
+                    } else break
+                }
+
+//            }
+
         }
 
         if(!intervals.isNullOrEmpty() && intervals?.first()?.begin!! < beginTime){
@@ -662,9 +600,10 @@ class AutoPlan(private val date: String,
         pomodoros?.clear()
 
         intervals?.forEach {
-            val pomodoro = mySharePreferences.getPomodoroWork()
+            var pomodoro = mySharePreferences.getPomodoroWork()
             val breakTime = mySharePreferences.getPomodoroBreak()
             val bigBreakTime = mySharePreferences.getPomodoroBigBreak()
+            pomodoro = 25
             val count = it.time?.div(pomodoro)
             Log.d("countPom", count.toString())
             var minutes = it.time
@@ -1128,6 +1067,8 @@ class AutoPlan(private val date: String,
             } else pomodoros.sortBy { it.begin }
 
             pomodoros.removeIf { it.task?.type != "one_time" && it.end < LocalTime.now() && it.end != it.begin && date == LocalDate.now().toString()}
+
+            mySharePreferences.setPlan(pomodoros)
 
             adapter?.setTasks(pomodoros)
             list.adapter = adapter

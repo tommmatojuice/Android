@@ -79,7 +79,11 @@ class PlanFragment : Fragment()
                     ?.commit()
         }
 
-        requireContext().startService(Intent(context, BootAlarmService::class.java).putExtra("index", 1))
+        if(!mySharePreferences.getPlan().isNullOrEmpty()){
+            if(LocalTime.now() > mySharePreferences.getPlan()?.get(0)?.begin){
+                requireContext().startService(Intent(context, BootAlarmService::class.java).putExtra("index", 0))
+            } else requireContext().startService(Intent(context, BootAlarmService::class.java).putExtra("index", 1))
+        }
 
         return view
     }

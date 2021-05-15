@@ -287,11 +287,11 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveTask(view: View, task: Task?)
     {
-        checkTasks?.removeIf { it.type != "routine" }
+        checkTasks?.removeIf { it.type == "one_time" }
         checkTasks?.removeIf { !(it.monday == view.checkBoxMon.isChecked || it.tuesday == view.checkBoxTue.isChecked
                 || it.wednesday == view.checkBoxWed.isChecked || it.thursday == view.checkBoxThu.isChecked
                 || it.friday == view.checkBoxFri.isChecked || it.saturday == view.checkBoxSat.isChecked
-                || it.sunday == view.checkBoxSun.isChecked)}
+                || it.sunday == view.checkBoxSun.isChecked) && it.type == "routine"}
 
         checkTasks?.removeIf {
             val newTaskBegin = LocalTime.parse(view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))

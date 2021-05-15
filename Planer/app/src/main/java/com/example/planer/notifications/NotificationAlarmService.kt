@@ -103,7 +103,12 @@ class NotificationAlarmService: Service(){
             val task = mySharePreferences.getPlan()?.get(0)?.task
             task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
             mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast() + mySharePreferences.getPomodoroWork())
-            task?.let { myDataBase?.taskDao()?.update(it) }
+
+            Thread(Runnable {
+                kotlin.run {
+                    task?.let { myDataBase?.taskDao()?.update(it) }
+                }
+            }).start()
 
             val plan = mySharePreferences.getPlan()
             plan?.removeFirst()

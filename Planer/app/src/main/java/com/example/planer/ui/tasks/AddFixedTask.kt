@@ -341,8 +341,8 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                 } else {
                     if (view.date.text.isNotEmpty())
                     {
-                        checkTasks?.removeIf { it.type != "fixed" }
-                        checkTasks?.removeIf { it.date != view.date.text.toString() }
+                        checkTasks?.removeIf { it.type == "one_time" }
+                        checkTasks?.removeIf { it.date != view.date.text.toString() && it.type == "fixed"}
                         checkTasks?.removeIf {
                             val newTaskBegin = LocalTime.parse(view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                             val newTaskEnd = LocalTime.parse(view.end_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
