@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_profile.view.pom_40
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_50
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_60
 import kotlinx.android.synthetic.main.fragment_profile.view.radioGroup
+import kotlinx.android.synthetic.main.fragment_put_pomodoro.view.*
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

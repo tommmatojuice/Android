@@ -65,7 +65,6 @@ class AutoPlan(private val date: String,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        Log.d("AutoPlan", "onCreate")
         val view = inflater.inflate(R.layout.fragment_task_recycler, container, false)
         mySharePreferences = context?.let { MySharePreferences(it) }!!
         view.button_add_item.visibility = View.INVISIBLE
@@ -93,7 +92,7 @@ class AutoPlan(private val date: String,
 
         Log.d("workTimePast", workTimePast.toString())
 
-        Log.d("AllInfo", mySharePreferences.getAllInfo().toString())
+        Log.d("getPomodoroWork", mySharePreferences.getPomodoroWork().toString())
 
         if(mySharePreferences.getAllInfo()){
             taskViewModel.allTasks.observe(
@@ -539,7 +538,7 @@ class AutoPlan(private val date: String,
         Log.d("work1", work.toString())
         Log.d("work2", workTime.toString())
 
-        if(work < workTime && intervals != null){
+        if(work < workTime && intervals != null && tasks.isNotEmpty()){
             val rest = workTime - work
             intervals!!.add(TasksForPlan(tasks.last().end, tasks.last().end.plusMinutes(rest.toLong()), rest, null))
 
@@ -594,6 +593,15 @@ class AutoPlan(private val date: String,
             Log.d("intervals3", it.time.toString())
         }
 
+//        if(intervals != null && (LocalTime.now() <= beginTimeReserve || date != LocalDate.now().toString())){
+        if(intervals != null){
+            for(i in 0 until intervals?.size!!){
+                if(intervals!![i].begin != beginTimeReserve && i != 0){
+                    intervals!![i].begin = intervals!![i].begin.plusMinutes(5)
+                }
+            }
+        }
+
         Log.d("intervalsSize", intervals?.size.toString())
 
         //pomodoros
@@ -603,7 +611,6 @@ class AutoPlan(private val date: String,
             var pomodoro = mySharePreferences.getPomodoroWork()
             val breakTime = mySharePreferences.getPomodoroBreak()
             val bigBreakTime = mySharePreferences.getPomodoroBigBreak()
-            pomodoro = 25
             val count = it.time?.div(pomodoro)
             Log.d("countPom", count.toString())
             var minutes = it.time
@@ -1068,7 +1075,9 @@ class AutoPlan(private val date: String,
 
             pomodoros.removeIf { it.task?.type != "one_time" && it.end < LocalTime.now() && it.end != it.begin && date == LocalDate.now().toString()}
 
-            mySharePreferences.setPlan(pomodoros)
+            if(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")) == LocalDate.now()) {
+                mySharePreferences.setPlan(pomodoros)
+            }
 
             adapter?.setTasks(pomodoros)
             list.adapter = adapter

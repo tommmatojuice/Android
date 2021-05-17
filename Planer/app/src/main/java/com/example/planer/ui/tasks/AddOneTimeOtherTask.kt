@@ -216,7 +216,7 @@ class AddOneTimeOtherTask  : Fragment(), FilesRecyclerAdapter.OnItemClickListene
     private fun initUI()
     {
         val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
-        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
+//        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
         (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
