@@ -36,7 +36,9 @@ import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
-import java.lang.Exception
+import kotlinx.android.synthetic.main.fragment_plan.view.*
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -197,7 +199,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                 if (resultCode == RESULT_OK) {
                     val pathFile = data?.data
                     pathFile?.let { context?.contentResolver?.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
-                    if(files.find{it.path == pathFile.toString()} != null){
+                    if (files.find { it.path == pathFile.toString() } != null) {
                         this.context?.let { InfoDialog.onCreateDialog(it, "Внимание", "Вы уже прикрепили этот файл!", R.drawable.blue_info) }
                     } else {
                         files.add(PathToFile(pathFile.toString(), -1))
@@ -341,7 +343,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                 } else {
                     if (view.date.text.isNotEmpty())
                     {
-                        checkTasks?.removeIf { it.type == "one_time" }
+                        checkTasks?.removeIf { it.type == "one_time" || it.title == "" }
                         checkTasks?.removeIf { it.date != view.date.text.toString() && it.type == "fixed"}
                         checkTasks?.removeIf {
                             val newTaskBegin = LocalTime.parse(view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -350,6 +352,7 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                             val taskEnd = LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                             !((newTaskBegin >= taskBegin && newTaskBegin < taskEnd) || (newTaskEnd > taskBegin && newTaskEnd <= taskEnd))
                         }
+                        checkRoutine()
 
                         Log.d("checkTasks2", checkTasks?.size.toString())
                         checkTasks?.forEach {
@@ -440,5 +443,42 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                 && view.begin_work_time.text.toString() < endTime)
                 || (view.end_work_time.text.toString() > beginTime
                 && view.end_work_time.text.toString() <= endTime))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun checkRoutine(){
+        when(LocalDate.parse(view?.date?.text.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).dayOfWeek){
+            DayOfWeek.MONDAY-> {
+                checkTasks?.removeIf { it.monday == false }
+            }
+            DayOfWeek.TUESDAY -> {
+                checkTasks?.removeIf { it.tuesday == false }
+
+            }
+            DayOfWeek.WEDNESDAY -> {
+                checkTasks?.removeIf { it.wednesday == false }
+
+            }
+            DayOfWeek.THURSDAY -> {
+                checkTasks?.removeIf { it.thursday == false }
+
+            }
+            DayOfWeek.FRIDAY -> {
+                checkTasks?.removeIf { it.friday == false }
+
+            }
+            DayOfWeek.SATURDAY -> {
+                checkTasks?.removeIf { it.saturday == false }
+
+            }
+            DayOfWeek.SUNDAY -> {
+                checkTasks?.removeIf { it.sunday == false }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getTime(time: String?): LocalTime{
+        return LocalTime.parse(time, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
     }
 }

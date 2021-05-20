@@ -79,7 +79,7 @@ class PlanFragment : Fragment()
                     ?.commit()
         }
 
-        if(!mySharePreferences.getPlan().isNullOrEmpty()){
+        if(!mySharePreferences.getPlan().isNullOrEmpty() && mySharePreferences.getAutoPlan()){
             if(LocalTime.now() > mySharePreferences.getPlan()?.get(0)?.begin
                 || (LocalTime.now() == mySharePreferences.getPlan()?.get(0)?.begin && LocalTime.now().second > 0)){
                 requireContext().startService(Intent(context, BootAlarmService::class.java).putExtra("index", 0))

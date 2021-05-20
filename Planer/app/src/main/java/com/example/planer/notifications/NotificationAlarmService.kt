@@ -118,7 +118,7 @@ class NotificationAlarmService: Service(){
             mySharePreferences.setPlan(plan)
         }
 
-        if(!mySharePreferences.getPlan().isNullOrEmpty()){
+        if(!mySharePreferences.getPlan().isNullOrEmpty() && mySharePreferences.getAutoPlan()){
             startService(Intent(this, BootAlarmService::class.java).putExtra("index", index))
         }
     }

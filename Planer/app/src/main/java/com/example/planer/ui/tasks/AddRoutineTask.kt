@@ -33,6 +33,7 @@ import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_button
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_time
@@ -41,6 +42,8 @@ import kotlinx.android.synthetic.main.fragment_add_routine_task.view.end_work_ti
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_description
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_title
 import java.lang.Exception
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -153,6 +156,7 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     }
 
     private fun addFiles(task_id: Int){
+        Log.d("addFiles", "addFiles")
         files.forEach {
             if(task != null){
                 if(count <= 0){
@@ -287,7 +291,7 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveTask(view: View, task: Task?)
     {
-        checkTasks?.removeIf { it.type == "one_time" }
+        checkTasks?.removeIf { it.type == "one_time" || it.title == ""}
         checkTasks?.removeIf { !(it.monday == view.checkBoxMon.isChecked || it.tuesday == view.checkBoxTue.isChecked
                 || it.wednesday == view.checkBoxWed.isChecked || it.thursday == view.checkBoxThu.isChecked
                 || it.friday == view.checkBoxFri.isChecked || it.saturday == view.checkBoxSat.isChecked
@@ -300,6 +304,8 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
             val taskEnd = LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             !((newTaskBegin >= taskBegin && newTaskBegin < taskEnd) || (newTaskEnd > taskBegin && newTaskEnd <= taskEnd))
         }
+
+        checkFixed()
 
         Log.d("checkTasks2", checkTasks?.size.toString())
         checkTasks?.forEach {
@@ -398,5 +404,41 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     override fun onItemClick(position: Int) {
         val file = files[position]
         openFile(Uri.parse(file.path))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun checkFixed(){
+        checkTasks?.forEach {
+            if(it.type == "fixed"){
+                when(LocalDate.parse(it.date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).dayOfWeek){
+                    DayOfWeek.MONDAY-> {
+                        checkTasks?.removeIf { !view?.checkBoxMon?.isChecked!!}
+                    }
+                    DayOfWeek.TUESDAY -> {
+                        checkTasks?.removeIf { !view?.checkBoxTue?.isChecked!!}
+
+                    }
+                    DayOfWeek.WEDNESDAY -> {
+                        checkTasks?.removeIf { !view?.checkBoxWed?.isChecked!!}
+                    }
+                    DayOfWeek.THURSDAY -> {
+                        Log.d("checkFixed", "THURSDAY")
+                        checkTasks?.removeIf { !view?.checkBoxThu?.isChecked!!}
+
+                    }
+                    DayOfWeek.FRIDAY -> {
+                        checkTasks?.removeIf { !view?.checkBoxFri?.isChecked!!}
+
+                    }
+                    DayOfWeek.SATURDAY -> {
+                        checkTasks?.removeIf { !view?.checkBoxSat?.isChecked!!}
+
+                    }
+                    DayOfWeek.SUNDAY -> {
+                        checkTasks?.removeIf { !view?.checkBoxSun?.isChecked!!}
+                    }
+                }
+            }
+        }
     }
 }
