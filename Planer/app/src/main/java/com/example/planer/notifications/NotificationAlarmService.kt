@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.planer.MainActivity
@@ -99,7 +100,9 @@ class NotificationAlarmService: Service(){
 
         notificationManager.notify(10001, notification.build())
 
-        if(LocalTime.now() >= mySharePreferences.getPlan()?.get(0)?.end){
+        if(LocalTime.now() >= mySharePreferences.getPlan()?.get(0)?.end
+                && mySharePreferences.getPlan()?.first()?.task?.type == "one_time"
+                && mySharePreferences.getPlan()?.first()!!.task?.category == "work"){
             val task = mySharePreferences.getPlan()?.get(0)?.task
             task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
             mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast() + mySharePreferences.getPomodoroWork())

@@ -598,6 +598,7 @@ class AutoPlan(private val date: String,
             for(i in 0 until intervals?.size!!){
                 if(intervals!![i].begin != beginTimeReserve && i != 0){
                     intervals!![i].begin = intervals!![i].begin.plusMinutes(5)
+                    intervals!![i].time = intervals!![i].time?.minus(5)
                 }
             }
         }
@@ -611,7 +612,7 @@ class AutoPlan(private val date: String,
             var pomodoro = mySharePreferences.getPomodoroWork()
             val breakTime = mySharePreferences.getPomodoroBreak()
             val bigBreakTime = mySharePreferences.getPomodoroBigBreak()
-            val count = it.time?.div(pomodoro)
+            val count = it.time?.div(pomodoro+breakTime)
             Log.d("countPom", count.toString())
             var minutes = it.time
             for (i in 0 until count!!){
@@ -847,6 +848,7 @@ class AutoPlan(private val date: String,
         //условия сохранения нового плана
         Log.d("pomodoros_size2", pomodoros?.size.toString())
         Log.d("tasks_size2", tasks?.size.toString())
+
         if(pomodoros != null && tasks != null) {
             tasks!!.removeIf { tasks -> tasks == null }
             var sleepTime = LocalTime.parse(mySharePreferences.getSleep(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -1000,12 +1002,21 @@ class AutoPlan(private val date: String,
                 it?.title?.let { it1 -> Log.d("tasksInPLan2", it1) }
             }
 
+
+            var k = 0
+            pomodorsSmall?.forEach {
+                if(it.begin < LocalTime.parse(mySharePreferences.getPeakBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))){
+                    k++
+                }
+            }
+
             //расставление по пику
             pomodorsSmall?.forEach {
                 if(it.begin >= LocalTime.parse(mySharePreferences.getPeakBegin(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                        && it.begin < LocalTime.parse(mySharePreferences.getPeakEnd(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)) && tasksSmall.isNotEmpty()){
+                        && it.begin < LocalTime.parse(mySharePreferences.getPeakEnd(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                        && tasksSmall.isNotEmpty() && tasksSmall.size>k){
                     it.task = tasksSmall.first()
-//                    tasksSmall.first()?.title?.let { it1 -> Log.d("tasksInPLan2", it1) }
+                    tasksSmall.first()?.title?.let { it1 -> Log.d("peakTask", it1) }
                     tasksSmall.removeFirst()
                 }
             }
@@ -1016,7 +1027,7 @@ class AutoPlan(private val date: String,
                 pomodorsSmall!!.forEach {
                     if(i < tasksSmall.size && it.task == null){
                         it.task = tasksSmall.get(i)
-//                        tasksSmall[i]?.title?.let { it1 -> Log.d("tasksInPLan2", it1) }
+                        tasksSmall[i]?.title?.let { it1 -> Log.d("peakTask2", it1) }
                         i++
                     }
                 }
@@ -1051,6 +1062,7 @@ class AutoPlan(private val date: String,
 //            pomodorsSmall.removeLast()
 //        }
 
+        Log.d("1234", pomodorsSmall.size.toString())
         return pomodorsSmall
 //        pomodorsSmall!!.sortBy { it.begin }
 //
