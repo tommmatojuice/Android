@@ -1,6 +1,5 @@
 package com.example.planer
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -14,29 +13,20 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.Constraints
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.planer.database.viewModel.TaskViewModel
-import com.example.planer.notifications.BootAlarmService
-import com.example.planer.notifications.NotificationAlarmService
 import com.example.planer.ui.first_come.PutName
 import com.example.planer.ui.plan.TasksForPlan
 import com.example.planer.util.MySharePreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.concurrent.TimeUnit
 import kotlin.time.ExperimentalTime
 
 class MainActivity : AppCompatActivity()
 {
     private lateinit var mySharePreferences: MySharePreferences
     private val SIMPLE_FRAGMENT_TAG = "myFragmentTag"
-    private val TAG = "MainActivity"
     private var myFragment: Fragment? = null
-    val CHANNEL_ID = "ForegroundServiceChannel"
 
     private val taskViewModel: TaskViewModel by viewModels()
 
@@ -48,11 +38,6 @@ class MainActivity : AppCompatActivity()
         setContentView(R.layout.activity_main)
 
         mySharePreferences = MySharePreferences(this)
-//        mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
-
-//        mySharePreferences.setAllInfo(true)
-//        mySharePreferences.setPlan(null)
-//        mySharePreferences.setWorkTimePast(0)
 
         minusTime()
 
@@ -74,8 +59,6 @@ class MainActivity : AppCompatActivity()
         navView.setupWithNavController(navController)
 
         initFragments(savedInstanceState)
-
-//        startService(Intent(this, BootAlarmService::class.java).putExtra("index", 0))
     }
 
     private fun initFragments(savedInstanceState: Bundle?)
@@ -108,9 +91,9 @@ class MainActivity : AppCompatActivity()
     @RequiresApi(Build.VERSION_CODES.O)
     private fun minusTime()
     {
-        Log.d("minusTime", "minusTime")
-        var pomodoros: MutableList<TasksForPlan>? = mutableListOf()
-        pomodoros = mySharePreferences.getPlan()
+        val pomodoros: MutableList<TasksForPlan>? = mySharePreferences.getPlan()
+        pomodoros?.removeIf { it.end < LocalTime.now() && it.begin != it.end }
+        mySharePreferences.setPlan(pomodoros)
 
         if(LocalDate.now().toString() != mySharePreferences.getToday()){
             mySharePreferences.setTaskTransfer(0)
@@ -119,29 +102,24 @@ class MainActivity : AppCompatActivity()
             mySharePreferences.setWorkEnd(null)
         }
 
-        if(!pomodoros.isNullOrEmpty()){
-            if(pomodoros.last().task?.type == "one_time" && pomodoros.last().task?.category != "work"){
-                //no
-            } else {
-                mySharePreferences.setWorkEnd(pomodoros.last().end.toString())
-                pomodoros.forEach {
-                    Log.d("pomodorosFromMain", "${it.begin}-${it.end}: ${it.task?.title}")
-                    if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
-                        Log.d("pomodorosFromMainMT", "${it.begin}-${it.end}: ${it.task?.title}")
-                        val task = it.task
-                        task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
-                        mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast() + mySharePreferences.getPomodoroWork())
-                        task?.let { it1 -> taskViewModel.update(it1) }
-                    }
-                }
-            }
-        } else mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
+//        if(!pomodoros.isNullOrEmpty()){
+//            if(pomodoros.last().task?.type == "one_time" && pomodoros.last().task?.category != "work"){
+//                Log.d("rest", "rest")
+//            } else {
+//                mySharePreferences.setWorkEnd(pomodoros.last().end.toString())
+//                pomodoros.forEach {
+//                    if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
+//                        val task = it.task
+//                        task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
+////                        mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast() + mySharePreferences.getPomodoroWork())
+////                        task?.let { it1 -> taskViewModel.update(it1) }
+//                    }
+//                }
+//            }
+//        } else mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
 
-        if(LocalDate.now().toString() != mySharePreferences.getToday()){
-            mySharePreferences.setWorkTimePast(0)
-        }
-
-        pomodoros?.removeIf { it.end < LocalTime.now() && it.begin != it.end }
-        mySharePreferences.setPlan(pomodoros)
+//        if(LocalDate.now().toString() != mySharePreferences.getToday()){
+//            mySharePreferences.setWorkTimePast(0)
+//        }
     }
 }

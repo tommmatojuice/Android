@@ -17,14 +17,6 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
     val allTasks = repository.allTasks
     val lastTask = repository.lastTask
 
-    fun checkTimeFixed(begin: String, end: String, date: String): LiveData<List<Task>>{
-        return repository.checkTimeFixed(begin, end, date)
-    }
-
-    fun checkTimeRoutine(begin: String, end: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>>{
-        return repository.checkTimeRoutine(begin, end, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
-    }
-
     fun tasksMon(type: String): LiveData<List<Task>> {
         return repository.tasksMon(type)
     }
@@ -53,20 +45,8 @@ class TaskViewModel(application: Application) : AndroidViewModel(application)
         return repository.tasksSun(type)
     }
 
-    fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>> {
-        return repository.getByCategoryAndType(category, type)
-    }
-
     fun fixedTasksByDate(date: String): LiveData<List<Task>> {
         return repository.fixedTasksByDate(date)
-    }
-
-    fun fixedTasksByDateSimple(date: String): List<Task> {
-        return repository.fixedTasksByDateSimple(date)
-    }
-
-    fun taskById(id: Int): LiveData<Task> {
-        return repository.taskById(id)
     }
 
     fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>> {

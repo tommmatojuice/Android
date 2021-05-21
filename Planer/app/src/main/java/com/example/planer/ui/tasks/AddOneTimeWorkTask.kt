@@ -11,7 +11,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.DatePicker
 import android.widget.SeekBar
@@ -34,7 +33,6 @@ import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_one_time_work_task.view.*
 import java.lang.Exception
 import java.time.LocalTime
@@ -43,7 +41,8 @@ import java.time.format.FormatStyle
 import java.util.*
 import kotlin.properties.Delegates
 
-class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekBar.OnSeekBarChangeListener, FilesRecyclerAdapter.OnItemClickListener {
+class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekBar.OnSeekBarChangeListener, FilesRecyclerAdapter.OnItemClickListener
+{
     private val taskViewModel: TaskViewModel by viewModels()
     private val pathViewModel: PathViewModel by viewModels()
     private var files: MutableList<PathToFile> = mutableListOf()
@@ -197,7 +196,6 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
     {
         return when (item.itemId) {
             R.id.save_item -> {
-                Log.d("click", "click")
                 this.view.let { it?.let { it1 -> saveTask(it1, task) } }
                 true
             }
@@ -240,8 +238,6 @@ class AddOneTimeWorkTask : Fragment(), DatePickerDialog.OnDateSetListener, SeekB
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI(view: View)
     {
-        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
-//        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
         (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
 
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }

@@ -1,5 +1,6 @@
 package com.example.planer.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -51,6 +52,7 @@ class PlanRecyclerAdapter(context: Context,
         private val rec2: ImageView? = taskView.rectangle2
         private val selfImprovement: ImageView? = taskView.self_improvement
 
+        @SuppressLint("SetTextI18n")
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(version: TasksForPlan)
         {

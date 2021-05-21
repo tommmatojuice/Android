@@ -1,37 +1,26 @@
 package com.example.planer.ui.plan
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.Notification
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.SystemClock
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.database.entity.Task
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.notifications.BootAlarmService
 import com.example.planer.util.MySharePreferences
-import com.example.planer.util.ToastMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_plan.view.*
 import java.text.DateFormat
@@ -44,13 +33,9 @@ import java.util.*
 class PlanFragment : Fragment()
 {
     private var days: Array<String?> = arrayOfNulls<String>(7)
+    @SuppressLint("SimpleDateFormat")
     private val format: DateFormat = SimpleDateFormat("yyyy-MM-dd")
     private lateinit var mySharePreferences: MySharePreferences
-
-    private val taskViewModel: TaskViewModel by viewModels()
-    private var fixedTasks: List<Task>? = null
-    private var routineTasks: List<Task>? = null
-    private var oneTimeTasks: List<Task>? = null
 
     @SuppressLint("UseRequireInsteadOfGet")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -58,14 +43,11 @@ class PlanFragment : Fragment()
     {
         val view = inflater.inflate(R.layout.fragment_plan, container, false)
         mySharePreferences = this.context?.let { MySharePreferences(it) }!!
-//        val notificationsUtil = NotificationsUtil(this.context!!)
 
         initUI()
         initWeek(view)
         initDays(view)
         initTitle(days[initToday(view)].toString(), view)
-
-//        notificationsUtil.showNotification(0)
 
         if(mySharePreferences.getAutoPlan()){
             activity?.supportFragmentManager
@@ -209,7 +191,8 @@ class PlanFragment : Fragment()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initEachButton(dayNumber: Int, text: TextView, day: TextView, view: View){
-        Handler().postDelayed({ }, 150)
+        //что это???
+//        Handler().postDelayed({ }, 150)
 
         deactivateAll(view)
         text.setTextColor(resources.getColor(R.color.red))

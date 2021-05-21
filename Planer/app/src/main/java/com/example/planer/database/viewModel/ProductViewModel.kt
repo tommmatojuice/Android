@@ -13,8 +13,6 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
 {
     private val repository = ProductRepository(application.applicationContext, viewModelScope)
 
-    val allProducts = repository.allProducts
-
     fun productsByList(listId: Int): LiveData<List<Product>> {
         return repository.productsByList(listId)
     }

@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -30,10 +29,7 @@ import com.example.planer.database.viewModel.PathViewModel
 import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.ToastMessages
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.*
-import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.task_description
-import kotlinx.android.synthetic.main.fragment_add_one_time_other_task.view.task_title
 import java.lang.Exception
 import kotlin.properties.Delegates
 
@@ -189,7 +185,6 @@ class AddOneTimeOtherTask  : Fragment(), FilesRecyclerAdapter.OnItemClickListene
     {
         return when (item.itemId) {
             R.id.save_item -> {
-                Log.d("click", "click")
                 this.view.let { it?.let { it1 -> saveTask(it1, task) } }
                 true
             }
@@ -215,10 +210,7 @@ class AddOneTimeOtherTask  : Fragment(), FilesRecyclerAdapter.OnItemClickListene
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI()
     {
-        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
-//        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
         (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
-
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 

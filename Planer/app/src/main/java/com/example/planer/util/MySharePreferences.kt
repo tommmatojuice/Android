@@ -3,12 +3,8 @@ package com.example.planer.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.planer.database.entity.Task
-import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.ui.plan.TaskForPlanTimeString
 import com.example.planer.ui.plan.TasksForPlan
 import com.google.gson.Gson
@@ -52,8 +48,6 @@ class MySharePreferences(context: Context) {
         const val SUNDAY_BEGIN: String = "SUNDAY_BEGIN"
         const val SUNDAY_WORK: String = "SUNDAY_WORK"
         const val AUTO_PLAN: String = "AUTO_PLAN"
-        const val THEME: String = "THEME"
-        const val AUTO_FINISH_TASK: String = "AUTO_FINISH_TASK"
         const val PLAN_FOR_DAY: String = "PLAN_FOR_DAY"
         const val PLAN: String = "PLAN"
         const val FIRST_TASKS_TODAY: String = "FIRST_TASKS_TODAY"
@@ -70,10 +64,6 @@ class MySharePreferences(context: Context) {
     fun setWorkEnd(time: String?){
         myEditor.putString(WORK_END, time)
         myEditor.apply()
-    }
-
-    fun getWorkEnd(): String? {
-        return mySharedPreferences.getString(WORK_END, "00:00")
     }
 
     fun setWorkTimePast(time: Int){
@@ -193,10 +183,6 @@ class MySharePreferences(context: Context) {
     fun setPlanForDay(flag: Boolean){
         myEditor.putBoolean(PLAN_FOR_DAY, flag)
         myEditor.apply()
-    }
-
-    fun getPlanForDay(): Boolean {
-        return mySharedPreferences.getBoolean(PLAN_FOR_DAY, false)
     }
 
     fun setAllInfo(flag: Boolean){
@@ -477,23 +463,5 @@ class MySharePreferences(context: Context) {
 
     fun getAutoPlan(): Boolean {
         return mySharedPreferences.getBoolean(AUTO_PLAN, true)
-    }
-
-    fun setTheme(flag: Boolean){
-        myEditor.putBoolean(THEME, flag)
-        myEditor.apply()
-    }
-
-    fun getTheme(): Boolean {
-        return mySharedPreferences.getBoolean(THEME, true)
-    }
-
-    fun setAutoFinishTask(flag: Boolean){
-        myEditor.putBoolean(AUTO_FINISH_TASK, flag)
-        myEditor.apply()
-    }
-
-    fun getAutoFinishTask(): Boolean {
-        return mySharedPreferences.getBoolean(AUTO_FINISH_TASK, false)
     }
 }

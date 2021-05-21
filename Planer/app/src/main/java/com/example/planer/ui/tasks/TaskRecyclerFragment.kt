@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,13 +72,9 @@ class TaskRecyclerFragment(private var type: String, private var category: Strin
                 viewLifecycleOwner, { tasks ->
             if (tasks != null) {
                 this.allTasks = tasks
-                Log.d("all_in", this.allTasks!!.size.toString())
             }
         }
         )
-
-        Log.d("all", allTasks?.size.toString())
-
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {

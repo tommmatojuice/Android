@@ -7,13 +7,13 @@ import com.example.planer.database.entity.PathToFile
 @Dao
 interface PathToFileDao
 {
-    @Insert()
+    @Insert
     fun insert(path: PathToFile)
 
-    @Update()
+    @Update
     fun update(path: PathToFile)
 
-    @Delete()
+    @Delete
     fun delete(path: PathToFile)
 
     @Query("DELETE FROM path_to_file_table")

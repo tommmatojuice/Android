@@ -3,10 +3,7 @@ package com.example.planer.database.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.planer.database.MyDataBase
-import com.example.planer.database.dao.GroupTaskDao
 import com.example.planer.database.dao.ProductDao
-import com.example.planer.database.entity.GroupAndAllTasks
-import com.example.planer.database.entity.GroupTask
 import com.example.planer.database.entity.Product
 import kotlinx.coroutines.CoroutineScope
 
@@ -16,7 +13,7 @@ class ProductRepository(context: Context, scope: CoroutineScope)
     val allProducts: LiveData<List<Product>>
 
     init {
-        val database: MyDataBase = MyDataBase.getDatabase(context, scope)!!
+        val database: MyDataBase = MyDataBase.getDatabase(context, scope)
         productDao = database.productDao()
         allProducts = productDao.allProduct()
     }

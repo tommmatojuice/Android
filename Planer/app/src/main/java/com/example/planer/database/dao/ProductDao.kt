@@ -3,17 +3,16 @@ package com.example.planer.database.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.planer.database.entity.Product
-import com.example.planer.database.entity.Task
 
 @Dao
 interface ProductDao {
-    @Insert()
+    @Insert
     fun insert(product: Product)
 
-    @Update()
+    @Update
     fun update(product: Product)
 
-    @Delete()
+    @Delete
     fun delete(product: Product)
 
     @Query("DELETE FROM product_table")

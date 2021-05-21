@@ -4,11 +4,8 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.planer.database.MyDataBase
 import com.example.planer.database.dao.GroupTaskDao
-import com.example.planer.database.dao.TaskDao
 import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
-import com.example.planer.database.entity.Task
-import com.example.planer.database.entity.TaskAndGroup
 import kotlinx.coroutines.CoroutineScope
 
 class GroupTaskRepository(context: Context, scope: CoroutineScope)
@@ -18,7 +15,7 @@ class GroupTaskRepository(context: Context, scope: CoroutineScope)
     val lastGroup: LiveData<GroupTask>
 
     init {
-        val database: MyDataBase = MyDataBase.getDatabase(context, scope)!!
+        val database: MyDataBase = MyDataBase.getDatabase(context, scope)
         groupeDao = database.groupTaskDao()
         allGroupe = groupeDao.allGroups()
         lastGroup = groupeDao.getLastGroup()

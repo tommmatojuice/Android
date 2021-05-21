@@ -6,14 +6,12 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(tableName = "product_table",
-        foreignKeys = arrayOf(
-                ForeignKey(entity = ProductList::class,
-                        parentColumns = arrayOf("product_list_id"),
-                        childColumns = arrayOf("list"),
-                        onUpdate = ForeignKey.CASCADE,
-                        onDelete = ForeignKey.CASCADE
-                )
-        )
+        foreignKeys = [ForeignKey(entity = ProductList::class,
+                parentColumns = arrayOf("product_list_id"),
+                childColumns = arrayOf("list"),
+                onUpdate = ForeignKey.CASCADE,
+                onDelete = ForeignKey.CASCADE
+        )]
 )
 class Product(
     var name: String,

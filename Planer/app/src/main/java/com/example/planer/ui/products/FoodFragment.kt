@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Html
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -70,7 +69,6 @@ class FoodFragment : Fragment(), ProductsListAdapter.OnItemClickListener
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
                 val id = lists?.get(viewHolder.adapterPosition)?.list?.product_list_id
                 val productList =  lists?.find { list -> list.list.product_list_id == id}?.list
-                Log.d("productList", productList?.product_list_id.toString())
                 val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
                     when (which) {
                         Dialog.BUTTON_POSITIVE -> {

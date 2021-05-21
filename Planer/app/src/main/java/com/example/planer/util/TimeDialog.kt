@@ -1,10 +1,8 @@
 package com.example.planer.util
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.widget.DatePicker
 import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -17,7 +15,7 @@ class TimeDialog
         {
             val cal = Calendar.getInstance()
 
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
 

@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -85,7 +84,6 @@ class GroupTasksRecyclerFragment : Fragment(), TaskRecyclerAdapter.OnItemClickLi
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
                 val task = allTasks?.find { task -> task.task_id == tasks?.find { task -> task.task_id == tasks?.get(viewHolder.adapterPosition)?.task_id }?.task_id }
-                Log.d("task", task?.task_id.toString())
 
                 val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
                     when (which) {

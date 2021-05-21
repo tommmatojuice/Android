@@ -1,5 +1,6 @@
 package com.example.planer.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -39,10 +40,11 @@ class ProductsListAdapter(context: Context,
         private val cost: TextView = listView.list_cost
         private val card: CardView = listView.product_list_card
 
+        @SuppressLint("SetTextI18n")
         fun bind(version: ListAndAllProducts)
         {
             title.text = version.list.title
-            cost.text = "${version.products.sumOf { it.count * it.cost!!}} руб."
+            cost.text = "${version.products.sumOf { it.count * it.cost }} руб."
         }
 
         init {

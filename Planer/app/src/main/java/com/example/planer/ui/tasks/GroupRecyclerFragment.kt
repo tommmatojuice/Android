@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +49,7 @@ class GroupRecyclerFragment(private var type: String, private var category: Stri
 
         val buttonAddItem: FloatingActionButton = view.button_add_item
         buttonAddItem.setOnClickListener{
-            addGroup(view)
+            addGroup()
         }
 
         groupViewModel.tasksWithGroup(category, type).observe(
@@ -64,7 +63,7 @@ class GroupRecyclerFragment(private var type: String, private var category: Stri
         )
 
         groupViewModel.lastGroup.observe(
-                viewLifecycleOwner, { _ ->
+                viewLifecycleOwner, {
         }
         )
 
@@ -74,9 +73,8 @@ class GroupRecyclerFragment(private var type: String, private var category: Stri
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
-                val id = groups!!.get(viewHolder.adapterPosition).group.group_task_id
+                val id = groups!![viewHolder.adapterPosition].group.group_task_id
                 val group =  groups?.find { group -> group.group.group_task_id == id}?.group
-                Log.d("groupDelete", group?.group_task_id.toString())
 
                 val myClickListener: DialogInterface.OnClickListener = DialogInterface.OnClickListener { _, which ->
                     when (which) {
@@ -106,7 +104,7 @@ class GroupRecyclerFragment(private var type: String, private var category: Stri
         this.view?.let { Navigation.findNavController(it).navigate(R.id.group_tasks, bundle) }
     }
 
-    private fun addGroup(view: View)
+    private fun addGroup()
     {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
         builder.setTitle("Новая составная задача")

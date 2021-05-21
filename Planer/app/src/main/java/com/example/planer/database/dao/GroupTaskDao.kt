@@ -8,13 +8,13 @@ import com.example.planer.database.entity.GroupTask
 @Dao
 interface GroupTaskDao
 {
-    @Insert()
+    @Insert
     fun insert(group: GroupTask)
 
-    @Update()
+    @Update
     fun update(group: GroupTask)
 
-    @Delete()
+    @Delete
     fun delete(group: GroupTask)
 
     @Query("DELETE FROM group_task_table")

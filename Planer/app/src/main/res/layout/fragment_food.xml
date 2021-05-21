@@ -22,4 +22,5 @@
         android:layout_margin="32dp"
         android:backgroundTint="@color/back_white"
         android:src="@drawable/add_blue"/>
+
 </FrameLayout>

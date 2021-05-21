@@ -1,5 +1,6 @@
 package com.example.planer.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_task.view.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class TaskRecyclerAdapter(private val context: Context,
+class TaskRecyclerAdapter(context: Context,
                           private var taskList: List<TaskAndGroup>?,
                           private val listener: OnItemClickListener,
                           private var category: String
@@ -53,6 +54,7 @@ class TaskRecyclerAdapter(private val context: Context,
         private val rec2: ImageView? = taskView.rectangle2
         private val selfImprovement: ImageView? = taskView.self_improvement
 
+        @SuppressLint("SetTextI18n")
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(version: TaskAndGroup)
         {

@@ -6,17 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.planer.database.entity.GroupAndAllTasks
 import com.example.planer.database.entity.GroupTask
-import com.example.planer.database.entity.PathToFile
 import com.example.planer.database.repositories.GroupTaskRepository
-import com.example.planer.database.repositories.PathToFileRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class GroupViewModel(application: Application) : AndroidViewModel(application)
 {
     private val repository = GroupTaskRepository(application.applicationContext, viewModelScope)
-
-    val allGroups = repository.allGroupe
     val lastGroup = repository.lastGroup
 
     fun tasksWithGroup(category: String, type: String): LiveData<List<GroupAndAllTasks>> {

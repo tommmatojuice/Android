@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -32,15 +31,7 @@ import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
 import kotlinx.android.synthetic.main.fragment_add_routine_task.view.*
-import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_button
-import kotlinx.android.synthetic.main.fragment_add_routine_task.view.begin_work_time
-import kotlinx.android.synthetic.main.fragment_add_routine_task.view.end_work_button
-import kotlinx.android.synthetic.main.fragment_add_routine_task.view.end_work_time
-import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_description
-import kotlinx.android.synthetic.main.fragment_add_routine_task.view.task_title
 import java.lang.Exception
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -49,7 +40,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.properties.Delegates
 
-class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
+class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener
+{
     private val taskViewModel: TaskViewModel by viewModels()
     private var checkTasks: MutableList<Task>? = null
     private val pathViewModel: PathViewModel by viewModels()
@@ -156,7 +148,6 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     }
 
     private fun addFiles(task_id: Int){
-        Log.d("addFiles", "addFiles")
         files.forEach {
             if(task != null){
                 if(count <= 0){
@@ -216,7 +207,6 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     {
         return when (item.itemId) {
             R.id.save_item -> {
-                Log.d("click", "click")
                 this.view.let { it?.let { it1 -> saveTask(it1, task) } }
                 true
             }
@@ -248,8 +238,6 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI(view: View)
     {
-        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
-//        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
         (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
 
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }
@@ -305,12 +293,11 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
             !((newTaskBegin >= taskBegin && newTaskBegin < taskEnd) || (newTaskEnd > taskBegin && newTaskEnd <= taskEnd))
         }
 
-        checkFixed()
-
-        Log.d("checkTasks2", checkTasks?.size.toString())
-        checkTasks?.forEach {
-            Log.d("checkTasks2", it.title.toString())
+        if(task != null){
+            checkTasks?.removeIf { it.task_id == task.task_id }
         }
+
+        checkFixed()
 
         val group: Int? = if(arguments?.getInt("group") == 0)
             null
@@ -327,9 +314,6 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
                     if (view.checkBoxMon.isChecked || view.checkBoxTue.isChecked || view.checkBoxWed.isChecked || view.checkBoxThu.isChecked ||
                             view.checkBoxFri.isChecked || view.checkBoxSat.isChecked || view.checkBoxSun.isChecked)
                     {
-                        if(task != null){
-                            checkTasks?.removeIf { it.task_id == task.task_id }
-                        }
                         if(checkTasks.isNullOrEmpty()){
                             if(checkEat(view, mySharePreferences.getBreakfast().toString(), mySharePreferences.getBreakfastEnd().toString())
                                     && checkEat(view, mySharePreferences.getLunch().toString(), mySharePreferences.getLunchEnd().toString())
@@ -394,7 +378,7 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
         } else this.context?.let { ToastMessages.showMessage(it, "Необходимо ввести время начала и окончания") }
     }
 
-    fun checkEat(view: View, beginTime: String, endTime: String): Boolean{
+    private fun checkEat(view: View, beginTime: String, endTime: String): Boolean{
         return !((view.begin_work_time.text.toString() >= beginTime
                 && view.begin_work_time.text.toString() < endTime)
                 || (view.end_work_time.text.toString() > beginTime
@@ -416,28 +400,26 @@ class AddRoutineTask : Fragment(), FilesRecyclerAdapter.OnItemClickListener {
                     }
                     DayOfWeek.TUESDAY -> {
                         checkTasks?.removeIf { !view?.checkBoxTue?.isChecked!!}
-
                     }
                     DayOfWeek.WEDNESDAY -> {
                         checkTasks?.removeIf { !view?.checkBoxWed?.isChecked!!}
                     }
                     DayOfWeek.THURSDAY -> {
-                        Log.d("checkFixed", "THURSDAY")
                         checkTasks?.removeIf { !view?.checkBoxThu?.isChecked!!}
-
                     }
                     DayOfWeek.FRIDAY -> {
                         checkTasks?.removeIf { !view?.checkBoxFri?.isChecked!!}
-
                     }
                     DayOfWeek.SATURDAY -> {
                         checkTasks?.removeIf { !view?.checkBoxSat?.isChecked!!}
-
                     }
                     DayOfWeek.SUNDAY -> {
                         checkTasks?.removeIf { !view?.checkBoxSun?.isChecked!!}
                     }
                 }
+            }
+            if(checkTasks.isNullOrEmpty()){
+                return
             }
         }
     }

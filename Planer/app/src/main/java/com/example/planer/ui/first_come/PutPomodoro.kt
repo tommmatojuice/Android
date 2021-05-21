@@ -6,7 +6,6 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.planer.MainActivity
 import com.example.planer.R
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences

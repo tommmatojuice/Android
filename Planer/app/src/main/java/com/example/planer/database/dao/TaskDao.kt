@@ -6,13 +6,13 @@ import com.example.planer.database.entity.*
 
 @Dao
 interface TaskDao {
-    @Insert()
+    @Insert
     fun insert(task:Task)
 
-    @Update()
+    @Update
     fun update(task: Task)
 
-    @Delete()
+    @Delete
     fun delete(task: Task)
 
     @Query("DELETE FROM task_table")
@@ -20,9 +20,6 @@ interface TaskDao {
 
     @Query("SELECT * FROM task_table")
     fun allTasks(): LiveData<List<Task>>
-
-    @Query("SELECT * FROM task_table WHERE task_id = :id")
-    fun taskById(id: Int): LiveData<Task>
 
     @Query("SELECT * FROM task_table ORDER BY task_id DESC LIMIT 1")
     fun getLastTask(): LiveData<Task>
@@ -33,14 +30,8 @@ interface TaskDao {
     @Query("SELECT task_id, task_table.title, deadline, '' as groupTitle, priority, date, `begin`, `end` FROM task_table WHERE `group` = :idGroup AND task_table.title != ''  ORDER BY deadline, priority DESC")
     fun taskByGroup(idGroup: Int): LiveData<List<TaskAndGroup>>
 
-    @Query("SELECT * FROM task_table WHERE category = :category AND type = :type AND task_table.title != '' ORDER BY complexity, deadline DESC")
-    fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>>
-
     @Query("SELECT * FROM task_table WHERE date = :d AND type='fixed' ORDER BY `begin` DESC")
     fun fixedTasksByDate(d: String): LiveData<List<Task>>
-
-    @Query("SELECT * FROM task_table WHERE date = :d AND type='fixed' ORDER BY `begin` DESC")
-    fun fixedTasksByDateSimple(d: String): List<Task>
 
     @Query("SELECT * FROM task_table WHERE type= :type AND monday = 1 ORDER BY complexity DESC, deadline, `begin` DESC")
     fun tasksMon(type: String): LiveData<List<Task>>
@@ -62,10 +53,4 @@ interface TaskDao {
 
     @Query("SELECT * FROM task_table WHERE type=:type AND sunday = 1 ORDER BY complexity DESC, deadline, `begin` DESC")
     fun tasksSun(type: String): LiveData<List<Task>>
-
-    @Query("SELECT * FROM task_table WHERE ((:begin>=`begin` AND :begin<`end`) OR (:end>`begin` AND :end<=`end`)) AND type = 'fixed' AND date = :date")
-    fun checkTimeFixed(begin: String, end: String, date: String): LiveData<List<Task>>
-
-    @Query("SELECT * FROM task_table WHERE ((:begin>=`begin` AND :begin<`end`) OR (:end>`begin` AND :end<=`end`)) AND type = 'routine' AND (monday = :monday OR tuesday = :tuesday OR wednesday = :wednesday OR thursday = :thursday OR friday = :friday OR saturday = :saturday OR sunday = :sunday)")
-    fun checkTimeRoutine(begin: String, end: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>>
 }

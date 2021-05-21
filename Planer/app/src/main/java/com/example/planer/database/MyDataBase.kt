@@ -1,6 +1,7 @@
 package com.example.planer.database
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -55,38 +56,7 @@ abstract class MyDataBase() : RoomDatabase()
         }
 
         fun populateDatabase(taskDao: TaskDao, groupTaskDao: GroupTaskDao, pathToFileDao: PathToFileDao, productDao: ProductDao, productListDao: ProductListDao){
-//            groupTaskDao.insert(GroupTask("groupTitle1"))
-//            groupTaskDao.insert(GroupTask("groupTitle2"))
-//            taskDao.insert(Task("one_time", "taskTitle1", "Description1", "work", "2020-03-21",
-//                30, 1,true, true, false, true, false, false,
-//                true, false, null, null, null, 1))
-//            taskDao.insert(Task("one_time", "taskTitle2", "Description1", "rest", "2020-03-21",
-//                30, 1,true, true, false, true, false, false,
-//                true, true, null, null, null, 2))
-//            taskDao.insert(Task("one_time", "taskTitle3", "Description1", "other", "2020-03-21",
-//                30, 1,true, true, false, true, false, false,
-//                true, false, null, null, null, 1))
-//
-//            taskDao.insert(Task("fixed", "taskTitle4", "Description1", "work", null,
-//                30, 1,true, true, false, true, false, false,
-//                true, false, "2020-03-21", null, null, 1))
-//            taskDao.insert(Task("fixed", "taskTitle5", "Description1", "rest", null,
-//                30, 1,true, true, false, true, false, false,
-//                true, true, "2020-03-21", null, null, 2))
-//            taskDao.insert(Task("fixed", "taskTitle6", "Description1", "other", null,
-//                30, 1,true, true, false, true, false, false,
-//                true, false, "2020-03-21", null, null, 1))
-//
-//            taskDao.insert(Task("routine", "taskTitle7", "Description1", "work", null,
-//                30, 1,true, true, false, true, false, false,
-//                true, false, null, "10:00", "12:00", 1))
-//            taskDao.insert(Task("routine", "taskTitle8", "Description1", "rest", null,
-//                30, 1,true, true, false, true, false, false,
-//                true, true, null, "10:00", "12:00", 2))
-//            taskDao.insert(Task("routine", "taskTitle9", "Description1", "other", null,
-//                30, 1,true, true, false, true, false, false,
-//                true, false, null, "10:00", "12:00", 1))
-//            pathToFileDao.insert(PathToFile("path1", 1))
+            Log.d("populateDatabase", "populateDatabase")
         }
 
         private class MyDatabaseCallBack(

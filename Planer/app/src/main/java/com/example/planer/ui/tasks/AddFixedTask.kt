@@ -11,7 +11,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
@@ -34,9 +33,7 @@ import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.example.planer.util.TimeDialog
 import com.example.planer.util.ToastMessages
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_fixed_task.view.*
-import kotlinx.android.synthetic.main.fragment_plan.view.*
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
@@ -172,7 +169,6 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
     {
         return when (item.itemId) {
             R.id.save_item -> {
-                Log.d("click", "click")
                 saveTask(myView, task)
                 true
             }
@@ -244,8 +240,6 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
     @SuppressLint("UseRequireInsteadOfGet")
     private fun initUI(view: View)
     {
-        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
-//        navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_green) }
         (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13A678")))
 
         var color: Int? = this.context?.let { ContextCompat.getColor(it, R.color.blue) }
@@ -320,8 +314,6 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
             null
         else arguments?.getInt("group")
 
-        Log.d("checkTasks", view.begin_work_time.text.toString())
-
         if (view.begin_work_time.text.isNotEmpty() && view.end_work_time.text.isNotEmpty()){
             val date1 = LocalTime.parse(
                     view.begin_work_time.text.toString(), DateTimeFormatter.ofLocalizedTime(
@@ -354,11 +346,6 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                         }
                         checkRoutine()
 
-                        Log.d("checkTasks2", checkTasks?.size.toString())
-                        checkTasks?.forEach {
-                            Log.d("checkTasks2", it.title)
-                        }
-
                         if(task != null){
                             checkTasks?.removeIf { it.task_id == task.task_id }
                         }
@@ -367,7 +354,6 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                             if(checkEat(view, mySharePreferences.getBreakfast().toString(), mySharePreferences.getBreakfastEnd().toString())
                                     && checkEat(view, mySharePreferences.getLunch().toString(), mySharePreferences.getLunchEnd().toString())
                                     && checkEat(view, mySharePreferences.getDiner().toString(), mySharePreferences.getDinerEnd().toString())){
-                                Log.d("checkTasks4", checkTasks?.size.toString())
                                 if(task != null){
                                     task.title = view.task_title.text.toString()
                                     task.description = view.task_description.text.toString()
@@ -475,10 +461,5 @@ class AddFixedTask : Fragment(), DatePickerDialog.OnDateSetListener, FilesRecycl
                 checkTasks?.removeIf { it.sunday == false }
             }
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getTime(time: String?): LocalTime{
-        return LocalTime.parse(time, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
     }
 }

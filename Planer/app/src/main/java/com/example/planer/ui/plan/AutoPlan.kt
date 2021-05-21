@@ -36,7 +36,8 @@ import java.time.temporal.ChronoUnit
 
 class AutoPlan(private val date: String,
                private val weekDay: String
-): Fragment(), PlanRecyclerAdapter.OnItemClickListener, PlanRecyclerAdapter.OnItemLongClickListener {
+): Fragment(), PlanRecyclerAdapter.OnItemClickListener, PlanRecyclerAdapter.OnItemLongClickListener
+{
     private lateinit var mySharePreferences: MySharePreferences
     private val taskViewModel: TaskViewModel by viewModels()
 
@@ -135,23 +136,30 @@ class AutoPlan(private val date: String,
 
         pomodoros?.sortBy { it.begin }
 
-        if(!pomodoros.isNullOrEmpty()){
-            if(pomodoros.last().task?.type == "one_time" && pomodoros.last().task?.category != "work"){
-                //no
-            } else {
-                mySharePreferences.setWorkEnd(pomodoros.last().end.toString())
-                pomodoros.forEach {
-                    Log.d("pomodorosFromAutoPlan", "${it.begin}-${it.end}: ${it.task?.title}")
-                    if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
-                        Log.d("pomodorosFromAutoPlanMT", "${it.begin}-${it.end}: ${it.task?.title}")
-                        val task = it.task
-                        task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
-                        mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
-                        task?.let { it1 -> taskViewModel.update(it1) }
-                    }
-                }
-            }
-        } else mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
+        pomodoros?.removeIf { it.end < LocalTime.now() && it.begin != it.end && date == LocalDate.now().toString()}
+
+//        pomodoros?.forEach {
+//            Log.d("pomodorosFromAutoPlan2", "${it.begin}-${it.end}: ${it.task?.title}")
+//        }
+        mySharePreferences.setPlan(pomodoros)
+
+//        if(!pomodoros.isNullOrEmpty()){
+//            if(pomodoros.last().task?.type == "one_time" && pomodoros.last().task?.category != "work"){
+//                //no
+//            } else {
+//                mySharePreferences.setWorkEnd(pomodoros.last().end.toString())
+//                pomodoros.forEach {
+//                    Log.d("pomodorosFromAutoPlan", "${it.begin}-${it.end}: ${it.task?.title}")
+//                    if((it.end < LocalTime.now() && it.begin < LocalTime.now() && it.task?.type == "one_time") || LocalDate.now().toString() != mySharePreferences.getToday()){
+//                        Log.d("pomodorosFromAutoPlanMT", "${it.begin}-${it.end}: ${it.task?.title}")
+//                        val task = it.task
+//                        task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
+////                        mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast()+mySharePreferences.getPomodoroWork())
+////                        task?.let { it1 -> taskViewModel.update(it1) }
+//                    }
+//                }
+//            }
+//        } else mySharePreferences.getSleep()?.let { mySharePreferences.setWorkEnd(it) }
 
 //        Log.d("WorkEnd", mySharePreferences.getWorkEnd().toString())
 
@@ -160,16 +168,9 @@ class AutoPlan(private val date: String,
 //            mySharePreferences.setWorkEnd(null)
 //        }
 
-        if(LocalDate.now().toString() != mySharePreferences.getToday()){
-            mySharePreferences.setWorkTimePast(0)
-        }
-
-        pomodoros?.removeIf { it.end < LocalTime.now() && it.begin != it.end && date == LocalDate.now().toString()}
-
-        pomodoros?.forEach {
-            Log.d("pomodorosFromAutoPlan2", "${it.begin}-${it.end}: ${it.task?.title}")
-        }
-        mySharePreferences.setPlan(pomodoros)
+//        if(LocalDate.now().toString() != mySharePreferences.getToday()){
+//            mySharePreferences.setWorkTimePast(0)
+//        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

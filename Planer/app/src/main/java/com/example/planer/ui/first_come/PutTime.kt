@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import android.view.*
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.planer.R
@@ -88,7 +87,7 @@ class PutTime : Fragment()
         view.wakeup_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.wakeup_time),
+                    view.findViewById(R.id.wakeup_time),
                     it1
                 )
             }
@@ -97,7 +96,7 @@ class PutTime : Fragment()
         view.bad_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.bad_time),
+                    view.findViewById(R.id.bad_time),
                     it1
                 )
             }
@@ -106,7 +105,7 @@ class PutTime : Fragment()
         view.breakfast_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.breakfast_time),
+                    view.findViewById(R.id.breakfast_time),
                     it1
                 )
             }
@@ -115,7 +114,7 @@ class PutTime : Fragment()
         view.lunch_button.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.lunch_time),
+                    view.findViewById(R.id.lunch_time),
                     it1
                 )
             }
@@ -124,7 +123,7 @@ class PutTime : Fragment()
         view.diner_buttom.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                    view.findViewById<TextView>(R.id.diner_time),
+                    view.findViewById(R.id.diner_time),
                     it1
                 )
             }
@@ -133,7 +132,7 @@ class PutTime : Fragment()
         view.breakfast_end_buttom.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                        view.findViewById<TextView>(R.id.breakfast_end_time),
+                        view.findViewById(R.id.breakfast_end_time),
                         it1
                 )
             }
@@ -142,7 +141,7 @@ class PutTime : Fragment()
         view.lunch_end_buttom.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                        view.findViewById<TextView>(R.id.lunch_end_time),
+                        view.findViewById(R.id.lunch_end_time),
                         it1
                 )
             }
@@ -151,7 +150,7 @@ class PutTime : Fragment()
         view.diner_end_buttom.setOnClickListener {
             this.context?.let { it1 ->
                 TimeDialog.getTime(
-                        view.findViewById<TextView>(R.id.diner_end_time),
+                        view.findViewById(R.id.diner_end_time),
                         it1
                 )
             }

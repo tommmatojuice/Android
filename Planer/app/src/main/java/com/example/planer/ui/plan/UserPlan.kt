@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,15 +24,14 @@ import com.example.planer.database.viewModel.TaskViewModel
 import com.example.planer.util.InfoDialog
 import com.example.planer.util.MySharePreferences
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_food.view.*
 import kotlinx.android.synthetic.main.fragment_food.view.button_add_item
 import kotlinx.android.synthetic.main.fragment_task_recycler.view.*
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-
-class UserPlan(private val date: String, private val weekDay: String): Fragment(), PlanRecyclerAdapter.OnItemClickListener, PlanRecyclerAdapter.OnItemLongClickListener {
+class UserPlan(private val date: String, private val weekDay: String): Fragment(), PlanRecyclerAdapter.OnItemClickListener, PlanRecyclerAdapter.OnItemLongClickListener
+{
     private lateinit var mySharePreferences: MySharePreferences
     private val taskViewModel: TaskViewModel by viewModels()
     private var fixedTasks: List<Task>? = listOf()
@@ -65,7 +63,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                 viewLifecycleOwner, { fixedTasks ->
             if (fixedTasks != null) {
                 this.fixedTasks = fixedTasks
-                Log.d("fixedTasks", this.fixedTasks!!.size.toString())
                 getRoutineTasks()
             }
         }
@@ -111,7 +108,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
-                        Log.d("routineTasks", this.routineTasks?.size.toString())
                         initTasks()
                     }
                 })
@@ -121,7 +117,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
-                        Log.d("routineTasks", this.routineTasks?.size.toString())
                         initTasks()
                     }
                 }
@@ -132,7 +127,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
-                        Log.d("routineTasks", this.routineTasks?.size.toString())
                         initTasks()
                     }
                 }
@@ -143,7 +137,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
-                        Log.d("routineTasks", this.routineTasks?.size.toString())
                         initTasks()
                     }
                 })
@@ -153,7 +146,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
-                        Log.d("routineTasks", this.routineTasks?.size.toString())
                         initTasks()
                     }
                 })
@@ -163,7 +155,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
-                        Log.d("routineTasks", this.routineTasks?.size.toString())
                         initTasks()
                     }
                 })
@@ -173,7 +164,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
                         viewLifecycleOwner, { routineTasks ->
                     if (routineTasks != null) {
                         this.routineTasks = routineTasks
-                        Log.d("routineTasks", this.routineTasks?.size.toString())
                         initTasks()
                     }
                 })
@@ -185,8 +175,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initTasks(){
         this.tasks.clear()
-        Log.d("fixedTasks1", this.fixedTasks?.size.toString())
-        Log.d("routineTasks1", this.routineTasks?.size.toString())
         fixedTasks?.forEach {
             this.tasks.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
                     LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), null, it))
@@ -195,7 +183,6 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
             this.tasks.add(TasksForPlan(LocalTime.parse(it.begin, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
                     LocalTime.parse(it.end, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)), null, it))
         }
-        Log.d("tasksTasks", this.tasks.size.toString())
         this.tasks.sortBy { it.begin }
         if(tasks.isNullOrEmpty()){
             view?.textView?.visibility = View.VISIBLE
@@ -258,21 +245,20 @@ class UserPlan(private val date: String, private val weekDay: String): Fragment(
         arrayAdapter?.add("Отдых")
         arrayAdapter?.add("Другое")
 
-        builderSingle.setNegativeButton("Отмена",
-                DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+        builderSingle.setNegativeButton("Отмена"
+        ) { dialog, _ -> dialog.dismiss() }
 
-        builderSingle.setAdapter(arrayAdapter,
-                DialogInterface.OnClickListener { dialog, which ->
-                    val category = when(arrayAdapter?.getItem(which)!!){
-                        "Работа" ->  "work"
-                        "Отдых" ->  "rest"
-                        "Другое" -> "other"
-                        else -> null
-                    }
-                    addTask(category)
-                    Log.i("Selected Item ", arrayAdapter?.getItem(which)!!)
-                    dialog.dismiss()
-                })
+        builderSingle.setAdapter(arrayAdapter
+        ) { dialog, which ->
+            val category = when (arrayAdapter?.getItem(which)!!) {
+                "Работа" -> "work"
+                "Отдых" -> "rest"
+                "Другое" -> "other"
+                else -> null
+            }
+            addTask(category)
+            dialog.dismiss()
+        }
         builderSingle.show()
     }
 

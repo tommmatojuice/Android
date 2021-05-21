@@ -1,534 +1,530 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.first_come.WorkDays"
-    android:id="@+id/into_type_task_frag">
 
-    <ScrollView
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.first_come.WorkDays"
+    android:id="@+id/into_type_task_frag"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+
+        <!--            Monday-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/monday"
+            android:textSize="@dimen/h1_text" />
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
-<!--            Monday-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/monday"
-                android:textSize="@dimen/h1_text" />
+                android:layout_weight="5"
+                android:text="@string/begin_time"
+                android:textSize="@dimen/h2_text" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/begin_time"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/mon_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/mon_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/work_day"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/mon_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:layout_marginStart="16dp"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/mon_work_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-<!--            Tuesday-->
             <TextView
+                android:id="@+id/mon_begin_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/tuesday"
-                android:textSize="@dimen/h1_text" />
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:textSize="@dimen/h2_text" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/begin_time"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/tue_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/tue_begin_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/work_day"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/tue_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:layout_marginStart="16dp"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/tue_work_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-<!--            Wenedtsday-->
-            <TextView
+            <Button
+                android:id="@+id/mon_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/wednesday"
-                android:textSize="@dimen/h1_text" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/begin_time"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/wen_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/wen_begin_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/work_day"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/wen_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:layout_marginStart="16dp"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/wen_work_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-<!--            Thursday-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/thursday"
-                android:textSize="@dimen/h1_text" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/begin_time"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/thu_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/thu_begin_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/work_day"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/thu_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:layout_marginStart="16dp"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/thu_work_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-<!--            Friday-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/friday"
-                android:textSize="@dimen/h1_text" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/begin_time"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/fri_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/fri_begin_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/work_day"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/fri_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:layout_marginStart="16dp"
-                    android:textColor="@color/text"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/fri_work_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-<!--            Saturday-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/saturday"
-                android:textSize="@dimen/h1_text" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/begin_time"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/sat_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/sat_begin_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/work_day"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/sat_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:layout_marginStart="16dp"
-                    android:textColor="@color/text"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/sat_work_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-<!--            Sunday-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/sunday"
-                android:textSize="@dimen/h1_text" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/begin_time"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/sun_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/sun_begin_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:text="@string/work_day"
-                    android:textSize="@dimen/h2_text" />
-
-                <TextView
-                    android:id="@+id/sun_work_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/_00_00"
-                    android:layout_marginStart="16dp"
-                    android:textSize="@dimen/h2_text" />
-
-                <Button
-                    android:id="@+id/sun_work_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/set" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_3_5"
-                    android:textSize="18sp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="8dp"/>
-
-                <Button
-                    android:id="@+id/next3_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/next"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="0"/>
-
-            </LinearLayout>
+                android:layout_weight="1"
+                android:text="@string/set" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
-</FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/work_day"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/mon_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:layout_marginStart="16dp"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/mon_work_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <!--            Tuesday-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/tuesday"
+            android:textSize="@dimen/h1_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/begin_time"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/tue_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/tue_begin_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/work_day"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/tue_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:layout_marginStart="16dp"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/tue_work_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <!--            Wenedtsday-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/wednesday"
+            android:textSize="@dimen/h1_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/begin_time"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/wen_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/wen_begin_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/work_day"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/wen_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:layout_marginStart="16dp"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/wen_work_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <!--            Thursday-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/thursday"
+            android:textSize="@dimen/h1_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/begin_time"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/thu_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/thu_begin_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/work_day"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/thu_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:layout_marginStart="16dp"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/thu_work_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <!--            Friday-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/friday"
+            android:textSize="@dimen/h1_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/begin_time"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/fri_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/fri_begin_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/work_day"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/fri_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/fri_work_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <!--            Saturday-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/saturday"
+            android:textSize="@dimen/h1_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/begin_time"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/sat_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/sat_begin_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/work_day"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/sat_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/text"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/sat_work_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <!--            Sunday-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/sunday"
+            android:textSize="@dimen/h1_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/begin_time"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/sun_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/sun_begin_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/work_day"
+                android:textSize="@dimen/h2_text" />
+
+            <TextView
+                android:id="@+id/sun_work_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/_00_00"
+                android:layout_marginStart="16dp"
+                android:textSize="@dimen/h2_text" />
+
+            <Button
+                android:id="@+id/sun_work_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/set" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_3_5"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="8dp"/>
+
+            <Button
+                android:id="@+id/next3_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/next"
+                android:layout_marginTop="16dp"
+                android:layout_weight="0"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

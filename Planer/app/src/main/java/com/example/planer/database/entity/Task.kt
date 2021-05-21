@@ -4,18 +4,14 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.sql.Time
-import java.util.*
 
 @Entity(tableName = "task_table",
-        foreignKeys = arrayOf(
-                ForeignKey(entity = GroupTask::class,
-                        parentColumns = arrayOf("group_task_id"),
-                        childColumns = arrayOf("group"),
-                        onUpdate = ForeignKey.CASCADE,
-                        onDelete = ForeignKey.CASCADE
-                )
-        )
+        foreignKeys = [ForeignKey(entity = GroupTask::class,
+                parentColumns = arrayOf("group_task_id"),
+                childColumns = arrayOf("group"),
+                onUpdate = ForeignKey.CASCADE,
+                onDelete = ForeignKey.CASCADE
+        )]
 )
 data class Task (
     var type: String,

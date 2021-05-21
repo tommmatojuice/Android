@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.fragment_profile.view.pom_40
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_50
 import kotlinx.android.synthetic.main.fragment_profile.view.pom_60
 import kotlinx.android.synthetic.main.fragment_profile.view.radioGroup
-import kotlinx.android.synthetic.main.fragment_put_pomodoro.view.*
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -171,7 +170,7 @@ class ProfileFragment : Fragment()
         val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
         navView?.itemTextColor = this.context?.let { ContextCompat.getColorStateList(it, R.color.dark_orange) }
         (activity as AppCompatActivity).supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#F27935")))
-        (activity as AppCompatActivity).supportActionBar?.setTitle(Html.fromHtml("<font color=\"#F2F1EF\">" + "Профиль" + "</font>"))
+        (activity as AppCompatActivity).supportActionBar?.title = Html.fromHtml("<font color=\"#F2F1EF\">" + "Профиль" + "</font>")
     }
 
     private fun initButtons(view: View)

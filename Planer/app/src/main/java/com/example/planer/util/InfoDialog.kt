@@ -4,8 +4,6 @@ import android.R
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.view.View
-
 
 class InfoDialog
 {
@@ -16,7 +14,7 @@ class InfoDialog
                     .setTitle(title)
                     .setMessage(messages)
                     .setIcon(icon)
-                    .setPositiveButton(android.R.string.yes) { dialog, which -> true }
+                    .setPositiveButton(android.R.string.yes) { _, _ -> true }
                     .show()
         }
 

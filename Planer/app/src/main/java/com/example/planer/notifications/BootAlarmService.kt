@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.planer.util.MySharePreferences
 import java.time.LocalTime
@@ -20,7 +19,6 @@ class BootAlarmService: Service()
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "oncreate()")
         mySharePreferences = MySharePreferences(this)
     }
 
@@ -30,8 +28,7 @@ class BootAlarmService: Service()
         if (intent != null){
             createNotificationOnBoot(intent.getIntExtra("index", 0))
         }
-        else
-            Toast.makeText(baseContext, "Intent was null in BootAlarmService.", Toast.LENGTH_LONG).show()
+        else Log.d(TAG, "Intent was null in BootAlarmService.")
         return START_STICKY
     }
 
@@ -91,7 +88,6 @@ class BootAlarmService: Service()
         }
         Log.d(TAG, "alarm set for " + calendar.getTime().toString())
     }
-
 
     override fun onBind(p0: Intent?): IBinder? {
         return null

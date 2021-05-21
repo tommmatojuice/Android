@@ -6,14 +6,12 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(tableName = "path_to_file_table",
-        foreignKeys = arrayOf(
-            ForeignKey(entity = Task::class,
+        foreignKeys = [ForeignKey(entity = Task::class,
                 parentColumns = arrayOf("task_id"),
                 childColumns = arrayOf("task"),
                 onUpdate = ForeignKey.CASCADE,
                 onDelete = ForeignKey.CASCADE
-            )
-        )
+        )]
 )
 class PathToFile(
     var path: String,

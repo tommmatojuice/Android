@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Не оглядывайся назад, иди только вперед!"
+        android:text="@string/past_text"
         android:textAlignment="center"
         android:textColor="@color/dark_blue"
         android:textSize="@dimen/h2_text"

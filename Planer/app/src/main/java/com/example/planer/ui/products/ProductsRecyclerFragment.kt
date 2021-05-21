@@ -1,5 +1,6 @@
 package com.example.planer.ui.products
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -38,6 +39,7 @@ class ProductsRecyclerFragment : Fragment(), ProductsAdapter.OnItemClickListener
     private lateinit var list: RecyclerView
     private var products: List<Product>? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val view = inflater.inflate(R.layout.fragment_products_recycler, container, false)

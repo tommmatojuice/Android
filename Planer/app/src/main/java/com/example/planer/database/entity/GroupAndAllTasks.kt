@@ -1,6 +1,5 @@
 package com.example.planer.database.entity
 
-import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Relation
 import java.io.Serializable

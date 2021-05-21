@@ -61,5 +61,4 @@ class FilesRecyclerAdapter(context: Context,
     interface OnItemClickListener{
         fun onItemClick(position: Int)
     }
-
 }

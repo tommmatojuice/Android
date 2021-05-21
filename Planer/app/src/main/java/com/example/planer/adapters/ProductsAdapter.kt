@@ -46,7 +46,7 @@ class ProductsAdapter(context: Context,
         private val isBought: CheckBox = productView.is_bought
         private val card: CardView = productView.product_card
 
-        @SuppressLint("Range")
+        @SuppressLint("Range", "SetTextI18n")
         fun bind(version: Product)
         {
             title.text = version.name

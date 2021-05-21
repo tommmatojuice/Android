@@ -23,14 +23,6 @@ class TaskRepository(context: Context, scope: CoroutineScope)
         lastTask = taskDao.getLastTask()
     }
 
-    fun checkTimeFixed(begin: String, end: String, date: String): LiveData<List<Task>>{
-        return taskDao.checkTimeFixed(begin, end, date)
-    }
-
-    fun checkTimeRoutine(begin: String, end: String, monday: Int, tuesday: Int, wednesday: Int, thursday: Int, friday: Int, saturday: Int, sunday: Int): LiveData<List<Task>>{
-        return taskDao.checkTimeRoutine(begin, end, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
-    }
-
     fun tasksMon(type: String): LiveData<List<Task>> {
         return taskDao.tasksMon(type)
     }
@@ -59,20 +51,8 @@ class TaskRepository(context: Context, scope: CoroutineScope)
         return taskDao.tasksSun(type)
     }
 
-    fun getByCategoryAndType(category: String, type: String): LiveData<List<Task>> {
-        return taskDao.getByCategoryAndType(category, type)
-    }
-
     fun fixedTasksByDate(date: String): LiveData<List<Task>> {
         return taskDao.fixedTasksByDate(date)
-    }
-
-    fun fixedTasksByDateSimple(date: String): List<Task> {
-        return taskDao.fixedTasksByDateSimple(date)
-    }
-
-    fun taskById(id: Int): LiveData<Task> {
-        return taskDao.taskById(id)
     }
 
     fun taskAndGroup(category: String, type: String): LiveData<List<TaskAndGroup>> {

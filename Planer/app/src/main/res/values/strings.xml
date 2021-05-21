@@ -72,4 +72,22 @@
     <string name="_200">200 руб.</string>
     <string name="cost">Стоимость</string>
     <string name="count">Количество</string>
+    <string name="plan">Plan</string>
+    <string name="past_text">Не оглядывайся назад, иди только вперед!</string>
+    <string name="today">Сегодня</string>
+    <string name="m">п</string>
+    <string name="tue">в</string>
+    <string name="w">с</string>
+    <string name="th">ч</string>
+    <string name="sun">в</string>
+    <string name="_01">01</string>
+    <string name="_02">02</string>
+    <string name="_03">03</string>
+    <string name="_04">04</string>
+    <string name="_05">05</string>
+    <string name="_06">06</string>
+    <string name="_07">07</string>
+    <string name="empty">Похоже тут пусто</string>
+    <string name="edit">Edit</string>
+    <string name="information">Information</string>
 </resources>

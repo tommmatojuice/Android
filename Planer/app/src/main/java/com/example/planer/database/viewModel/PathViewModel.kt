@@ -5,17 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.planer.database.entity.PathToFile
-import com.example.planer.database.entity.Task
 import com.example.planer.database.repositories.PathToFileRepository
-import com.example.planer.database.repositories.TaskRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PathViewModel(application: Application) : AndroidViewModel(application)
 {
     private val repository = PathToFileRepository(application.applicationContext, viewModelScope)
-
-    val allPaths = repository.allPaths
 
     fun pathsById(id: Int): LiveData<List<PathToFile>> {
         return repository.pathsById(id)

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="27dp"
-        android:hint="Сегодня"
+        android:hint="@string/today"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,56 +31,56 @@
             android:id="@+id/text_mon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="п"
-            android:textSize="20dp"
+            android:text="@string/m"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/text_tue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="в"
-            android:textSize="20dp"
+            android:text="@string/tue"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/text_wen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="с"
-            android:textSize="20dp"
+            android:text="@string/w"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/text_thu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ч"
-            android:textSize="20dp"
+            android:text="@string/th"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/text_fri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="п"
-            android:textSize="20dp"
+            android:text="@string/m"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/text_sat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="с"
-            android:textSize="20dp"
+            android:text="@string/w"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/text_sun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="в"
-            android:textSize="20dp" />
+            android:text="@string/sun"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -99,8 +99,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="01"
-            android:textSize="20dp"
+            android:hint="@string/_01"
+            android:textSize="20sp"
             android:focusable="true"
             android:layout_weight="1"/>
 
@@ -109,8 +109,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="02"
-            android:textSize="20dp"
+            android:hint="@string/_02"
+            android:textSize="20sp"
             android:focusable="true"
             android:layout_weight="1"/>
 
@@ -119,8 +119,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="03"
-            android:textSize="20dp"
+            android:hint="@string/_03"
+            android:textSize="20sp"
             android:focusable="true"
             android:layout_weight="1"/>
 
@@ -129,8 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="04"
-            android:textSize="20dp"
+            android:hint="@string/_04"
+            android:textSize="20sp"
             android:focusable="true"
             android:layout_weight="1"/>
 
@@ -139,8 +139,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="05"
-            android:textSize="20dp"
+            android:hint="@string/_05"
+            android:textSize="20sp"
             android:focusable="true"
             android:layout_weight="1"/>
 
@@ -149,8 +149,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="06"
-            android:textSize="20dp"
+            android:hint="@string/_06"
+            android:textSize="20sp"
             android:focusable="true"
             android:layout_weight="1"/>
 
@@ -159,8 +159,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:hint="07"
-            android:textSize="20dp"
+            android:hint="@string/_07"
+            android:textSize="20sp"
             android:focusable="true" />
 
     </LinearLayout>
@@ -173,7 +173,8 @@
         android:background="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
+        tools:ignore="SmallSp" />
 
     <FrameLayout
         android:id="@+id/plan_frag"
