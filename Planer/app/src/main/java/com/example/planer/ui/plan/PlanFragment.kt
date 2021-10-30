@@ -191,9 +191,6 @@ class PlanFragment : Fragment()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initEachButton(dayNumber: Int, text: TextView, day: TextView, view: View){
-        //что это???
-//        Handler().postDelayed({ }, 150)
-
         deactivateAll(view)
         text.setTextColor(resources.getColor(R.color.red))
         day.setTextColor(resources.getColor(R.color.red))

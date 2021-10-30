@@ -95,14 +95,12 @@ class NotificationAlarmService: Service()
         if(LocalTime.now() >= mySharePreferences.getPlan()?.get(0)?.end
                 && mySharePreferences.getPlan()?.first()?.task?.type == "one_time"
                 && mySharePreferences.getPlan()?.first()!!.task?.category == "work"){
-            Log.d(TAG, "minusTime")
             val task = mySharePreferences.getPlan()?.get(0)?.task
             task?.duration = task?.duration?.minus(mySharePreferences.getPomodoroWork())
             mySharePreferences.setWorkTimePast(mySharePreferences.getWorkTimePast() + mySharePreferences.getPomodoroWork() + mySharePreferences.getPomodoroBreak())
 
             Thread {
                 kotlin.run {
-                    Log.d(TAG, "minusTime2")
                     task?.let { myDataBase?.taskDao()?.update(it) }
                 }
             }.start()
